@@ -1,49 +1,59 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-project="${GCP_PROJECT_ID:-}"
-region="${GCP_REGION:-us-central1}"
-bucket_region="${CLOUD_STORAGE_REGION:-$region}"
-firebase_project="${FIREBASE_PROJECT_ID:-$project}"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ENV_FILE="$PROJECT_ROOT/.env"
+ENV_TOOL="$PROJECT_ROOT/scripts/env_config.py"
 
-if [ -z "$project" ] || [ -z "$firebase_project" ]; then
-  echo "GCP_PROJECT_ID and FIREBASE_PROJECT_ID are required."
+read_config() {
+  PYTHONDONTWRITEBYTECODE=1 python3 "$ENV_TOOL" get "$1" --env "$ENV_FILE"
+}
+
+project="$(read_config GCP_PROJECT_ID)"
+region="$(read_config GCP_REGION)"
+bucket_region="$(read_config CLOUD_STORAGE_REGION)"
+bucket="$(read_config STORAGE_DEFAULT_BUCKET)"
+dataset="$(read_config BIGQUERY_DATASET_SMART_GLASSES)"
+
+echo "Provisioning verified foundation for project: $project (region: $region)"
+
+for command_name in gcloud bq; do
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    echo "[ERROR] Required CLI is unavailable: $command_name"
+    exit 1
+  fi
+done
+
+active_account="$(gcloud auth list --filter=status:ACTIVE --format='value(account)' 2>/dev/null)"
+if [ -z "$active_account" ]; then
+  echo "[ERROR] No active gcloud session. Run: gcloud auth login"
   exit 1
 fi
 
-echo "Provisioning scaffold for project: $project (region: $region)"
+gcloud projects describe "$project" >/dev/null
+gcloud config set project "$project" >/dev/null
+gcloud config set compute/region "$region" >/dev/null
 
-if ! command -v gcloud >/dev/null 2>&1; then
-  echo "gcloud CLI is not installed. Install Google Cloud SDK first."
-  exit 1
+echo "Enabling foundation APIs. Enabling an API does not itself prove a deployed service is free."
+gcloud services enable \
+  run.googleapis.com \
+  firestore.googleapis.com \
+  bigquery.googleapis.com \
+  storage.googleapis.com \
+  cloudscheduler.googleapis.com \
+  youtube.googleapis.com \
+  --project "$project"
+
+if gcloud storage buckets describe "gs://$bucket" --project "$project" >/dev/null 2>&1; then
+  echo "[OK] Storage bucket exists: $bucket"
+else
+  gcloud storage buckets create "gs://$bucket" --location "$bucket_region" --project "$project" --uniform-bucket-level-access
 fi
 
-echo "Checking active gcloud auth..."
-if ! gcloud auth list --filter=status:ACTIVE --format='value(account)' | grep -q .; then
-  echo "No active gcloud auth session found. Run: gcloud auth login"
-  exit 1
+if bq --project_id "$project" show --format=none "$project:$dataset" >/dev/null 2>&1; then
+  echo "[OK] BigQuery dataset exists: $dataset"
+else
+  bq --project_id "$project" --location "$region" mk --dataset "$project:$dataset"
 fi
 
-echo "Creating/setting project..."
-gcloud projects describe "$project" >/dev/null 2>&1 || gcloud projects create "$project"
-gcloud config set project "$project"
-gcloud config set compute/region "$region"
-
-echo "Enabling core APIs (cost-safe: no resources created yet)..."
-gcloud services enable run.googleapis.com firestore.googleapis.com bigquery.googleapis.com storage.googleapis.com cloudscheduler.googleapis.com
-gcloud services enable youtube.googleapis.com
-
-echo "Creating Cloud Storage bucket if missing..."
-bucket="${STORAGE_DEFAULT_BUCKET:-$project-assets}"
-if ! gsutil ls "gs://$bucket" >/dev/null 2>&1; then
-  gsutil mb -l "$bucket_region" "gs://$bucket"
-fi
-
-echo "Initializing BigQuery dataset if missing..."
-bq ls --project_id "$project" | grep -q "smart_glasses_core" || bq --project_id "$project" mk smart_glasses_core
-
-echo "Note: Firebase bootstrap is intentionally not auto-fired from this script because it can alter project billing/setup state."
-echo "Open Firebase Console and enable Firebase for $firebase_project manually when ready:"
-echo "https://console.firebase.google.com/"
-
-echo "Provisioning checks passed. Add additional service/resource rollout step-by-step with your approval."
+echo "[OK] Foundation provisioning finished. Firebase Auth, Storage product setup, rules deployment, service IAM, budgets, and application deployment remain separate gates."

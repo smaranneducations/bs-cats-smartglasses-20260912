@@ -1,6 +1,6 @@
 # Smart Glasses Intelligence Platform (Bootstrap Edition)
 
-This repository is the bootstrap for the Smart Glasses Intelligence Platform.
+This repository is the foundation for a reusable domain-intelligence platform, with SmartGlasses as its first domain.
 
 ## What is included
 
@@ -39,7 +39,7 @@ scripts                 # Bootstrap and validation helpers
 cp .env.template .env
 ```
 
-2. Fill secrets in `.env`:
+2. Fill only the values needed for the current phase. Never source `.env` in a shell.
 
 ```text
 GCP_PROJECT_ID
@@ -47,13 +47,14 @@ FIREBASE_PROJECT_ID
 OPENAI_API_KEY
 YOUTUBE_API_CLIENT_ID / YOUTUBE_API_CLIENT_SECRET
 LINKEDIN_CLIENT_ID / LINKEDIN_CLIENT_SECRET
-GITHUB_OWNER / GITHUB_REPO / GITHUB_TOKEN
+GITHUB_OWNER / GITHUB_REPO (the local GitHub CLI keychain may provide authentication)
 ```
 
-3. Run bootstrap:
+3. Canonicalize and check the private configuration:
 
 ```bash
 bash scripts/bootstrap.sh
+bash scripts/check-env.sh
 ```
 
 4. Start local services:
@@ -64,7 +65,13 @@ docker compose up --build
 
 ## Note
 
-The `.env` file must never be committed. Add your credentials there only.
+The `.env` file must never be committed or included in a container image. `scripts/env_config.py` treats it as data, reports statuses without values, removes duplicate assignments atomically, and sets mode `0600`.
+
+Before staging or pushing, scan public repository candidates without printing matched values:
+
+```bash
+python3 scripts/secret_scan.py --mode worktree
+```
 
 ## Technical charter
 

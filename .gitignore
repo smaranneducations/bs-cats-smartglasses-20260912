@@ -13,12 +13,19 @@ __pycache__/
 
 # Env / secrets
 .env
-.env.local
-.env.production
+.env.*
+!.env.template
+!.env.example
 service-account*.json
 *credentials*.json
 *key*.json
 secrets/
+*.pem
+*.p12
+*.pfx
+firebase-debug.log*
+.firebase/
+scripts/.bootstrap-status
 
 # Local runtime artifacts
 data/
@@ -31,3 +38,13 @@ logs/
 terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
+# Local owner governance and operating state (never publish)
+/AGENTS.md
+/config/experiment-budget.json
+/config/model-routing.json
+/docs/AUTONOMOUS_DELIVERY_PLAN.md
+/docs/EXECUTION_STATUS.md
+/docs/EXPERIMENT_SCORECARD.md
+/docs/OWNER_WORKING_AGREEMENT.md
+/scripts/model_advisor.py
+/tests/test_model_advisor.py

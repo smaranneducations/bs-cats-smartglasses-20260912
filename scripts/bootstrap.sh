@@ -7,9 +7,12 @@ echo "[INFO] Bootstrapping Smart Glasses Intelligence Platform..."
 
 if [ ! -f "$PROJECT_ROOT/.env" ]; then
   cp "$PROJECT_ROOT/.env.template" "$PROJECT_ROOT/.env"
-  echo "[INFO] Created .env from template."
+  chmod 600 "$PROJECT_ROOT/.env"
+  echo "[INFO] Created private .env from the public template."
 else
-  echo "[INFO] .env already exists, keeping existing values."
+  PYTHONDONTWRITEBYTECODE=1 python3 "$PROJECT_ROOT/scripts/env_config.py" normalize \
+    --env "$PROJECT_ROOT/.env" \
+    --template "$PROJECT_ROOT/.env.template"
 fi
 
 mkdir -p \
@@ -23,17 +26,7 @@ mkdir -p \
   "$PROJECT_ROOT/infra/terraform" \
   "$PROJECT_ROOT/docs" \
   "$PROJECT_ROOT/sql/bigquery" \
-  "$PROJECT_ROOT/.github/workflows"
+  "$PROJECT_ROOT/.github/workflows" \
+  "$PROJECT_ROOT/tests"
 
-cat > "$PROJECT_ROOT/scripts/.bootstrap-status" <<'EOF'
-BOOTSTRAPPED_AT=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-STATUS=ok
-EOF
-
-cat > "$PROJECT_ROOT/.env.local" <<'EOF'
-# Optional local-only values only.
-# Fill only if you need overrides for local testing.
-APP_DEBUG=true
-EOF
-
-echo "[INFO] Bootstrap complete. Fill .env, then run: bash scripts/check-env.sh"
+echo "[INFO] Bootstrap complete. Run: bash scripts/check-env.sh"
