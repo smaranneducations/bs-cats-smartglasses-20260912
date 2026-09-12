@@ -79,6 +79,13 @@ python3 scripts/build_demo_dashboard.py .local/content/<script>.json \
 python3 scripts/serve_demo.py
 ```
 
+For the voice-free 60-120 second format, provide original background images and a kinetic beat specification, then run:
+
+```bash
+python3 scripts/render_kinetic_video.py .local/content/<kinetic-spec>.json \
+  --assets .local/assets/kinetic
+```
+
 The preview binds only to `127.0.0.1` and serves only the self-contained `.local/demo/` package. It cannot expose the broader private `.local/` research and event store.
 
 ## Note
