@@ -113,7 +113,7 @@ class LocalObjectStore:
         else:
             raise DuplicateObjectError(f"Object already exists: {item.object_id}")
 
-        captured = item.model_copy(deep=True)
+        captured = UniversalObject.model_validate(item.model_dump(mode="python"))
         captured.status = ObjectStatus.captured
         captured.version = 1
         captured.updated_at = utc_now()

@@ -25,11 +25,14 @@ from .smart_glasses import (
     CommercialIntent,
     EvidenceClaim,
     EvidenceTier,
+    PresentationPlan,
+    PresentationSection,
     SmartGlassesObject,
     SmartGlassesObjectType,
     SmartGlassesPayload,
     VerificationState,
 )
+from .research import ResearchManifest, ResearchSourceDigest, ResearchStage
 
 __all__ = [
     "CONTRACT_VERSION",
@@ -54,8 +57,13 @@ __all__ = [
     "CommercialIntent",
     "EvidenceClaim",
     "EvidenceTier",
+    "PresentationPlan",
+    "PresentationSection",
     "SmartGlassesObject",
     "SmartGlassesObjectType",
     "SmartGlassesPayload",
     "VerificationState",
+    "ResearchManifest",
+    "ResearchSourceDigest",
+    "ResearchStage",
 ]

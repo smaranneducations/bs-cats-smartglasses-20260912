@@ -35,3 +35,7 @@ Keep schemas backward compatible where possible and version every contract.
 contract boundary: weak or synthetic evidence marked as verified, and commercial
 content without a disclosure requirement. Every claim source ID must resolve to a
 structured source on the same object.
+
+`research.py` defines a local research manifest with source digests, claim links,
+caveats, and a presentation plan. `scripts/research_intake.py` validates a manifest
+and creates a proposed content brief that cannot bypass human review.

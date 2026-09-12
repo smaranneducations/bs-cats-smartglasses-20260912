@@ -70,6 +70,21 @@ class CommercialIntent(str, Enum):
     research_license = "research_license"
 
 
+class PresentationSection(StrictContract):
+    heading: str = Field(..., min_length=1, max_length=240)
+    objective: str = Field(..., min_length=1, max_length=1000)
+    claim_ids: list[str] = Field(default_factory=list)
+    talking_points: list[str] = Field(default_factory=list)
+
+
+class PresentationPlan(StrictContract):
+    hook: str = Field(..., min_length=1, max_length=1000)
+    viewer_promise: str = Field(..., min_length=1, max_length=1000)
+    sections: list[PresentationSection] = Field(..., min_length=1)
+    call_to_action: str = Field(..., min_length=1, max_length=1000)
+    do_not_claim: list[str] = Field(default_factory=list)
+
+
 class EvidenceClaim(StrictContract):
     claim_id: str = Field(..., min_length=3, max_length=128)
     statement: str = Field(..., min_length=1, max_length=2000)
@@ -109,6 +124,7 @@ class SmartGlassesPayload(StrictContract):
     commercial_intent: CommercialIntent = CommercialIntent.none
     disclosure_required: bool = False
     recommended_next_action: str | None = Field(default=None, max_length=1000)
+    presentation: PresentationPlan | None = None
 
     @model_validator(mode="after")
     def require_commercial_disclosure(self) -> Self:
