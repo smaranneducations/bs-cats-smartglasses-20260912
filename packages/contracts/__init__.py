@@ -19,6 +19,17 @@ from .store import (
     ObjectNotFoundError,
     ObjectStoreError,
 )
+from .smart_glasses import (
+    AudienceIntent,
+    ClaimKind,
+    CommercialIntent,
+    EvidenceClaim,
+    EvidenceTier,
+    SmartGlassesObject,
+    SmartGlassesObjectType,
+    SmartGlassesPayload,
+    VerificationState,
+)
 
 __all__ = [
     "CONTRACT_VERSION",
@@ -38,4 +49,13 @@ __all__ = [
     "ReviewState",
     "SourceReference",
     "UniversalObject",
+    "AudienceIntent",
+    "ClaimKind",
+    "CommercialIntent",
+    "EvidenceClaim",
+    "EvidenceTier",
+    "SmartGlassesObject",
+    "SmartGlassesObjectType",
+    "SmartGlassesPayload",
+    "VerificationState",
 ]

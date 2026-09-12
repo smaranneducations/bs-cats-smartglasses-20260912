@@ -1,13 +1,17 @@
 services:
   api:
     build:
-      context: ./services/api
+      context: .
+      dockerfile: services/api/Dockerfile
     ports:
       - "8080:8080"
     env_file:
       - .env
     environment:
       APP_PORT: 8080
+      OBJECT_STORE_PATH: /data/object-events.jsonl
+    volumes:
+      - smart-glasses-object-data:/data
 
   agent-runtime:
     build:
@@ -38,3 +42,6 @@ services:
       - .env
     environment:
       PUBLISHER_WORKER_PORT: 8083
+
+volumes:
+  smart-glasses-object-data:

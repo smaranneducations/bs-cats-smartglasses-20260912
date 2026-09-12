@@ -28,3 +28,10 @@ is created with owner-only permissions. Use `BS_CATS_LOCAL_OBJECT_STORE` or
 
 Future versions will add MCP payload, publish-job, and render-manifest contracts.
 Keep schemas backward compatible where possible and version every contract.
+
+## SmartGlasses evidence policy
+
+`smart_glasses.py` adds a domain taxonomy and rejects two unsafe states at the
+contract boundary: weak or synthetic evidence marked as verified, and commercial
+content without a disclosure requirement. Every claim source ID must resolve to a
+structured source on the same object.
