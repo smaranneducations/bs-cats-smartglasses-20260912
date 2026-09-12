@@ -48,3 +48,7 @@ terraform.tfstate.backup
 /docs/OWNER_WORKING_AGREEMENT.md
 /scripts/model_advisor.py
 /tests/test_model_advisor.py
+# Local object-event data
+/.local/
+# Local Python environment
+/.venv/
