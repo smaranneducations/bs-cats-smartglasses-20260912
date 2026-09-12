@@ -1,0 +1,33 @@
+# Generic
+node_modules
+dist
+build
+.DS_Store
+coverage
+__pycache__/
+*.pyc
+.venv
+.idea
+.vscode
+.turbo
+
+# Env / secrets
+.env
+.env.local
+.env.production
+service-account*.json
+*credentials*.json
+*key*.json
+secrets/
+
+# Local runtime artifacts
+data/
+artifacts/
+tmp/
+logs/
+
+# Terraform state
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl

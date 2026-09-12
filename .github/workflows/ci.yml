@@ -1,0 +1,31 @@
+name: Smart Glasses CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  bootstrap-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required project files
+        run: |
+          test -f .env.template || exit 1
+          test -f docker-compose.yml || exit 1
+          test -f services/api/src/main.py || exit 1
+          test -f services/agent-runtime/main.py || exit 1
+          test -f services/render-worker/main.py || exit 1
+          test -f services/publisher-worker/main.py || exit 1
+          echo "Core files present"
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate contract schema imports
+        working-directory: packages/contracts
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m py_compile object.py
