@@ -13,6 +13,7 @@ The scaffold is intentionally conservative and aligned with the blueprint:
 - Terraform-like infrastructure placeholders
 - GitHub Actions baseline pipeline
 - Docker Compose local stack
+- Zero-cost local video renderer and founder demo dashboard
 - Secrets/config template (`.env.template`)
 - `.env` ignore policy and onboarding docs
 
@@ -63,6 +64,23 @@ bash scripts/check-env.sh
 docker compose up --build
 ```
 
+## Zero-cost local content demo
+
+The demo path uses Pillow, FFmpeg, and the built-in macOS `say` voice. It does not call an external model, speech, image, or hosting API. Generated media and source data stay under the Git-ignored `.local/` directory.
+
+```bash
+python3 -m pip install -r scripts/requirements-demo.txt
+python3 scripts/render_local_video.py .local/content/<script>.json
+python3 scripts/build_demo_dashboard.py .local/content/<script>.json \
+  --video .local/renders/<script-id>/demo.mp4 \
+  --captions .local/renders/<script-id>/captions.en.srt \
+  --thumbnail .local/renders/<script-id>/thumbnail.png \
+  --review-packet .local/reviews/<script-id>.html
+python3 scripts/serve_demo.py
+```
+
+The preview binds only to `127.0.0.1` and serves only the self-contained `.local/demo/` package. It cannot expose the broader private `.local/` research and event store.
+
 ## Note
 
 The `.env` file must never be committed or included in a container image. `scripts/env_config.py` treats it as data, reports statuses without values, removes duplicate assignments atomically, and sets mode `0600`.
@@ -78,7 +96,7 @@ python3 scripts/secret_scan.py --mode worktree
 - Keep architecture simple, incremental, and low-cost by default.
 - Do not create or run cost-intensive workloads without explicit approval.
 - Keep all secrets on local disk only (`.env`).
-- Run publishing and render pipelines behind explicit approval gates.
+- Build internal, zero-cost drafts autonomously; require explicit approval for external publishing, material spend, and irreversible actions.
 
 ## Next milestone after this setup
 
