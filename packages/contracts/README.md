@@ -39,3 +39,8 @@ structured source on the same object.
 `research.py` defines a local research manifest with source digests, claim links,
 caveats, and a presentation plan. `scripts/research_intake.py` validates a manifest
 and creates a proposed content brief that cannot bypass human review.
+
+`content.py` defines timed video scripts. `scripts/build_review_packet.py` rejects
+unknown claim links, ingests the script as another proposed object, and renders an
+offline founder packet containing the script, shot plan, freshness flags, and
+source ledger.

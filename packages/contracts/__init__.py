@@ -33,6 +33,7 @@ from .smart_glasses import (
     VerificationState,
 )
 from .research import ResearchManifest, ResearchSourceDigest, ResearchStage
+from .content import VideoFormat, VideoScene, VideoScript
 
 __all__ = [
     "CONTRACT_VERSION",
@@ -66,4 +67,7 @@ __all__ = [
     "ResearchManifest",
     "ResearchSourceDigest",
     "ResearchStage",
+    "VideoFormat",
+    "VideoScene",
+    "VideoScript",
 ]

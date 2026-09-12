@@ -34,4 +34,4 @@ jobs:
       - name: Validate contract schema imports
         working-directory: packages/contracts
         run: |
-          python -m py_compile object.py store.py smart_glasses.py research.py __init__.py
+          python -m py_compile object.py store.py smart_glasses.py research.py content.py __init__.py
