@@ -4,6 +4,8 @@
 
 Google Alerts is one discovery adapter, not the evidence warehouse or a single point of availability. The pipeline reads only messages matching the configured SmartGlasses alert query. It extracts external article links, records minimal idempotency receipts, creates separate deduplicated `news_discovery_item` objects and creates one compact dated run observation.
 
+Google does not publish a Google Search Alerts API. Alerts are configured as a consumer email feature. The Gmail API can read an alert after Google delivers it, but it cannot create, repair or force delivery. Direct authoritative feeds, GDELT and the provider-neutral workflow in `config/workflows/source-enrichment.json` are therefore the primary automatic fallback.
+
 It does not store full email bodies, attachments, unrelated mail, contact data or credentials. It does not copy full articles. Before any article contributes factual claims, a separate source-policy and credibility workflow must examine the original source.
 
 ## Authentication
@@ -25,6 +27,8 @@ To diagnose delivery without reading message bodies or saving message identifier
     .venv/bin/python scripts/run_gmail_alert_ingest.py --diagnose-only
 
 The diagnostic reports aggregate counts for the configured query in the inbox, the same query including spam/trash, and Google Alert sender visibility. It distinguishes no delivery from filtering or topic-query mismatch without scanning unrelated personal mail.
+
+If no alert is visible, follow Google's supported checks: confirm the correct signed-in account, verify that the alert is enabled, inspect its delivery frequency and topic options, check spam, and add `googlealerts-noreply@google.com` to contacts. Do not spend engineering effort trying to call a nonexistent Alerts API.
 
 ## Incremental ingestion
 

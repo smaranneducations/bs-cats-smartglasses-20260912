@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "workflow_id": "source_enrichment",
+  "domain": "smart_glasses",
+  "purpose": "Resolve commercially useful knowledge gaps through the least-cost lawful source while preserving evidence lineage and explicit unknowns.",
+  "limits": {
+    "maximum_queries_per_run": 25,
+    "maximum_providers_per_task": 4,
+    "maximum_results_per_provider": 10,
+    "target_unique_candidates_per_task": 5,
+    "maximum_estimated_cost_per_task_usd": 0.1,
+    "maximum_estimated_cost_per_run_usd": 1.0,
+    "query_cache_days": 30,
+    "maximum_response_bytes": 2097152,
+    "request_timeout_seconds": 30,
+    "automatic_retries": 0
+  },
+  "storage": {
+    "ledger": ".local/source-enrichment/intelligence.sqlite3",
+    "retain_search_snippets": false,
+    "retain_full_pages": false,
+    "persisted_discovery_fields": [
+      "canonical_url",
+      "url_sha256",
+      "source_host",
+      "provider_id",
+      "query_sha256",
+      "discovered_at"
+    ]
+  },
+  "evidence_policy": {
+    "search_result_state": "discovery_only",
+    "assertion_rule": "A search result or snippet cannot support an assertion. Fetch and admit the originating source under its own access, rights, credibility and freshness policy.",
+    "primary_source_preference": true,
+    "high_risk_corroboration_required": true,
+    "unknown_rule": "Keep not_available with reason and next retry date when no credible source resolves the field.",
+    "human_exception_rule": "Request human input only for consequential conflicts or a commercially important unresolved field that blocks an approved output."
+  },
+  "providers": [
+    {
+      "provider_id": "rss",
+      "adapter": "rss",
+      "enabled": true,
+      "priority": 10,
+      "source_classes": ["official_documentation", "product_release", "news", "regulation"],
+      "required_environment": [],
+      "estimated_cost_per_request_usd": 0.0,
+      "paid": false,
+      "rights": "Feed metadata is discovery only; originating-page terms still control collection and reuse."
+    },
+    {
+      "provider_id": "gdelt",
+      "adapter": "gdelt",
+      "enabled": true,
+      "priority": 20,
+      "source_classes": ["news", "regulation", "market_context"],
+      "required_environment": [],
+      "estimated_cost_per_request_usd": 0.0,
+      "paid": false,
+      "rights": "Use GDELT as an event and URL discovery index; do not treat third-party article text as granted for reuse."
+    },
+    {
+      "provider_id": "tavily",
+      "adapter": "tavily",
+      "enabled": true,
+      "priority": 30,
+      "source_classes": ["official_documentation", "product_attribute", "product_release", "news", "regulation", "market_context", "ontology_research"],
+      "required_environment": ["TAVILY_API_KEY"],
+      "estimated_cost_per_request_usd": 0.008,
+      "paid": true,
+      "rights": "Use results transiently for discovery; retain facts only from separately admitted originating pages."
+    },
+    {
+      "provider_id": "exa",
+      "adapter": "exa",
+      "enabled": true,
+      "priority": 40,
+      "source_classes": ["official_documentation", "product_attribute", "market_context", "ontology_research"],
+      "required_environment": ["EXA_API_KEY"],
+      "estimated_cost_per_request_usd": 0.007,
+      "paid": true,
+      "rights": "Use semantic results for discovery and follow the originating source policy before persistence."
+    },
+    {
+      "provider_id": "serper",
+      "adapter": "serper",
+      "enabled": true,
+      "priority": 50,
+      "source_classes": ["official_documentation", "product_attribute", "product_release", "news", "regulation", "market_context", "ontology_research"],
+      "required_environment": ["SERPER_API_KEY"],
+      "estimated_cost_per_request_usd": 0.001,
+      "paid": true,
+      "rights": "Google SERP output is discovery metadata, not evidence or a license to copy result content."
+    },
+    {
+      "provider_id": "brave",
+      "adapter": "brave",
+      "enabled": true,
+      "priority": 60,
+      "source_classes": ["official_documentation", "product_attribute", "product_release", "news", "regulation", "market_context", "ontology_research"],
+      "required_environment": ["BRAVE_SEARCH_API_KEY"],
+      "estimated_cost_per_request_usd": 0.005,
+      "paid": true,
+      "rights": "Do not persist Brave snippets or response bodies unless the selected plan explicitly grants storage rights."
+    },
+    {
+      "provider_id": "dataforseo",
+      "adapter": "dataforseo",
+      "enabled": false,
+      "priority": 70,
+      "source_classes": ["product_attribute", "product_release", "news", "market_context"],
+      "required_environment": ["DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"],
+      "estimated_cost_per_request_usd": 0.002,
+      "paid": true,
+      "rights": "Enable only after the free-provider benchmark and a review of the selected endpoint terms."
+    },
+    {
+      "provider_id": "reddit",
+      "adapter": "blocked",
+      "enabled": false,
+      "priority": 999,
+      "source_classes": ["audience_signal"],
+      "required_environment": ["REDDIT_CLIENT_ID", "REDDIT_CLIENT_SECRET", "REDDIT_USER_AGENT"],
+      "estimated_cost_per_request_usd": 0.0,
+      "paid": false,
+      "rights": "Blocked until Reddit gives explicit written approval for this commercial use and the deletion-compliance workflow is implemented."
+    }
+  ]
+}

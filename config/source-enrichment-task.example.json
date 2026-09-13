@@ -1,0 +1,16 @@
+{
+  "task_id": "enrich_example_product_subscription_001",
+  "entity_id": "replace_with_product_object_id",
+  "source_class": "product_attribute",
+  "attribute_keys": [
+    "commercial.monthly_subscription_required",
+    "platform.has_first_party_app_store"
+  ],
+  "query": "replace_with_exact_product_name subscription app store official",
+  "preferred_domains": [
+    "replace-with-manufacturer.example"
+  ],
+  "feed_urls": [],
+  "commercial_priority": "high",
+  "requested_at": "2026-09-13T00:00:00Z"
+}

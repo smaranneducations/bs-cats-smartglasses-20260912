@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#ffcf27">
   <title>Solo Operator | Guided workflow</title>
-  <link rel="stylesheet" href="/operator/style.css">
+  <link rel="stylesheet" href="/operator/operator-v1.css">
 </head>
 <body>
   <header class="masthead">
@@ -39,9 +39,9 @@
     <div class="dialog-body"><p class="agent-purpose"></p><p class="agent-io"></p><p class="agent-escalation"></p><form id="agentForm" class="agent-form"><input type="hidden" name="expected_version"><label>Standing instructions<textarea name="instructions" minlength="20" maxlength="6000" required></textarea></label><label>Recommended model tier<select name="model_tier"><option>deterministic</option><option>economical</option><option>balanced</option><option>strong</option></select></label><label class="checkbox"><input type="checkbox" name="enabled"> Enabled for routed tasks</label><label>Reason for this revision<input name="change_reason" minlength="3" maxlength="500" value="Operator refinement" required></label><p class="locked-note">Editing instructions cannot grant tools, credentials, spending authority, rights exemptions or publication permission.</p><button class="save-agent">Save new profile version</button></form></div>
   </dialog>
   <div id="toast" role="status" aria-live="polite"></div>
-  <script src="/global-nav.js"></script>
+  <script src="/operator/global-nav.js"></script>
   <script src="/operator/admin-auth.js"></script>
-  <script type="module" src="/operator/app.js"></script>
+  <script type="module" src="/operator/operator-v1.js"></script>
   <script type="module" src="/operator/stage-admin.js"></script>
 </body>
 </html>
