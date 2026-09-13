@@ -1,0 +1,72 @@
+{
+  "schema_version": "change-management-policy-1",
+  "policy_id": "github-controlled-delivery",
+  "version": "1.0.0",
+  "effective_after_release": "v1.0.0-rc.1",
+  "system_of_record": "github",
+  "discussion_modes": ["ask", "plan"],
+  "execution_mode": "agent",
+  "required_change_path": [
+    "issue_or_change_request",
+    "codex_branch",
+    "pull_request",
+    "automated_checks",
+    "documented_review_disposition",
+    "merge_to_protected_main",
+    "immutable_snapshot",
+    "environment_promotion_when_applicable"
+  ],
+  "applies_to": [
+    "application_code",
+    "tests",
+    "configuration",
+    "ontology",
+    "agent_profiles_and_prompts",
+    "workflows_and_policies",
+    "cloud_infrastructure",
+    "database_schema_and_migrations",
+    "content_and_distribution_policy",
+    "production_operations"
+  ],
+  "branch": {
+    "default": "main",
+    "change_prefix": "codex/",
+    "pull_request_required": true,
+    "required_check": "bootstrap-validate",
+    "force_push_allowed": false,
+    "deletion_allowed": false,
+    "conversation_resolution_required": true
+  },
+  "snapshots": {
+    "daily": {
+      "frequency": "daily_and_on_main_change",
+      "retention_days": 5,
+      "purpose": "short-horizon rollback"
+    },
+    "monthly": {
+      "frequency": "at_least_once_per_calendar_month",
+      "retention": "indefinite",
+      "purpose": "long-horizon audit and recovery"
+    }
+  },
+  "promotion": {
+    "order": ["preprod", "uat", "production"],
+    "same_commit_required": true,
+    "rebuild_between_stages_allowed": false,
+    "production_is_live": true,
+    "other_stages_are_snapshots": true,
+    "exact_artifact_approval_required": true,
+    "production_readiness_required": true
+  },
+  "versioning": {
+    "scheme": "semantic_versioning",
+    "production_release_notes_required": true,
+    "rollback_target_required": true
+  },
+  "emergency": {
+    "direct_change_is_break_glass_only": true,
+    "issue_and_evidence_required": true,
+    "retrospective_pull_request_required_before_next_change": true,
+    "constitutional_and_spend_gates_remain_required": true
+  }
+}

@@ -1,0 +1,36 @@
+name: Daily rollback snapshot
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "19 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-snapshot
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Create immutable source bundle
+        run: |
+          set -euo pipefail
+          git archive --format=tar.gz --output="smartglasses-${GITHUB_SHA}.tar.gz" "${GITHUB_SHA}"
+          shasum -a 256 "smartglasses-${GITHUB_SHA}.tar.gz" > "smartglasses-${GITHUB_SHA}.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: daily-${{ github.sha }}-${{ github.run_id }}
+          path: |
+            smartglasses-${{ github.sha }}.tar.gz
+            smartglasses-${{ github.sha }}.sha256
+          retention-days: 5
+          if-no-files-found: error
