@@ -17,3 +17,7 @@ An exact video's approval, rights clearance, platform publication receipt, retur
 ## Evidence and limitations
 
 Record source SHA, build identity, destination, previous and new release/revision, tests actually run, observed browser outcomes, known gaps and known/unknown costs. A successful GitHub workflow that packages or tags source is not a cloud deployment. Avoid creating duplicate infrastructure simply to obtain staging labels; use reversible snapshots and the existing service's supported preview/revision mechanisms where appropriate.
+
+## Guardrail-preserving source reconciliation
+
+If GitHub's advisory merge explicitly requires bypassing branch protection, do not select that bypass. For a client-side correction whose exact source is already served publicly by the deployed application, reconcile that same code and its non-sensitive regression tests through an ordinary parent-repository PR with all required CI and review controls. Keep the advisory description, diagnostic evidence and any undeployed private server changes private. This narrow path supersedes the advisory-merge preference above where that preference would require weakening protection; it does not authorize disclosure of secrets or unremediated security details.
