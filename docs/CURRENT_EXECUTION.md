@@ -2,6 +2,8 @@
 
 Effective: 2026-09-13. Governing change: [issue #34](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/issues/34).
 
+Latest execution evidence: [agent-run acceptance checkpoint](acceptance/2026-09-13.md), tracked in [issue #36](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/issues/36). Human UAT is not yet ready. The human requires automated checks and real hosted audience/admin journeys to pass before handover; failed, blocked, and untested cases must remain explicit.
+
 This is the current handoff for implementation agents. It supersedes historical next-action and model-switch pauses in older checkpoints, not the ethical constitution, human financial authority, publication approval, or release safeguards. The human has resumed implementation and requests minimal routine involvement.
 
 ## Start here

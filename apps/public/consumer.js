@@ -30,8 +30,11 @@ const titleFor=(card,index)=>{
 };
 const impactFor=card=>card.why_it_matters||card.impact||card.summary||card.caption||'One sourced detail that can change how this product fits your real day.';
 const normalizedCards=payload=>{
-  const list=Array.isArray(payload)?payload:(payload.cards||payload.items||payload.feed||payload.results||[]);
-  return list.map(unwrap).filter(Boolean);
+  const list=Array.isArray(payload)?payload:(payload?.cards??payload?.items??payload?.feed??payload?.results);
+  if(!Array.isArray(list))throw new Error('Invalid feed response');
+  const records=list.map(unwrap);
+  if(records.some(item=>!item||typeof item!=='object'||Array.isArray(item)))throw new Error('Invalid feed record');
+  return records;
 };
 const assetFor=(card,index)=>{
   const theme=String(card.theme||card.content_theme||'').toLowerCase();
@@ -44,13 +47,13 @@ const cardClaims=card=>(card.claims||card.attributes||card.facts||[]).slice(0,3)
 function renderVideos(){
   feed.innerHTML=videos.map((item,index)=>`<article class="poster video-poster" data-content-id="${esc(item.package_id)}" style="--accent:${accents[index%accents.length]}">
     <video controls playsinline preload="metadata" poster="${esc(item.poster_url)}" src="${esc(item.video_url)}"></video>
-    <div class="video-copy"><p class="eyebrow">${esc(item.content_shape.replaceAll('_',' '))}</p><h1 class="video-title">${esc(item.title)}</h1><p>${esc(item.summary)}</p><div class="actions"><button class="action video-react" data-kind="like">USEFUL</button><button class="action secondary video-react" data-kind="dislike">NOT FOR ME</button><button class="action secondary video-comment">COMMENT</button><span class="counter">${index+1} / ${videos.length}</span></div></div>
+    <div class="video-copy"><p class="eyebrow">${esc(words(item.content_shape||'evidence story'))}</p><h1 class="video-title">${esc(item.title)}</h1><p>${esc(item.summary)}</p><div class="actions"><button class="action video-react" data-kind="like">USEFUL</button><button class="action secondary video-react" data-kind="dislike">NOT FOR ME</button><button class="action secondary video-comment">COMMENT</button><span class="counter">${index+1} / ${videos.length}</span></div><p data-interaction-status role="status" aria-live="polite"></p></div>
   </article>`).join('');
 }
 
 function render(){
   if(!cards.length){
-    feed.innerHTML=`<section class="empty"><div><p class="eyebrow">PRIVATE PREVIEW</p><h1>No cards ready yet</h1><p>Compose governed cards in the admin workspace, then return here.</p><a class="action" href="/#content">Open content studio</a></div></section>`;
+    showFeedMessage('empty');
     return;
   }
   feed.innerHTML=cards.map((card,index)=>{
@@ -73,6 +76,7 @@ function render(){
           <button class="action secondary evidence">WHY?</button>
           <span class="counter">${index+1} / ${cards.length}</span>
         </div>
+        <p data-interaction-status role="status" aria-live="polite"></p>
       </div>
     </article>`;
   }).join('');
@@ -83,27 +87,77 @@ function showCard(card,index){
   const evidence=(cardClaims(card)).map(claim=>`<li><b>${esc(claimLabel(claim))}</b><br>${esc(claimText(claim))}${claim?.confidence?`<br><small>Confidence: ${esc(claim.confidence)}</small>`:''}</li>`).join('');
   const sources=(card.source_urls||card.evidence_urls||card.sources||[]).map(source=>typeof source==='string'?source:(source.url||source.source_url)).filter(Boolean);
   panelContent.innerHTML=`<p class="eyebrow">THE RECEIPTS</p><h2>${esc(titleFor(card,index))}</h2><p>These are the governed claims behind the poster. Manufacturer-stated information is not hands-on testing.</p><h3>Evidence used</h3><ul class="evidence-list">${evidence||'<li>No claim details were returned.</li>'}</ul>${sources.length?`<h3>Source links</h3>${sources.map(url=>`<p><a href="${esc(url)}" target="_blank" rel="noopener">Open evidence source</a></p>`).join('')}`:''}<h3>Image identity and rights</h3><p><b>${esc(asset.title||'Category image')}</b> depicts ${esc(asset.product_identity||'a category example')}, not the product evaluated in this card.</p><p>${esc(asset.attribution||'')}</p><p><a href="${esc(asset.source_page||'#')}" target="_blank" rel="noopener">Image record</a> · <a href="${esc(asset.license_url||'#')}" target="_blank" rel="noopener">${esc(asset.license||'License')}</a></p><h3>Tell us what is missing</h3><form class="comment-box" data-comment-card="${esc(cardId(card))}"><input name="comment" maxlength="500" placeholder="One useful correction or question"><button>Send</button></form>`;
+  panelContent.innerHTML+='<p data-interaction-status role="status" aria-live="polite"></p>';
   panel.showModal();
 }
 
+function showFeedMessage(state){
+  const unavailable=state==='unavailable';
+  const title=unavailable?'Stories are temporarily unavailable':preview?'No cards ready yet':'First stories are on the way';
+  const detail=unavailable?'We could not load the feed. You can try loading it again.':preview?'Compose and review content in the operator workspace. Only approved content belongs in the public feed.':'We are preparing useful, evidence-led stories. Read how we check claims and images while the first stories are being prepared.';
+  const action=unavailable?'<button class="action" data-retry-feed>Try again</button>':preview?'<a class="action" href="/operator#generate">Open content studio</a>':'<button class="action" data-open-sources>Our evidence approach</button>';
+  feed.innerHTML=`<section class="empty"><div><p class="eyebrow">${preview?'PRIVATE PREVIEW':'EVIDENCE OVER HYPE'}</p><h1>${title}</h1><p>${detail}</p>${action}</div></section>`;
+}
+
+async function readJSON(url){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),10000);
+  try{
+    const response=await fetch(url,{signal:controller.signal});
+    if(!response.ok)throw new Error('Request unavailable');
+    return await response.json();
+  }finally{clearTimeout(timeout);}
+}
+
+async function submitInteraction(payload){
+  const controller=new AbortController();
+  const timeout=setTimeout(()=>controller.abort(),10000);
+  try{
+    payload.session_id=sessionStorage.lensbriefSession||(sessionStorage.lensbriefSession=crypto.randomUUID());
+    const response=await fetch('/v1/public/events',{method:'POST',headers:{'content-type':'application/json','x-workspace-action':'1'},body:JSON.stringify(payload),signal:controller.signal});
+    if(!response.ok)return {ok:false};
+    return {ok:true};
+  }catch{return {ok:false};}
+  finally{clearTimeout(timeout);}
+}
+
 async function interaction(card,kind,body=''){
-  const payload={card_id:cardId(card),event_type:kind,text:body||null,session_id:sessionStorage.lensbriefSession||(sessionStorage.lensbriefSession=crypto.randomUUID())};
-  try{await fetch('/v1/public/events',{method:'POST',headers:{'content-type':'application/json','x-workspace-action':'1'},body:JSON.stringify(payload)});}catch(error){console.info('Interaction remains local-only unavailable',error);}
+  return submitInteraction({card_id:cardId(card),event_type:kind,text:body||null});
 }
 
 async function videoInteraction(item,kind,body=''){
-  const payload={content_id:item.package_id,event_type:kind,text:body||null,session_id:sessionStorage.lensbriefSession||(sessionStorage.lensbriefSession=crypto.randomUUID())};
-  try{await fetch('/v1/public/events',{method:'POST',headers:{'content-type':'application/json','x-workspace-action':'1'},body:JSON.stringify(payload)});}catch(error){console.info('Interaction unavailable',error);}
+  return submitInteraction({content_id:item.package_id,event_type:kind,text:body||null});
 }
 
-feed.addEventListener('click',event=>{
+function feedbackStatus(container,message){
+  const status=container.querySelector('[data-interaction-status]');
+  if(status)status.textContent=message;
+}
+
+async function reactToContent(button,poster,send){
+  if(button.disabled||button.classList.contains('liked'))return;
+  button.disabled=true;
+  const result=await send();
+  if(result.ok){button.classList.add('liked');button.setAttribute('aria-pressed','true');}
+  feedbackStatus(poster,result.ok?'Feedback received.':'Could not confirm your feedback. It has not been marked as received.');
+  button.disabled=false;
+}
+
+function showVideoComment(item){
+  panelContent.innerHTML=`<p class="eyebrow">YOUR FEEDBACK</p><h2>${esc(item.title)}</h2><p>Share a useful question or correction. Comments are submitted for moderation.</p><form class="comment-box" data-comment-content="${esc(item.package_id)}"><input name="comment" maxlength="500" required placeholder="One useful correction or question"><button>Send</button></form><p data-interaction-status role="status" aria-live="polite"></p>`;
+  panel.showModal();
+}
+
+feed.addEventListener('click',async event=>{
+  if(event.target.closest('[data-retry-feed]')){await boot();return;}
+  if(event.target.closest('[data-open-sources]')){showSources();return;}
   const videoPoster=event.target.closest('.video-poster');
   if(videoPoster){
     const index=[...feed.querySelectorAll('.video-poster')].indexOf(videoPoster);
     const item=videos[index];
     const reaction=event.target.closest('.video-react');
-    if(reaction){reaction.classList.toggle('liked');videoInteraction(item,reaction.dataset.kind);}
-    if(event.target.closest('.video-comment')){const text=prompt('Share one useful correction or question');if(text?.trim())videoInteraction(item,'comment',text.trim());}
+    if(reaction)await reactToContent(reaction,videoPoster,()=>videoInteraction(item,reaction.dataset.kind));
+    if(event.target.closest('.video-comment'))showVideoComment(item);
     return;
   }
   const poster=event.target.closest('.poster');
@@ -112,26 +166,45 @@ feed.addEventListener('click',event=>{
   const card=cards[index];
   if(event.target.closest('.evidence'))showCard(card,index);
   const react=event.target.closest('.react');
-  if(react){react.classList.toggle('liked');interaction(card,react.dataset.kind);}
+  if(react)await reactToContent(react,poster,()=>interaction(card,react.dataset.kind));
 });
-panel.addEventListener('submit',event=>{event.preventDefault();const input=event.target.elements.comment;const card=cards.find(item=>cardId(item)===event.target.dataset.commentCard);if(input.value.trim()&&card){interaction(card,'comment',input.value.trim());input.value='';input.placeholder='Received for moderation';}});
+panel.addEventListener('submit',async event=>{
+  event.preventDefault();
+  const input=event.target.elements.comment;
+  if(!input?.value.trim())return;
+  const button=event.target.querySelector('button');
+  if(button?.disabled)return;
+  const card=cards.find(item=>cardId(item)===event.target.dataset.commentCard);
+  const video=videos.find(item=>item.package_id===event.target.dataset.commentContent);
+  if(!card&&!video)return;
+  if(button)button.disabled=true;
+  const result=card?await interaction(card,'comment',input.value.trim()):await videoInteraction(video,'comment',input.value.trim());
+  if(result.ok){input.value='';input.placeholder='One useful correction or question';}
+  feedbackStatus(panelContent,result.ok?'Submitted for moderation.':'Could not confirm submission. Your text has been kept; it has not been marked as received.');
+  if(button)button.disabled=false;
+});
 document.querySelector('#closePanel').addEventListener('click',()=>panel.close());
 document.querySelector('#aboutButton').addEventListener('click',showSources);
 document.querySelector('#openSources').addEventListener('click',showSources);
 function showSources(){panelContent.innerHTML=`<p class="eyebrow">VISUAL INVENTORY</p><h2>Images with receipts</h2><p>${esc(manifest.policy?.exact_product_gap||'Every image is governed by its own license record.')}</p>${manifest.assets.map(asset=>`<div class="source-card"><b>${esc(asset.title)}</b><small>${esc(asset.product_identity)} · ${esc(asset.license)}</small><p>${esc(asset.attribution)}</p><a href="${esc(asset.source_page)}" target="_blank" rel="noopener">Verify original record</a></div>`).join('')}`;panel.showModal();}
 
 async function boot(){
-  try{
-    const [manifestResponse,videoResponse,feedResponse]=await Promise.all([
-      fetch('/discover-assets/assets/media/manifest.json'),
-      fetch('/v1/public/videos'),
-      fetch(preview?'/v1/audience/preview':'/v1/public/feed')
-    ]);
-    if(!manifestResponse.ok||!videoResponse.ok||!feedResponse.ok)throw new Error(`Feed ${feedResponse.status}; video ${videoResponse.status}; manifest ${manifestResponse.status}`);
-    manifest=await manifestResponse.json();
-    videos=(await videoResponse.json()).videos||[];
-    cards=normalizedCards(await feedResponse.json());
-    if(videos.length)renderVideos();else render();
-  }catch(error){feed.innerHTML=`<section class="empty"><div><p class="eyebrow">LOCAL PREVIEW</p><h1>Feed needs a quick restart</h1><p>${esc(error.message)}</p><a class="action" href="/?preview=1#content">Open content studio</a></div></section>`;}
+  const [mediaResult,videoResult,feedResult]=await Promise.allSettled([
+    readJSON('/discover-assets/assets/media/manifest.json'),
+    readJSON('/v1/public/videos'),
+    readJSON(preview?'/v1/audience/preview':'/v1/public/feed')
+  ]);
+  manifest=mediaResult.status==='fulfilled'&&Array.isArray(mediaResult.value?.assets)?mediaResult.value:{assets:[],policy:{exact_product_gap:'The image inventory is temporarily unavailable. No image rights are inferred from that absence.'}};
+  const videoReady=videoResult.status==='fulfilled'&&Array.isArray(videoResult.value?.videos);
+  videos=videoReady?videoResult.value.videos:[];
+  let feedReady=false;
+  cards=[];
+  if(feedResult.status==='fulfilled'){
+    try{cards=normalizedCards(feedResult.value);feedReady=true;}catch{/* An invalid response is not an empty feed. */}
+  }
+  if(videos.length)renderVideos();
+  else if(cards.length)render();
+  else if(!videoReady||!feedReady)showFeedMessage('unavailable');
+  else render();
 }
 boot();
