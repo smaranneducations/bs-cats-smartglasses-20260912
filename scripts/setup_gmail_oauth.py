@@ -142,7 +142,7 @@ def main() -> int:
             "scope": scope,
             "access_type": "offline",
             "prompt": "consent",
-            "include_granted_scopes": "true",
+            "include_granted_scopes": "false",
             "state": state,
             "code_challenge": challenge,
             "code_challenge_method": "S256",
@@ -158,13 +158,18 @@ def main() -> int:
         if not result.get("code"):
             raise SetupError("OAuth consent timed out without a callback.")
         token = exchange_code(client_id, client_secret, redirect_uri, result["code"], verifier)
+        granted_scopes = set(token.get("scope", scope).split())
+        if granted_scopes != {DEFAULT_SCOPE}:
+            raise SetupError(
+                "Google returned a combined OAuth grant. Use a Gmail-specific OAuth client or revoke the prior combined grant, then retry."
+            )
         atomic_json(token_path, {
             "schema_version": "gmail-oauth-token-1",
             "access_token": token["access_token"],
             "refresh_token": token["refresh_token"],
             "expires_in": int(token.get("expires_in", 3600)),
             "obtained_at": __import__("time").time(),
-            "scope": token.get("scope", scope),
+            "scope": DEFAULT_SCOPE,
             "token_type": token.get("token_type", "Bearer"),
             "token_uri": TOKEN_URI,
         })

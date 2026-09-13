@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from packages.intelligence.gmail_alerts import GmailAlertError, GmailClient, ingest
+from packages.intelligence.gmail_alerts import GmailAlertError, GmailClient, diagnose_delivery, ingest
 from scripts.env_config import EnvConfigError, is_configured, parse_env
 from services.api.src.main import get_store
 
@@ -31,6 +31,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--env", type=Path, default=ROOT / ".env")
     parser.add_argument("--config", type=Path, default=ROOT / "config/workflows/gmail-alert-intelligence.json")
+    parser.add_argument("--diagnose-only", action="store_true",
+                        help="Check aggregate alert visibility without reading message bodies or writing observations.")
     args = parser.parse_args()
     try:
         parsed = parse_env(args.env)
@@ -46,7 +48,12 @@ def main() -> int:
         database_path = ROOT / workflow["storage"]["database"]
         query = selected(values, "GMAIL_ALERT_QUERY", default=workflow["source"]["query"])
         client = GmailClient(token_path, client_id, client_secret, workflow["source"]["max_message_bytes"])
+        if args.diagnose_only:
+            print(json.dumps(diagnose_delivery(client, workflow, query), indent=2, ensure_ascii=True))
+            return 0
         result = ingest(client, get_store(), workflow, database_path, query)
+        if result["messages_seen"] == 0:
+            result["delivery_diagnostic"] = diagnose_delivery(client, workflow, query)
         print(json.dumps(result, indent=2, ensure_ascii=True))
         return 0
     except (GmailAlertError, EnvConfigError, FileNotFoundError, json.JSONDecodeError, OSError, ValueError) as exc:

@@ -1,10 +1,11 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "workflow_id": "gmail_alert_intelligence",
   "domain": "smart_glasses",
   "purpose": "Use Google Alerts email as a low-cost discovery feed for dated industry intelligence without treating email snippets as verified facts.",
   "source": {
     "provider": "Gmail API",
+    "alert_sender": "googlealerts-noreply@google.com",
     "oauth_scope": "https://www.googleapis.com/auth/gmail.readonly",
     "query": "from:googlealerts-noreply@google.com (\"smart glasses\" OR \"AR glasses\" OR \"AI glasses\")",
     "max_messages_per_run": 25,
@@ -24,13 +25,17 @@
     "dedupe_keys": ["gmail_message_id", "canonical_article_url_sha256"]
   },
   "pipeline": [
+    "diagnose_alert_delivery_without_reading_bodies",
     "list_matching_messages_incrementally",
     "extract_and_canonicalize_external_article_links",
     "deduplicate_message_and_article_receipts",
+    "create_separate_news_discovery_items",
     "create_compact_market_observation",
     "queue_source_policy_and_credibility_assessment",
-    "cluster_approved_articles_into_dated_news_events",
-    "prepare_hot_news_blog_and_monthly_digest_drafts",
+    "promote_only_admitted_articles_into_dated_industry_events",
+    "score_event_relevance_novelty_and_evidence",
+    "prepare_evidence_bound_news_video_blog_and_digest_candidates",
+    "apply_story_quality_and_media_rights_gates",
     "require_exact_artifact_review_before_publication"
   ],
   "gates": {
@@ -39,12 +44,18 @@
     "credibility": "Consequential claims require primary evidence or corroboration from genuinely independent sources.",
     "privacy": "Store no unrelated email, contact graph, attachments or message body.",
     "content": "Never represent scraped reporting as original reporting or firsthand experience.",
+    "promotion": "A news discovery item cannot become an industry event or video claim until the original source passes admission, credibility, rights and freshness checks.",
     "publication": "Every exact post, blog article, video and metadata package remains human-approved before publication."
   },
   "cost": {
     "gmail_api_expected_incremental_cost_usd": 0,
     "paid_model_calls_per_ingest": 0,
     "article_fetches_per_run": 0,
-    "note": "Gmail discovery is free within Google's current standard threshold. Article research and model work need separate bounded admission."
+    "note": "Gmail discovery is expected to remain within Google's standard no-charge quota for this scale. Article research and model work need separate bounded admission."
+  },
+  "resilience": {
+    "email_is_one_adapter": "Google Alerts is a useful discovery adapter, not a single point of truth or availability.",
+    "fallback_design": "Approved direct sources, lawful feeds and bounded web research may create the same news discovery contract after their own access and rights gates.",
+    "no_delivery_behavior": "Record a diagnostic state and continue unrelated work; do not fabricate events or loosen the Gmail query to unrelated personal mail."
   }
 }
