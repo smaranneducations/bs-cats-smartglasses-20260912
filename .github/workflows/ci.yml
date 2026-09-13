@@ -32,6 +32,7 @@ jobs:
         run: |
           PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -p "test_*.py" -v
           PYTHONDONTWRITEBYTECODE=1 python scripts/secret_scan.py --mode tracked
+          PYTHONDONTWRITEBYTECODE=1 python scripts/repository_publication_guard.py --mode tracked
       - name: Validate contract schema imports
         working-directory: packages/contracts
         run: |

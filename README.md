@@ -357,7 +357,9 @@ The [ethical operating constitution](governance/ETHICAL_OPERATING_CONSTITUTION.m
 
 The system denies illegal actions, fabricated claims or metrics, rights-unclear media, privacy or consent violations, exploitative behavior, hidden commercial influence, credential bypass, unauthorized spending and public publishing without exact-artifact approval.
 
-Credentials stay outside Git. `.env` and local operating state are ignored, and staged material is scanned before push. Credentials previously shared in conversation must be treated as exposed and rotated before production use. See [SECURITY.md](SECURITY.md).
+Safety, system security, data protection and privacy share the same constitutional tier as legality and ethical conduct. No revenue objective, mode, role, urgent request or convenience can override them.
+
+Credentials stay outside Git. `.env` and local operating state are ignored, and exact staged material is checked by both the credential scanner and repository publication guard. Personal or restricted data, internal access details and exploitable vulnerability information are excluded from public changes. Security findings use GitHub private vulnerability reporting with minimum necessary disclosure. Credentials previously shared in conversation must be treated as exposed and rotated before production use. See [SECURITY.md](SECURITY.md).
 
 ---
 
@@ -383,6 +385,34 @@ Only production is live. Preprod and UAT are immutable snapshots and validation 
 - Direct cloud-console changes are break-glass only and must be reconciled through GitHub.
 
 Read the [change and release constitution](docs/CHANGE_AND_RELEASE_CONSTITUTION.md) and [contribution guide](CONTRIBUTING.md).
+
+---
+
+## Replicate this project safely
+
+The shortest responsible replication path is:
+
+1. Download or clone the complete GitHub repository.
+2. Open that checkout in Codex, Cursor or another capable coding agent.
+3. Give the agent this README and `AGENTS.md` as the entry instructions.
+4. Ask it to inspect the downloaded repository, preserve its architecture and create a fresh deployment for your chosen domain.
+5. Create your own Firebase/GCP projects, GitHub repository, administrator allowlist and provider applications.
+6. Supply credentials only through ignored local configuration, provider consent or workload identity. Never copy credentials, private data or cloud identifiers from this deployment.
+7. Run the repository tests and publication guards, then use the same issue, PR, snapshot, preprod, UAT and production promotion path.
+
+Suggested agent request:
+
+```text
+Use README.md and AGENTS.md as the governing entry points. Inspect this complete
+repository and replicate the BS CATS platform for my selected domain. Preserve
+the constitutional security, privacy, evidence, spending and publication gates.
+Create fresh cloud resources and local-only credentials; do not reuse or expose
+the original operator's data, secrets or account identifiers. Work through
+GitHub issues, branches, pull requests, CI, preprod, UAT and production. Report
+implemented, partial and blocked capabilities truthfully.
+```
+
+The README explains intent, but the complete repository supplies the contracts, tests, workflows and deeper decisions needed for a faithful build. See [safe replication](docs/SAFE_REPLICATION.md) for the minimal boundary checklist.
 
 ---
 
