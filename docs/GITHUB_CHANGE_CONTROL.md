@@ -32,3 +32,7 @@ Never put API keys, OAuth tokens, passwords, email contents, customer data, priv
 ## Emergency path
 
 A credential leak or active security exploit may be contained immediately by disabling access or pausing deployment. The operator then opens a security issue or private advisory with the exact scope, evidence, actions, residual risk, and follow-up tests. Emergency handling does not authorize unrelated changes.
+
+## Technical maintenance clarification
+
+`docs/TECHNICAL_DEPLOYMENT_POLICY.md` separates approved infrastructure repair from editorial publication and commercial readiness. It also defines the private advisory candidate/check/receipt path where GitHub deliberately does not provide normal temporary-fork CI or individual-PR merging. Routine maintenance authority is not permission to weaken access controls or omit GitHub history.

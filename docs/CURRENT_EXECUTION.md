@@ -76,3 +76,7 @@ Each task handoff contains: outcome; governing issue; exact files/contracts; cur
 The emergency Hosting asset-path deployment is completed and observed. The packaging guard, shared public navigation asset, cache revalidation policy, default-service cleanup, video configuration correction, and consolidated instructions are source changes for issue #34 and require the normal PR path. They are not included in the earlier deployment receipt.
 
 The larger application remains in completion work. User acceptance testing should begin with the protected operator workflow, not with approval of hundreds of individual records.
+
+## Current repair direction
+
+The account holder requested repair of hosted Google login and reconciliation of deployment/security policy. Follow `docs/TECHNICAL_DEPLOYMENT_POLICY.md`. Audience tests now pass 10/10 after correcting the markup-sensitive assertion; Python checks pass 208/208. Hosted administrator acceptance remains pending until tested against the deployed correction. Do not send the human back to UAT based on local tests alone.

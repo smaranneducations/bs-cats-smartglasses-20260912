@@ -172,3 +172,7 @@ Daily budget reporting must distinguish owner-reported payments, provider usage 
 - Only the API starts in the default Compose topology. Scaffolds are opt-in and must not receive provider credentials or be represented as functioning services.
 - Protect authoritative databases, their history, and media independently from source-code snapshots. No backup claim is complete without a consistent export and a documented restore result.
 - Maintain unknown values rather than blocking an entire product. Close the full evidence-to-publication-to-feedback workflow before broadening the catalogue or adding revenue-channel infrastructure.
+
+## Technical deployment clarification (2026-09-13)
+
+Read `docs/TECHNICAL_DEPLOYMENT_POLICY.md` for the account-holder-authorized separation of technical maintenance from editorial/commercial release. Repairing existing hosting/login does not require approval of an unrelated video. Preserve authentication, authorization, private security review, exact-source checks, rollback and truthful receipts; never bypass provider permissions or branch protections. Do not claim full version-one readiness from a maintenance deployment.

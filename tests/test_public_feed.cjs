@@ -84,7 +84,7 @@ test('valid cards still render when the video service is unavailable', async () 
     '/v1/public/videos': null,
     '/v1/public/feed': {cards: [{card_id: 'card-1', title: 'A clear comparison', claims: []}]},
   }});
-  assert.match(elements['#feed'].innerHTML, /A clear comparison/);
+  assert.match(elements['#feed'].innerHTML.replace(/<[^>]*>/g, ''), /A clear comparison/);
 });
 
 test('malformed response is unavailable, not a fabricated empty success', async () => {

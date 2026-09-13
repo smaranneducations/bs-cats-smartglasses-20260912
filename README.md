@@ -671,3 +671,7 @@ No repository-wide open-source license has been selected. Public visibility does
 ### Build intelligence once. Reuse it carefully. Earn only after trust.
 
 </div>
+
+### Maintenance versus commercial readiness
+
+[Technical deployment policy](docs/TECHNICAL_DEPLOYMENT_POLICY.md) separates repairs to existing hosting and login from approval to publish a video or claim business readiness. Security, privacy, GitHub traceability, exact-source checks and rollback remain mandatory. See the [acceptance record](docs/acceptance/2026-09-13.md) for observed results rather than treating a deployment as proof that every workflow is complete.
