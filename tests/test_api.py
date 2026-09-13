@@ -82,6 +82,24 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(denied.status_code, 401)
         self.assertEqual(allowed.status_code, 200)
 
+    def test_admin_config_uses_environment_when_optional_file_is_absent(self):
+        with patch.dict(
+            os.environ,
+            {
+                "ADMIN_ALLOWLIST_PATH": str(
+                    Path(self.temporary_directory.name) / "missing-admins.json"
+                ),
+                "ADMIN_EMAIL_ALLOWLIST": "admin@example.com",
+                "FIREBASE_WEB_API_KEY": "public-browser-config",
+                "FIREBASE_AUTH_DOMAIN": "example.firebaseapp.com",
+                "FIREBASE_PROJECT_ID": "example-project",
+                "FIREBASE_WEB_APP_ID": "example-app",
+            },
+        ):
+            response = self.client.get("/v1/admin-auth/config")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()["configured"])
+
 
 if __name__ == "__main__":
     unittest.main()

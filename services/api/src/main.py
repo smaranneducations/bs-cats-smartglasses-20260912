@@ -111,7 +111,7 @@ def _admin_allowlist():
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (FileNotFoundError, json.JSONDecodeError):
-        return {}
+        data = {}
     result = {}
     for item in data.get("admins", []):
         email = str(item.get("email", "")).strip().lower()
