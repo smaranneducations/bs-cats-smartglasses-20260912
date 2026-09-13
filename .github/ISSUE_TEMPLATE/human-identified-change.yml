@@ -1,0 +1,53 @@
+name: Human-identified change
+description: Record a bug, gap or enhancement in the compact review format.
+title: ""
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep each summary answer to no more than two concise lines. Never include credentials, private user data or exploitable vulnerability details. Use private vulnerability reporting for security issues.
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Change type
+      options:
+        - Bug or regression
+        - Enhancement
+        - Data or ontology correction
+        - Operational or infrastructure change
+        - Governance or documentation change
+    validations:
+      required: true
+  - type: textarea
+    id: problem_statement
+    attributes:
+      label: Problem statement
+      description: What user outcome or problem needs attention? Maximum two lines.
+    validations:
+      required: true
+  - type: textarea
+    id: issue_change
+    attributes:
+      label: Issue/change identified
+      description: What defect, gap or enhancement was observed? Maximum two lines.
+    validations:
+      required: true
+  - type: textarea
+    id: root_cause
+    attributes:
+      label: Root cause or opportunity rationale
+      description: Give the confirmed cause, or the current limitation/value for an enhancement. Maximum two lines.
+    validations:
+      required: true
+  - type: textarea
+    id: key_steps
+    attributes:
+      label: Key steps
+      description: Give the essential fix and validation path. Maximum two lines.
+    validations:
+      required: true
+  - type: textarea
+    id: safe_evidence
+    attributes:
+      label: Safe evidence links
+      description: Optional links or object IDs only. Do not paste secrets or private incident details.

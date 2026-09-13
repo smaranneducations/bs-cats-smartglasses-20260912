@@ -1,28 +1,20 @@
-## Linked issue
+## Problem statement
+<!-- Maximum two non-empty lines. What outcome or user problem requires attention? -->
 
-Closes #
+## Issue/change identified
+<!-- Maximum two non-empty lines. State the observed defect, gap or enhancement. -->
 
-## Outcome
+## Root cause or opportunity rationale
+<!-- Maximum two non-empty lines. Give an observable cause, or the present limitation/value for an enhancement. -->
 
-Describe the user or operating outcome and what is intentionally out of scope.
+## Key steps
+<!-- Maximum two non-empty lines. Summarize implementation and validation. -->
 
-## Authority and risk
+## Governing issue
+<!-- Use "Closes #123" or link the governing change request. -->
 
-- Affected persona:
-- Requirements and governed objects:
-- Security, privacy, rights, legal, ethical, or financial impact:
-- Human consent or exact approval required:
+## Validation and receipts
+<!-- Link tests, migrations, screenshots or provider receipts. Never include secrets or private vulnerability details. -->
 
-## Implementation
-
-Describe the bounded design, compatibility or migration handling, and rollback.
-
-## Verification
-
-List commands actually run and their results. Do not describe planned checks as completed.
-
-## Cost and release
-
-- Estimated and actual variable cost:
-- Deployment or provider receipts:
-- Documentation and traceability updated:
+## Risk and rollback
+<!-- State consequential risk and the rollback path. -->

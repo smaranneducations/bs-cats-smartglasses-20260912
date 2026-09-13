@@ -30,6 +30,7 @@ jobs:
           python -m pip install -r scripts/requirements-demo.txt
       - name: Run offline governance checks
         run: |
+          PYTHONDONTWRITEBYTECODE=1 python scripts/validate_change_summary.py --event "$GITHUB_EVENT_PATH"
           PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -p "test_*.py" -v
           PYTHONDONTWRITEBYTECODE=1 python scripts/secret_scan.py --mode tracked
           PYTHONDONTWRITEBYTECODE=1 python scripts/repository_publication_guard.py --mode tracked
