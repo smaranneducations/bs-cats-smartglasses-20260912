@@ -1,0 +1,129 @@
+name: Promote immutable release
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Exact commit to promote
+        required: true
+        type: string
+      version:
+        description: Semantic version without v prefix
+        required: true
+        type: string
+      target:
+        description: Promotion target
+        required: true
+        type: choice
+        options: [preprod, uat, production]
+      change_issue:
+        description: Governing GitHub issue number
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: promote-${{ inputs.target }}
+  cancel-in-progress: false
+
+jobs:
+  admit:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target }}
+    outputs:
+      exact_sha: ${{ steps.identity.outputs.exact_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
+      - id: identity
+        name: Verify immutable identity and promotion order
+        env:
+          TARGET: ${{ inputs.target }}
+          VERSION: ${{ inputs.version }}
+          EXPECTED_SHA: ${{ inputs.commit_sha }}
+          CHANGE_ISSUE: ${{ inputs.change_issue }}
+        run: |
+          set -euo pipefail
+          exact_sha="$(git rev-parse HEAD)"
+          test "$exact_sha" = "$(git rev-parse "$EXPECTED_SHA^{commit}")"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+([+-][0-9A-Za-z.-]+)?$ ]]
+          [[ "$CHANGE_ISSUE" =~ ^[0-9]+$ ]]
+          if [ "$TARGET" = "uat" ]; then
+            test "$(git rev-list -n 1 "snapshot-preprod-v${VERSION}")" = "$exact_sha"
+          elif [ "$TARGET" = "production" ]; then
+            test "$(git rev-list -n 1 "snapshot-uat-v${VERSION}")" = "$exact_sha"
+          fi
+          echo "exact_sha=$exact_sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install validation dependencies
+        run: python -m pip install --disable-pip-version-check "pydantic>=2.6,<3" "Pillow>=10,<12"
+      - name: Run admission suite
+        run: |
+          set -euo pipefail
+          PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -p "test_*.py" -q
+          python scripts/secret_scan.py --mode tracked
+          python scripts/audit_requirements.py
+          python scripts/release_readiness.py
+          python scripts/build_firebase_hosting.py
+      - name: Enforce production readiness before cloud authentication
+        if: inputs.target == 'production'
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("docs/V1_RELEASE_READINESS_REPORT.json").read_text())
+          if report.get("production_ready") is not True:
+              raise SystemExit("Production admission denied: release readiness is not clear")
+          PY
+      - name: Package exact promotion artifact
+        env:
+          EXACT_SHA: ${{ steps.identity.outputs.exact_sha }}
+        run: |
+          set -euo pipefail
+          tar -czf "promotion-${EXACT_SHA}.tar.gz" dist/firebase VERSION firebase.json services packages config
+          shasum -a 256 "promotion-${EXACT_SHA}.tar.gz" > "promotion-${EXACT_SHA}.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.target }}-${{ inputs.version }}-${{ steps.identity.outputs.exact_sha }}
+          path: |
+            promotion-${{ steps.identity.outputs.exact_sha }}.tar.gz
+            promotion-${{ steps.identity.outputs.exact_sha }}.sha256
+          retention-days: 90
+          if-no-files-found: error
+      - name: Record immutable stage tag
+        env:
+          TARGET: ${{ inputs.target }}
+          VERSION: ${{ inputs.version }}
+          EXACT_SHA: ${{ steps.identity.outputs.exact_sha }}
+        run: |
+          set -euo pipefail
+          if [ "$TARGET" = "production" ]; then
+            tag="v${VERSION}"
+          else
+            tag="snapshot-${TARGET}-v${VERSION}"
+          fi
+          if git rev-parse "$tag" >/dev/null 2>&1; then
+            test "$(git rev-list -n 1 "$tag")" = "$EXACT_SHA"
+          else
+            git tag -a "$tag" "$EXACT_SHA" -m "$TARGET promotion for v$VERSION"
+            git push origin "$tag"
+          fi
+
+  production-boundary:
+    if: inputs.target == 'production'
+    needs: admit
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Deployment remains receipt-driven
+        run: |
+          echo "Production admission passed for ${{ needs.admit.outputs.exact_sha }}."
+          echo "Cloud deployment is performed only by the repository deployment adapter after workload identity, durable persistence and rollback receipts are configured."
+          echo "A successful promotion record alone is not a deployment receipt."
