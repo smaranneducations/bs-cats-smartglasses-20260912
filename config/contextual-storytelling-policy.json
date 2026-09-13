@@ -1,5 +1,5 @@
 {
-  "policy_version": "contextual-storytelling-1",
+  "policy_version": "contextual-storytelling-2",
   "status": "active-design-policy",
   "purpose": "Create useful, varied stories from governed domain context without manufacturing novelty or unsupported claims.",
   "context_layers": [
@@ -25,10 +25,15 @@
     "myth_or_unknown"
   ],
   "story_contract": {
-    "required": ["target_audience_id", "decision_question", "context_object_ids", "assertion_ids", "visual_primitive_id", "caveats", "freshness_boundary", "affected_output_ids"],
+    "required": ["target_audience_id", "decision_question", "audience_tension", "differentiated_thesis", "decision_lever_assertion_ids", "context_object_ids", "assertion_ids", "visual_primitive_id", "implication", "payoff", "caveats", "freshness_boundary", "affected_output_ids"],
     "infographic_assertion_range": { "minimum": 1, "maximum": 3 },
     "short_video_assertion_range": { "minimum": 1, "maximum": 6 },
     "maximum_video_seconds": 90
+  },
+  "creative_quality": {
+    "policy": "config/story-quality-policy.json",
+    "rule": "Context diversity is not story quality. Every candidate needs one audience-relevant tension, one defensible decision lever, visible proof, a consequence and a payoff.",
+    "no_lever_behavior": "Return for more evidence or choose a different story family; never manufacture a differentiator."
   },
   "selection": {
     "objective": "Choose the smallest evidence-backed context set that answers a useful audience question.",

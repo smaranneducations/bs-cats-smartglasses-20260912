@@ -1,7 +1,7 @@
 {
   "schema_version": "1.2",
   "profile_id": "vivid_evidence_kinetic",
-  "revision": 3,
+  "revision": 4,
   "effective_date": "2026-09-13",
   "scope": "Canonical SmartGlasses audience video reused across the owned app and channel adapters",
   "authority": "Human creative preference; no change to financial, source-rights or publishing authority.",
@@ -36,6 +36,15 @@
     "presentation": "Use concise hooks and readable copy. Keep decision-critical caveats visible and fuller evidence readily accessible.",
     "prohibited": "Do not invent hands-on experience, product performance, source clearance, guaranteed views or revenue."
   },
+  "story_quality": {
+    "opening_rule": "Earn attention in the first 1-8 seconds with an audience tension or consequential question; do not open with a logo, product name or generic category introduction.",
+    "required_arc": ["hook", "tension", "differentiator_and_proof", "implication", "payoff"],
+    "differentiator_rule": "Use one decision-relevant, source-bound difference, trade-off, change or insight. If no such lever exists, do not manufacture one; return the brief for more evidence or a different angle.",
+    "proof_rule": "Put the source-bound assertion next to the differentiator and preserve material conditions, uncertainty and comparison basis.",
+    "payoff_rule": "End with a memorable decision, question or next action that resolves the opening tension instead of repeating a generic evidence disclaimer.",
+    "visual_progression": "Each primitive must perform a distinct narrative job. Repeated imagery or motion requires a deliberate semantic reason.",
+    "quality_policy": "config/story-quality-policy.json"
+  },
   "feedback_disposition": {
     "creative_regression": "The plain, silent comparison/product/feature exports are technical drafts, not accepted creative baselines.",
     "architecture_regression": "Video demos and passing local tests do not establish a functioning warehouse, agent runtime or feedback-learning loop."
@@ -48,7 +57,7 @@
     "A creative-preference change identifies affected outputs for rework."
   ],
   "enforcement": {
-    "status": "specified_not_enforced",
+    "status": "structural_story_gate_enforced_subjective_review_pending",
     "renderer_reads_profile": true,
     "automatic_feedback_promotion": false,
     "publication_allowed": false
