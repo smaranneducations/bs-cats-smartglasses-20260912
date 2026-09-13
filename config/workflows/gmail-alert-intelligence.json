@@ -1,5 +1,5 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "workflow_id": "gmail_alert_intelligence",
   "domain": "smart_glasses",
   "purpose": "Use Google Alerts email as a low-cost discovery feed for dated industry intelligence without treating email snippets as verified facts.",
@@ -55,7 +55,8 @@
   },
   "resilience": {
     "email_is_one_adapter": "Google Alerts is a useful discovery adapter, not a single point of truth or availability.",
-    "fallback_design": "Approved direct sources, lawful feeds and bounded web research may create the same news discovery contract after their own access and rights gates.",
+    "fallback_design": "Direct authoritative RSS/Atom feeds and GDELT are the free news backbone. Bounded Tavily, Exa, Serper and Brave searches may create the same discovery contract after provider admission. Reddit remains blocked without explicit written commercial approval.",
+    "google_alert_api_state": "Google publishes no Search Alerts API. Gmail can read delivered alert email but cannot create, repair or force alert delivery.",
     "no_delivery_behavior": "Record a diagnostic state and continue unrelated work; do not fabricate events or loosen the Gmail query to unrelated personal mail."
   }
 }

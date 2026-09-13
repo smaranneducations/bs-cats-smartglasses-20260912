@@ -118,6 +118,9 @@ Read `docs/EXECUTION_STATUS.md` and `.local/governance/NEXT_MILESTONE.md` for th
 ## Business and editorial principles
 
 - Build a defensible evidence base and original analysis that helps people understand or choose within the selected domain. Preserve the SmartGlasses prototype while D0 assesses data fit. Prioritize a complete research-to-video-to-feedback loop.
+- Treat search, alerts, feeds and community platforms as source-discovery adapters rather than evidence. Prefer admitted first-party sources, regulator/standards sources and lawful structured feeds; fetch the originating source before accepting an assertion and preserve its access, rights, credibility, freshness and lineage metadata.
+- Route missing-field enrichment through cached admitted sources, authoritative RSS/Atom feeds, GDELT and then bounded search providers. Optimize cost per accepted useful assertion, batch related missing attributes, suppress duplicate queries and retain explicit `not_available` states instead of spending repeatedly or inventing values.
+- Google Search Alerts has no supported public API and must remain an optional Gmail-delivery adapter, never a single point of availability. Reddit collection, storage, mining or AI use remains disabled unless explicit written commercial approval and deletion compliance are established.
 - Start with one narrow audience and one primary publishing channel. Reuse approved research across comparisons, explainers and useful adaptations without creating interchangeable mass-produced content.
 - Preserve source links, observation dates, model variants, regions, units, confidence reasons and history. Unknown is not false. Manufacturer claims are not hands-on measurements.
 - Keep factual correctness separate from popularity and commercial incentives. Never invent reviews, firsthand experience, performance results, customers or revenue.

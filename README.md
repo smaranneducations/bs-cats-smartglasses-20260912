@@ -8,10 +8,10 @@
 
 [![CI](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/actions/workflows/ci.yml/badge.svg)](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/v/release/smaranneducations/bs-cats-smartglasses-20260912?include_prereleases&label=release)](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/releases)
-![Production](https://img.shields.io/badge/production-not_live-B45309)
+[![Production](https://img.shields.io/badge/Firebase_Hosting-live-15803D)](https://bs-cats-smartglasses-20260912.web.app/)
 ![Experiment](https://img.shields.io/badge/seed_limit-USD_500-155E75)
 
-[Vision](#the-idea) | [Economics](#economics) | [Architecture](#cognitive-architecture) | [Roles](#people-and-authority) | [Workflow](#one-guided-operating-loop) | [Status](#current-release-reality)
+[Test live application](https://bs-cats-smartglasses-20260912.web.app/) | [Vision](#the-idea) | [Economics](#economics) | [Architecture](#cognitive-architecture) | [Roles](#people-and-authority) | [Workflow](#one-guided-operating-loop) | [Status](#current-release-reality)
 
 </div>
 
@@ -24,10 +24,12 @@
 | Repository release candidate | Frozen | [`v1.0.0-rc.1`](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/releases/tag/v1.0.0-rc.1) |
 | Monthly recovery snapshot | Frozen | [`snapshot-2026-09`](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/releases/tag/snapshot-2026-09) |
 | Local audience, intelligence and operator experience | Working candidate | Run locally using the instructions below |
-| Firebase production application | **Not live** | The intended host currently returns HTTP 404 |
-| Production deployment work | Open | [Issue #3](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/issues/3) |
+| Firebase production hosting | **Live** | [Open the production application](https://bs-cats-smartglasses-20260912.web.app/) |
+| Production operator workspace | Live hosting; protected access has a known authentication-state defect | [Open the operator workspace](https://bs-cats-smartglasses-20260912.web.app/operator) |
 
-There is deliberately no production link presented as working. A verified Firebase URL will be added only after the same immutable artifact passes `preprod`, UAT and production admission, and a deployment receipt proves that the public application and durable backend work together.
+**Firebase production URL:** [https://bs-cats-smartglasses-20260912.web.app/](https://bs-cats-smartglasses-20260912.web.app/)
+
+Firebase Hosting is live and can be used to begin browser testing. This does not claim that every protected backend workflow is production-complete: the operator authentication path currently has a known access-state defect that can return HTTP 503 instead of the intended unauthorized response. Keep that distinction in test reports until its prepared security change is merged and deployed.
 
 The repository is a substantial governed foundation, not proof of revenue, audience demand, complete integrations or production readiness. See the [validation report](docs/V1_VALIDATION_REPORT_2026-09-13.md) and [machine-readable readiness report](docs/V1_RELEASE_READINESS_REPORT.json).
 
