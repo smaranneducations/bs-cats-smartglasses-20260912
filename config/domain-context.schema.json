@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bs-cats.example/schemas/domain-context-object-1.json",
+  "title": "Domain context object",
+  "description": "A governed, evidence-linked contextual object used by analysis and storytelling.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "context_id",
+    "context_type",
+    "domain_id",
+    "title",
+    "status",
+    "scope",
+    "attributes",
+    "assertions",
+    "source_receipts",
+    "governance",
+    "version",
+    "observed_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "domain-context-object-1" },
+    "context_id": { "type": "string", "minLength": 1 },
+    "context_type": {
+      "enum": [
+        "domain_context",
+        "market_snapshot",
+        "audience_segment",
+        "industry_structure",
+        "technology_concept",
+        "technology_maturity_snapshot",
+        "company_snapshot",
+        "regulatory_event",
+        "industry_event",
+        "adoption_signal",
+        "ecosystem_relationship",
+        "trend_assertion",
+        "narrative_angle"
+      ]
+    },
+    "domain_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": ["string", "null"] },
+    "status": { "enum": ["hypothesis", "active", "superseded", "retired"] },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["geographies", "valid_from", "valid_until"],
+      "properties": {
+        "geographies": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "languages": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "valid_from": { "type": ["string", "null"], "format": "date-time" },
+        "valid_until": { "type": ["string", "null"], "format": "date-time" },
+        "methodology": { "type": ["string", "null"] }
+      }
+    },
+    "audience_segment_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "related_context_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concept_id", "availability_state", "value"],
+        "properties": {
+          "concept_id": { "type": "string", "minLength": 1 },
+          "availability_state": {
+            "enum": ["available", "unknown", "not_found_yet", "not_disclosed", "not_applicable", "conflicting", "stale"]
+          },
+          "value": {},
+          "unit": { "type": ["string", "null"] },
+          "currency": { "type": ["string", "null"] },
+          "methodology": { "type": ["string", "null"] },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assertion_id", "concept_id", "statement", "availability_state", "confidence", "confidence_reason", "evidence_refs", "observed_at"],
+        "properties": {
+          "assertion_id": { "type": "string", "minLength": 1 },
+          "concept_id": { "type": "string", "minLength": 1 },
+          "statement": { "type": "string", "minLength": 1 },
+          "availability_state": {
+            "enum": ["available", "unknown", "not_found_yet", "not_disclosed", "not_applicable", "conflicting", "stale"]
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "confidence_reason": { "type": "string", "minLength": 1 },
+          "evidence_refs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "observed_at": { "type": "string", "format": "date-time" },
+          "expires_at": { "type": ["string", "null"], "format": "date-time" }
+        }
+      }
+    },
+    "source_receipts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "title", "url", "publisher", "retrieved_at", "source_type", "rights_status"],
+        "properties": {
+          "source_id": { "type": "string", "minLength": 1 },
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "publisher": { "type": "string", "minLength": 1 },
+          "retrieved_at": { "type": "string", "format": "date-time" },
+          "source_type": { "enum": ["primary", "official", "research", "regulatory", "reputable_secondary", "human_observation"] },
+          "rights_status": { "enum": ["allowed", "restricted", "unknown", "not_applicable"] }
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rights_status", "privacy_class", "publishable", "review_state"],
+      "properties": {
+        "rights_status": { "enum": ["allowed", "restricted", "unknown", "not_applicable"] },
+        "privacy_class": { "enum": ["public", "internal", "confidential"] },
+        "publishable": { "type": "boolean" },
+        "review_state": { "enum": ["not_required", "exception_review", "approved", "rejected"] },
+        "review_reason": { "type": ["string", "null"] }
+      }
+    },
+    "version": { "type": "integer", "minimum": 1 },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "supersedes_context_id": { "type": ["string", "null"] }
+  }
+}

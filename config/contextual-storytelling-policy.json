@@ -1,0 +1,58 @@
+{
+  "policy_version": "contextual-storytelling-1",
+  "status": "active-design-policy",
+  "purpose": "Create useful, varied stories from governed domain context without manufacturing novelty or unsupported claims.",
+  "context_layers": [
+    "product",
+    "market",
+    "audience",
+    "industry",
+    "technology",
+    "company_and_ecosystem",
+    "regulation_and_events",
+    "narrative"
+  ],
+  "story_families": [
+    "product_impact",
+    "audience_job",
+    "technology_tradeoff",
+    "industry_explainer",
+    "ecosystem_map",
+    "regulatory_change",
+    "timeline",
+    "trend_with_uncertainty",
+    "comparison",
+    "myth_or_unknown"
+  ],
+  "story_contract": {
+    "required": ["target_audience_id", "decision_question", "context_object_ids", "assertion_ids", "visual_primitive_id", "caveats", "freshness_boundary", "affected_output_ids"],
+    "infographic_assertion_range": { "minimum": 1, "maximum": 3 },
+    "short_video_assertion_range": { "minimum": 1, "maximum": 6 },
+    "maximum_video_seconds": 90
+  },
+  "selection": {
+    "objective": "Choose the smallest evidence-backed context set that answers a useful audience question.",
+    "prefer": ["decision_relevance", "freshness", "source_quality", "clarity", "underused_valid_angle"],
+    "never_optimize_for": ["novelty_without_evidence", "engagement_at_the_expense_of_truth", "commercial_value_at_the_expense_of_editorial_independence"]
+  },
+  "market_metric_semantics": {
+    "market_size": "An industry estimate that requires period, geography, currency, methodology and source.",
+    "market_capitalization": "A company observation that requires timestamp, currency, listing or exchange and source.",
+    "prohibited_uses": ["treating company market capitalization as industry market size", "using company market capitalization as product quality", "presenting forecasts as observed outcomes"]
+  },
+  "audience_safety": {
+    "allowed_dimensions": ["job_to_be_done", "needs", "constraints", "domain_literacy", "purchase_stage", "geography", "language", "channel_context", "price_sensitivity", "accessibility_needs", "privacy_concerns"],
+    "prohibited": ["unsupported demographic assumptions", "inference of protected or sensitive traits", "covert individual profiling", "claims that a segment represents all users"]
+  },
+  "gates": {
+    "required_for_used_claims": ["evidence", "lineage", "freshness", "rights", "privacy", "factual_review", "exact_artifact_publication_approval"],
+    "missingness_rule": "A missing unrelated context field does not block a useful story; a missing fact required by the story must be omitted, qualified or sent to exception review.",
+    "correction_rule": "A changed context assertion identifies and revalidates every dependent unpublished or published output."
+  },
+  "runtime_status": {
+    "schema_defined": true,
+    "policy_defined": true,
+    "warehouse_populated": false,
+    "production_agent_wired": false
+  }
+}

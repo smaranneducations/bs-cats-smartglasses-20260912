@@ -559,6 +559,28 @@ The current baseline is 187 passing tests. One non-failing fixture warning is do
 
 ---
 
+## Domain context and storytelling beyond products
+
+Product specifications are only one branch of the intelligence graph. The platform also models the environment in which a product exists, so an approved story can explain not only *what a device has*, but *why a technology matters, who it may help, what trade-off it creates and what changed around it*.
+
+| Context layer | What it represents | Example storytelling use |
+|---|---|---|
+| Market | Time- and geography-scoped size, growth, pricing and adoption signals | Explain where interest is changing without presenting forecasts as facts |
+| Audience | Jobs, needs, constraints, literacy, purchase stage and channel context | Translate a feature into a relevant user impact |
+| Industry | Category boundaries, value chain, business models, standards and distribution | Show why similar-looking products make different trade-offs |
+| Technology | Capabilities, maturity, dependencies, interoperability and limitations | Explain the practical impact of optics, sensing, compute, power or app ecosystems |
+| Company and ecosystem | Versioned company snapshots and relationships among platforms, suppliers and developers | Map dependencies without treating company size as product quality |
+| Regulation and events | Dated policy changes, launches, incidents and other industry events | Build evidence-backed timelines and change stories |
+| Narrative | Reusable questions, angles, visual primitives, caveats and calls to action | Produce varied infographics and short videos from governed knowledge |
+
+Market capitalization and market size are deliberately different concepts. Market capitalization is a volatile company observation with currency, exchange, timestamp and source; market size is an industry estimate with period, geography and methodology. Neither may be used as an automatic ranking signal.
+
+A contextual story is a dependency graph, not a free-form prompt. It declares its audience, question, source objects, one to three evidence-bound assertions for an infographic, visual treatment, caveats, freshness boundary and affected outputs. Stories may focus on a product, audience need, technology trade-off, industry structure, ecosystem, regulation, timeline, trend or an important unknown. This creates variety through useful recombination while preserving lineage and correction propagation.
+
+The current release defines the schema and policy but does not claim that the contextual warehouse is populated or connected to production. See [Domain context and storytelling](docs/DOMAIN_CONTEXT_AND_STORYTELLING.md) for the object model, gates and implementation sequence.
+
+---
+
 ## Read deeper
 
 | Topic | Document |
@@ -575,6 +597,7 @@ The current baseline is 187 passing tests. One non-failing fixture warning is do
 | Strategic leverage | [Innovation and atomic context](docs/STRATEGIC_INNOVATION_AND_CONTEXT.md) |
 | Incremental data growth | [Incremental catalogue policy](docs/INCREMENTAL_CATALOG_POLICY.md) |
 | Issue summaries and technical learning | [Engineering change memory](docs/ENGINEERING_CHANGE_MEMORY.md) |
+| Domain context and contextual stories | [Domain context and storytelling](docs/DOMAIN_CONTEXT_AND_STORYTELLING.md) |
 
 ---
 
