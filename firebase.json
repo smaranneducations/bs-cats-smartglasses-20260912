@@ -12,6 +12,7 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [
+      {"source": "/health", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
       {"source": "/v1/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
       {"source": "/media-review/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
       {"source": "/intelligence", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},

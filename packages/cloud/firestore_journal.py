@@ -88,7 +88,47 @@ class FirestoreJournal:
             # Preserve the primary failure; server transaction expiry is the fallback.
             pass
 
-    def compare_and_swap(self, snapshot, expected_version, actor, idempotency_key, input_versions=None):
+    def list_current(self, limit=500):
+        response = self.transport.call("runQuery", {"structuredQuery": {
+            "from": [{"collectionId": "governed_objects"}], "limit": limit,
+        }})
+        result = []
+        for row in response:
+            document = row.get("document")
+            if document:
+                result.append(json.loads(document_data(document)["snapshot_json"]))
+        return result
+
+    def history(self, object_id, limit=100):
+        self.name("governed_objects", object_id)
+        response = self.transport.call("runQuery", {"structuredQuery": {
+            "from": [{"collectionId": "governed_object_versions"}],
+            "where": {"fieldFilter": {
+                "field": {"fieldPath": "object_id"}, "op": "EQUAL",
+                "value": {"stringValue": object_id},
+            }},
+            "orderBy": [{"field": {"fieldPath": "version"}, "direction": "ASCENDING"}],
+            "limit": limit,
+        }})
+        result = []
+        for row in response:
+            document = row.get("document")
+            if not document:
+                continue
+            data = document_data(document)
+            result.append(json.loads(data["record_json"]) if data.get("record_json") else {
+                "snapshot": json.loads(data["snapshot_json"]),
+                "event": {
+                    "event_type": "captured" if data["version"] == 1 else "curated",
+                    "object_id": object_id, "object_version": data["version"], "sequence": data["version"],
+                    "actor_id": data["actor_id"], "actor_type": data["actor_type"],
+                    "occurred_at": data["recorded_at"], "data": {"cloud_history_reconstructed": True},
+                },
+            })
+        return result
+
+    def compare_and_swap(self, snapshot, expected_version, actor, idempotency_key, input_versions=None,
+                         record=None, request_payload=None):
         if isinstance(expected_version, bool) or not isinstance(expected_version, int) or expected_version < 0:
             raise ValueError("Expected version must be a nonnegative integer.")
         if not isinstance(snapshot, dict) or not IDENTIFIER.fullmatch(str(snapshot.get("object_id", ""))):
@@ -107,10 +147,17 @@ class FirestoreJournal:
         for key in inputs:
             self.name("governed_objects", key)
         reject_obvious_credentials({"snapshot": snapshot, "actor": actor})
+        if record is not None:
+            if (not isinstance(record, dict) or record.get("snapshot") != snapshot
+                    or record.get("event", {}).get("object_id") != snapshot["object_id"]
+                    or record.get("event", {}).get("object_version") != snapshot["version"]):
+                raise ValueError("A supplied history record must describe the exact proposed snapshot.")
+            reject_obvious_credentials({"record": record})
         serialized = canonical(snapshot)
         if len(serialized.encode()) > 262144:
             raise ValueError("Object snapshots are limited to 256 KiB.")
-        request_hash = fingerprint({"snapshot": snapshot, "expected_version": expected_version, "actor": actor, "input_versions": inputs})
+        request_hash = fingerprint({"request": request_payload if request_payload is not None else snapshot,
+                                    "expected_version": expected_version, "actor": actor, "input_versions": inputs})
         request_id = fingerprint([actor["actor_type"], actor["actor_id"], idempotency_key])
         receipt_name = self.name("governed_requests", request_id)
         object_name = self.name("governed_objects", snapshot["object_id"])
@@ -149,7 +196,8 @@ class FirestoreJournal:
                             "version": snapshot["version"], "status": snapshot["status"],
                             "snapshot_json": serialized, "snapshot_hash": result["snapshot_hash"],
                             "actor_id": actor["actor_id"], "actor_type": actor["actor_type"],
-                            "recorded_at": when, "input_versions_json": canonical(inputs)}
+                            "recorded_at": when, "input_versions_json": canonical(inputs),
+                            "record_json": canonical(record) if record is not None else ""}
                 writes = [
                     {"update": {"name": object_name, "fields": document_fields(envelope)},
                      "currentDocument": {"updateTime": current["update_time"]} if current else {"exists": False}},

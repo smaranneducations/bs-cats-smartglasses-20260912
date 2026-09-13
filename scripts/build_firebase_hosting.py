@@ -37,7 +37,7 @@ def main() -> None:
 
     manifest = {
         "schema_version": "firebase-hosting-bundle-1",
-        "source_version": "1.0.0-rc.1",
+        "source_version": (ROOT / "VERSION").read_text(encoding="utf-8").strip(),
         "entrypoints": ["/", "/operator", "/discover"],
         "dynamic_api": "/v1/** -> Cloud Run bs-cats-api in us-central1",
         "warning": "A static bundle is not proof that the dynamic API is deployed."

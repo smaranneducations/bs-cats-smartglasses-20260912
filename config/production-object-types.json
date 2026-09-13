@@ -1,0 +1,29 @@
+{
+  "schema_version": "production-object-types-1",
+  "purpose": "Explicitly allow local governed object types that may be migrated into the authenticated production application store.",
+  "allowed_types": [
+    "card_bundle",
+    "commerce_assessment",
+    "commerce_path",
+    "content_asset",
+    "content_brief",
+    "content_card",
+    "decision_record",
+    "feedback",
+    "media_asset",
+    "product",
+    "refresh_job",
+    "release_review_packet",
+    "render_artifact",
+    "render_recipe",
+    "shorts_plan",
+    "source_policy",
+    "storyboard"
+  ],
+  "blocked_content": [
+    "credentials or tokens",
+    "OAuth artifacts",
+    "unnecessary personal data",
+    "objects outside the explicit allowlist"
+  ]
+}

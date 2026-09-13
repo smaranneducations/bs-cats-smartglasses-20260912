@@ -43,6 +43,20 @@ def deny_unreconciled_operation(operation, units):
     raise CloudAdmissionDenied("Cloud document operations require reconciled accounting and an explicit admission adapter.")
 
 
+def bounded_production_admission(operation, units):
+    """Fail closed unless the deployed service explicitly enables small Firestore operations."""
+    if os.getenv("FIRESTORE_OPERATIONS_ENABLED") != "1":
+        raise CloudAdmissionDenied("Bounded Firestore operations are not enabled for this service revision.")
+    limits = {
+        "transaction_begin": 1,
+        "transaction_rollback": 1,
+        "document_write": 10,
+        "document_read": 500,
+    }
+    if operation not in limits or isinstance(units, bool) or not isinstance(units, int) or not 1 <= units <= limits[operation]:
+        raise CloudAdmissionDenied("The Firestore operation exceeds its per-request admission limit.")
+
+
 def encode_value(value):
     if value is None:
         return {"nullValue": None}
@@ -169,8 +183,24 @@ class FirestoreTransport:
             query = body.get("structuredQuery", {})
             collections = query.get("from", [])
             limit = query.get("limit", 0)
-            if collections != [{"collectionId": "admin_feedback"}] or not isinstance(limit, int) or not 1 <= limit <= 20:
-                raise ValueError("Admin feedback reads require one allowlisted collection and a limit of at most twenty.")
+            collection = collections[0].get("collectionId") if len(collections) == 1 else None
+            if collection == "admin_feedback":
+                if not isinstance(limit, int) or not 1 <= limit <= 20:
+                    raise ValueError("Admin feedback reads require a limit of at most twenty.")
+            elif collection == "governed_objects":
+                if query.get("where") or not isinstance(limit, int) or not 1 <= limit <= 500:
+                    raise ValueError("Current-object reads must be bounded and cannot supply an arbitrary filter.")
+            elif collection == "governed_object_versions":
+                field_filter = query.get("where", {}).get("fieldFilter", {})
+                order = query.get("orderBy", [])
+                value = field_filter.get("value", {}).get("stringValue", "")
+                if (field_filter.get("field", {}).get("fieldPath") != "object_id"
+                        or field_filter.get("op") != "EQUAL" or not value
+                        or order != [{"field": {"fieldPath": "version"}, "direction": "ASCENDING"}]
+                        or not isinstance(limit, int) or not 1 <= limit <= 100):
+                    raise ValueError("History reads require one bounded object ID and ascending version order.")
+            else:
+                raise ValueError("The cloud query collection is not allowlisted.")
             units = limit
         else:
             units = 1
