@@ -25,3 +25,9 @@ The Hosting builder now adds a content-derived version to each owned entrypoint 
 ## Managed branch state follow-up
 
 Hosted inspection reached the authenticated eight-stage workflow and the 27-concept ontology. Clicking a managed dataset branch then raised a null-view error: the hash handler cleared view state, but an existing DOM mount caused initialization to return early. Initialize state before reusing a mount and make branch selection establish its own validated stage/type. Six regression cases cover this event ordering, recovery, unknown branches and creative/learning navigation.
+
+### Filter visibility regression
+
+Hosted Chrome testing showed filtered records were still visible because the author-level grid display overrode the native hidden attribute. The record grid now explicitly respects hidden rows, reports the visible count and presents a no-results state.
+
+Validation: all 215 Python tests and 45 JavaScript tests passed; the Hosting builder produced 43 files. Hosted verification follows deployment; this result does not imply that every authenticated write or publishing workflow has passed.
