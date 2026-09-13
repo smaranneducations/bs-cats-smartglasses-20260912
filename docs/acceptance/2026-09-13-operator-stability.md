@@ -21,3 +21,7 @@ No administrator permission, data-store or publication-gate changes. Revert the 
 ## Cache consistency follow-up
 
 The Hosting builder now adds a content-derived version to each owned entrypoint script and stylesheet URL. Existing query parameters, fragments and external assets are preserved; missing or escaped local paths fail the build. Seven regression cases cover version changes, repeatability, browser-relative paths and isolation. This prevents mixing a new document with an older browser-cached bundle; it is not a substitute for live browser acceptance.
+
+## Managed branch state follow-up
+
+Hosted inspection reached the authenticated eight-stage workflow and the 27-concept ontology. Clicking a managed dataset branch then raised a null-view error: the hash handler cleared view state, but an existing DOM mount caused initialization to return early. Initialize state before reusing a mount and make branch selection establish its own validated stage/type. Six regression cases cover this event ordering, recovery, unknown branches and creative/learning navigation.
