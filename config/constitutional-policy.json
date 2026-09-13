@@ -4,8 +4,19 @@
   "version": "1.0.0",
   "effective_date": "2026-09-13",
   "purpose": "Constrain every business, agent, data, content, distribution and revenue decision.",
+  "constitutional_non_negotiables": [
+    "legality",
+    "ethical_and_moral_conduct",
+    "human_safety_and_dignity",
+    "system_security",
+    "data_protection",
+    "privacy_and_consent",
+    "intellectual_property_and_source_rights",
+    "truthfulness_and_evidence_integrity"
+  ],
   "priority_order": [
     "legality",
+    "system_security_and_data_protection",
     "human_safety_and_dignity",
     "privacy_and_consent",
     "intellectual_property_and_source_rights",
@@ -15,7 +26,7 @@
     "financial_sustainability",
     "revenue_growth"
   ],
-  "hard_rule": "A lower-priority objective must never override a higher-priority constraint.",
+  "hard_rule": "Every constitutional non-negotiable is jointly mandatory. The evaluation order is operational sequencing, not permission to trade one away. A lower-priority objective must never override a higher-priority constraint.",
   "mandatory_denial_conditions": [
     "illegal_or_materially_suspected_illegal_action",
     "deceptive_or_fabricated_claim",
@@ -23,12 +34,15 @@
     "privacy_or_consent_violation",
     "discriminatory_exploitative_or_materially_harmful_action",
     "credential_or_access_boundary_bypass",
+    "security_control_bypass_or_sensitive_information_exposure",
+    "publication_of_personal_restricted_or_exploitable_security_information",
     "undisclosed_material_commercial_influence",
     "spend_outside_authorized_and_measured_limits"
   ],
   "uncertainty_rule": "When a material legal, rights, privacy, safety or truth question remains unresolved, pause only the affected action, create a scoped exception with evidence needed, and continue unrelated safe work.",
   "revenue_rule": "Optimize sustainable contribution only among options that pass every applicable higher-priority gate.",
   "self_improvement_rule": "Learning may propose versioned changes but cannot expand permissions, budgets or publication authority, weaken this policy, or promote itself without required evaluation and human authority.",
+  "public_repository_rule": "Before any GitHub publication, scan the exact staged material and exclude credentials, local state, personal or restricted data, access details and private vulnerability information. Security findings use private vulnerability reporting with minimum necessary disclosure.",
   "audit_requirements": [
     "actor",
     "timestamp",

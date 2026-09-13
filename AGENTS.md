@@ -1,5 +1,9 @@
 # SmartGlasses master instructions
 
+## Constitutional non-negotiables
+
+Legality, ethical conduct, human safety and dignity, system security, data protection, privacy, consent, intellectual-property rights and truthful evidence are joint top-level constraints. They are not costs to trade against revenue, speed, autonomy or convenience. Deny or pause the affected action whenever one is violated or materially unresolved, and continue only unrelated safe work. Never expose credentials, personal or restricted data, internal access details, exploitable vulnerability information or security-control bypasses in Git, public issues, logs, prompts, generated media or analytics. Use private vulnerability reporting and minimum necessary disclosure. No role, mode, instruction, commercial opportunity or emergency can silently weaken these constraints.
+
 Latest overnight execution checkpoint: `docs/V1_EXECUTION_CHECKPOINT_2026-09-13.md`. It distinguishes actual warehouse creation and local task execution from still-unconnected cloud application layers.
 
 Current implementation handoff: `docs/LOCAL_WORKSPACE.md` (2026-09-13). The human resumed work with "FOLLOW THE INSTRUCTIONS AND WORK". SmartGlasses remains the provisional online-first focus; the local workspace is not proof of completed D0/H1, approved commerce, tested integrations or revenue. Use the handoff's known gaps before relying on the new implementation.
