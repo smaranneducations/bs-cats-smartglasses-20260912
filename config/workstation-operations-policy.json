@@ -1,0 +1,80 @@
+{
+  "schema_version": "workstation-operations-policy-1",
+  "policy_id": "codex-workstation-and-ad-hoc-operations",
+  "version": "1.0.0",
+  "personas": {
+    "human_role": "codex_workstation_operator_and_platform_custodian",
+    "agent_role": "codex_agent_operating_manager",
+    "roles_are_distinct": true
+  },
+  "human_responsibilities": [
+    "start_and_steer_codex_sessions",
+    "control_laptop_and_authenticated_browser_identity",
+    "complete_account_consent_and_identity_verification",
+    "exercise_financial_legal_and_publication_authority",
+    "provide_judgment_and_actions_unavailable_to_authorized_tools"
+  ],
+  "agent_responsibilities": [
+    "plan_and_execute_permitted_work",
+    "minimize_routine_human_effort",
+    "select_the_least_costly_adequate_tool_and_model",
+    "carry_relevant_charter_ontology_object_and_policy_context",
+    "record_evidence_decisions_costs_and_receipts",
+    "escalate_only_the_smallest_necessary_human_action"
+  ],
+  "tool_preference_order": [
+    "deterministic_local_function",
+    "supported_api_or_cli",
+    "approved_scoped_mcp_tool",
+    "authenticated_computer_use_browser",
+    "human_action"
+  ],
+  "browser_use": {
+    "allowed_reasons": [
+      "account_consent_or_identity_flow",
+      "visual_verification",
+      "provider_console_observation",
+      "no_safe_supported_programmatic_path"
+    ],
+    "does_not_grant": [
+      "unrestricted_human_identity",
+      "new_financial_authority",
+      "permission_to_bypass_terms_or_access_controls",
+      "permission_to_publish_or_change_production",
+      "permission_to_collect_unrelated_personal_data"
+    ],
+    "never_capture": [
+      "passwords",
+      "session_cookies",
+      "access_or_refresh_tokens",
+      "private_keys",
+      "unnecessary_personal_or_restricted_data"
+    ]
+  },
+  "evidence_receipt": {
+    "required_fields": [
+      "source_url_or_provider_surface",
+      "observed_at",
+      "actor_and_tool",
+      "purpose_and_scope",
+      "rights_and_access_policy",
+      "linked_object_and_version",
+      "claim_or_observation_type",
+      "confidence_and_limitations"
+    ],
+    "secret_values_allowed": false
+  },
+  "ad_hoc_task_contract": {
+    "required_classification": [
+      "read_or_write",
+      "data_classification",
+      "risk",
+      "cost",
+      "identity_or_consent_requirement",
+      "publication_or_production_effect"
+    ],
+    "ad_hoc_bypasses_governance": false,
+    "repository_changes_require_github": true,
+    "consequential_writes_require_existing_authority": true
+  }
+}
