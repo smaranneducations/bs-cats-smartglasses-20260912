@@ -481,6 +481,34 @@ The current baseline is 187 passing tests. One non-failing fixture warning is do
 | Canonical content | [Content and distribution](docs/CANONICAL_CONTENT_DISTRIBUTION.md) |
 | Media rights | [Media catalog and generation](docs/MEDIA_CATALOG_AND_GENERATION.md) |
 | Release truth | [Release readiness](docs/V1_RELEASE_READINESS.md) |
+| Strategic leverage | [Innovation and atomic context](docs/STRATEGIC_INNOVATION_AND_CONTEXT.md) |
+
+---
+
+## Strategic leverage and future products
+
+The ontology and context layer can support products beyond the first publication. The operating manager continuously observes these opportunities, but each remains a bounded hypothesis until evidence, rights, security, cost and demand gates pass.
+
+| Opportunity | Lowest-cost first step | Promotion evidence |
+|---|---|---|
+| MCP intelligence service | Read-only tools over approved objects, definitions and comparisons | Authorized demand, safe redaction, bounded latency and positive support economics |
+| Specialist smart-glasses assistant | Retrieval over governed knowledge with evaluation cases | Measured advantage over generic search and acceptable cost per accepted answer |
+| Specialized model | Curate a rights-cleared corpus and compare against retrieval first | Statistically useful quality gain, privacy clearance and positive unit economics |
+| ChatGPT, Claude or Gemini adapter | Thin provider-specific interface over the same semantic tools | Supported platform path, policy compliance and validated customer need |
+| Customer-funded video generation | Customer selects and funds an approved model tier | Transparent total cost, accepted output, scoped credentials and positive platform margin |
+| Premium advertisement service | Assemble approved short-form primitives into a coherent campaign | Verified commercial traction, customer payment, exact creative approval and separate budget |
+
+The current canonical media unit remains 30 to 90 seconds. A future three-minute premium advertisement may stitch approved short-form scenes into a new exact artifact, but it does not silently replace the current format. The suggested trigger is more than USD 500 in verified collected revenue, followed by an explicit financing decision. A future reward or additional budget has no authorized amount until the financial owner confirms it.
+
+### Atomic context as the platform's nerve
+
+Every useful value should be able to answer: what does it mean, where did it come from, when was it observed, which variant and market does it describe, how confident are we, what are its rights and privacy limits, which rule produced it, and which outputs depend on it?
+
+That context travels through one bounded envelope from source to cell, object, analysis, agent task, story, publication and metric. An MCP tool, assistant, form or API therefore uses the same meaning instead of independently guessing from a raw column name.
+
+### Feedback becomes governed intelligence
+
+Each substantive steer is classified and propagated to every affected canonical surface: README, charter, machine policy, ontology or schema, requirements and evaluations, agent/workflow instructions, implementation and release documentation. One canonical rule is linked from other surfaces to prevent drift. Feedback improves organizational memory only after its scope, authority, cost and regression impact are understood.
 
 ---
 

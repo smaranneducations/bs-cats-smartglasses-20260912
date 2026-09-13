@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/bs-cats/context-envelope.schema.json",
+  "title": "BS CATS atomic context envelope",
+  "description": "Portable minimum context for a governed value, object, task or derived output.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "context_version",
+    "domain",
+    "object",
+    "concept",
+    "provenance",
+    "assurance",
+    "policy",
+    "lineage",
+    "context_hash"
+  ],
+  "properties": {
+    "context_version": {"type": "string", "const": "context-envelope-1"},
+    "domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["domain_id", "domain_version"],
+      "properties": {
+        "domain_id": {"type": "string", "minLength": 1},
+        "domain_version": {"type": "integer", "minimum": 1}
+      }
+    },
+    "object": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["object_id", "object_type", "object_version", "field_path"],
+      "properties": {
+        "object_id": {"type": "string", "minLength": 1},
+        "object_type": {"type": "string", "minLength": 1},
+        "object_version": {"type": "integer", "minimum": 1},
+        "field_path": {"type": "string", "minLength": 1}
+      }
+    },
+    "concept": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept_id", "definition_version"],
+      "properties": {
+        "concept_id": {"type": "string", "minLength": 1},
+        "definition_version": {"type": "integer", "minimum": 1},
+        "unit": {"type": ["string", "null"]},
+        "measurement_regime": {"type": ["string", "null"]}
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant_id": {"type": ["string", "null"]},
+        "market": {"type": ["string", "null"]},
+        "jurisdiction": {"type": ["string", "null"]},
+        "valid_from": {"type": ["string", "null"], "format": "date-time"},
+        "valid_until": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["assertion_id", "assertion_version", "source_id", "observed_at"],
+      "properties": {
+        "assertion_id": {"type": "string", "minLength": 1},
+        "assertion_version": {"type": "integer", "minimum": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "observed_at": {"type": "string", "format": "date-time"},
+        "actor_id": {"type": ["string", "null"]}
+      }
+    },
+    "assurance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "confidence_reason"],
+      "properties": {
+        "status": {"enum": ["verified", "supported", "unassessed", "disputed", "unknown"]},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "confidence_reason": {"type": "string", "minLength": 1},
+        "review_state": {"enum": ["not_required", "pending", "approved", "rejected", "stale"]}
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_version", "rights_state", "privacy_class"],
+      "properties": {
+        "policy_version": {"type": "string", "minLength": 1},
+        "rights_state": {"enum": ["permitted", "conditional", "unknown", "denied"]},
+        "privacy_class": {"enum": ["public", "internal", "confidential", "restricted"]},
+        "publishable": {"type": "boolean"}
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_versions", "derivation_id", "affected_output_ids"],
+      "properties": {
+        "input_versions": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "derivation_id": {"type": ["string", "null"]},
+        "affected_output_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {"type": "string"},
+        "workflow_id": {"type": "string"},
+        "charter_version": {"type": "string"},
+        "idempotency_key": {"type": "string"}
+      }
+    },
+    "context_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}
