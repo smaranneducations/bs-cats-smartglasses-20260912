@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: "24"
       - name: Test audience states and feedback acknowledgements
-        run: node --test tests/test_public_feed.cjs
+        run: node --test tests/test_*.cjs
       - name: Install contract dependencies
         run: |
           python -m pip install -r packages/contracts/requirements.txt
