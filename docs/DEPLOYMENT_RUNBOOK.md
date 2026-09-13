@@ -1,6 +1,6 @@
 # Deployment runbook
 
-Status: prepared but blocked for production activation.
+Status: Firestore cutover implementation prepared; production activation still requires successful migration, deployment receipts and acceptance checks.
 
 ## Preconditions
 
@@ -23,6 +23,14 @@ Status: prepared but blocked for production activation.
 docker build -f services/api/Dockerfile -t bs-cats-api:VERSION .
 ```
 
+Preview the allowlisted local history migration without cloud writes:
+
+```bash
+.venv/bin/python scripts/migrate_local_store_to_firestore.py
+```
+
+The production migration requires the explicit `--execute` flag, authenticated local CLI identity and a bounded operation budget. It rejects credentials, non-allowlisted object types, non-contiguous history and divergence from an existing production version. The application selects Firestore only when `OBJECT_STORE_BACKEND=firestore` and separately requires `FIRESTORE_OPERATIONS_ENABLED=1`.
+
 The container build requires repository-root context because the service consumes shared packages, browser applications, assets, configuration, and architecture documentation.
 
 ## Intended deployment
@@ -37,4 +45,4 @@ Cloud Run rolls back by routing traffic to the last known-good immutable revisio
 
 ## Current decision
 
-Do not execute production deployment from this snapshot. The release-readiness report documents unresolved persistence, credential, cost, media-rights, and approval gates. Completing build files does not satisfy those gates.
+Execute only the bounded issue #3 cutover requested by the financial owner: allowlisted application-data migration, one minimum-zero/maximum-two Cloud Run API, Firebase Hosting, authenticated acceptance checks and receipts. This does not authorize content publication, paid promotion, provider uploads or removal of unrelated release blockers.

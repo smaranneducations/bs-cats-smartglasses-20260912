@@ -118,6 +118,10 @@ def _admin_allowlist():
         role = item.get("role", "reviewer")
         if item.get("enabled", True) and email and role in {"editor", "reviewer"}:
             result[email] = role
+    for email in os.getenv("ADMIN_EMAIL_ALLOWLIST", "").split(","):
+        normalized = email.strip().lower()
+        if normalized and "@" in normalized:
+            result[normalized] = "reviewer"
     return result
 
 
@@ -174,6 +178,9 @@ def _firebase_principal(authorization):
 
 
 def get_store():
+    if os.getenv("OBJECT_STORE_BACKEND", "local").lower() == "firestore":
+        from packages.cloud.firestore_store import production_store
+        return production_store()
     path = Path(os.getenv("OBJECT_STORE_PATH", str(PROJECT_ROOT / ".local/object-events.jsonl"))).expanduser()
     return LocalObjectStore(path if path.is_absolute() else PROJECT_ROOT / path)
 
@@ -293,7 +300,7 @@ def discover():
 
 @app.get("/health")
 def health():
-    return {"status": "healthy", "object_store": "sqlite", "version": "0.3.0"}
+    return {"status": "healthy", "object_store": os.getenv("OBJECT_STORE_BACKEND", "local"), "version": "0.4.0"}
 
 
 @app.get("/v1/session")

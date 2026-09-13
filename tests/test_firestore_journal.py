@@ -2,10 +2,12 @@ from copy import deepcopy
 import unittest
 
 from packages.cloud.firestore_journal import FirestoreJournal, RequestConflict, VersionConflict
+from packages.cloud.firestore_store import FirestoreObjectStore
 from packages.cloud.firestore_transport import (
     AmbiguousCommit, CloudAdmissionDenied, FirestoreTransport, TransactionAborted,
     decode_value, document_data, encode_value,
 )
+from packages.contracts.object import ActorType, CurationPatch, UniversalObject
 
 
 class MemoryTransport:
@@ -23,6 +25,18 @@ class MemoryTransport:
             return {}
         if action == "batchGet":
             return [{"found": deepcopy(self.documents[name])} if name in self.documents else {"missing": name} for name in body["documents"]]
+        if action == "runQuery":
+            query = body["structuredQuery"]
+            collection = query["from"][0]["collectionId"]
+            documents = [deepcopy(value) for name, value in self.documents.items()
+                         if f"/{collection}/" in name]
+            field_filter = query.get("where", {}).get("fieldFilter")
+            if field_filter:
+                expected = field_filter["value"]["stringValue"]
+                documents = [document for document in documents
+                             if document_data(document).get(field_filter["field"]["fieldPath"]) == expected]
+            documents.sort(key=lambda document: document_data(document).get("version", 0))
+            return [{"document": document} for document in documents[:query["limit"]]]
         if action != "commit":
             raise AssertionError("Unexpected transport operation")
         if self.mode == "aborted":
@@ -87,6 +101,8 @@ class FirestoreJournalTests(unittest.TestCase):
         self.assertEqual(self.journal.get("task_example")["version"], 2)
         versions = [document_data(value)["version"] for key, value in self.transport.documents.items() if "/governed_object_versions/" in key]
         self.assertEqual(sorted(versions), [1, 2])
+        self.assertEqual([item["snapshot"]["version"] for item in self.journal.history("task_example")], [1, 2])
+        self.assertEqual(len(self.journal.list_current()), 1)
 
     def test_domain_validator_must_explicitly_authorize(self):
         self.journal = FirestoreJournal(lambda *args: None, self.transport)
@@ -150,6 +166,24 @@ class FirestoreJournalTests(unittest.TestCase):
             with self.subTest(value=value):
                 with self.assertRaises(ValueError):
                     encode_value(value)
+
+    def test_cloud_store_matches_capture_curate_read_and_history_contract(self):
+        store = FirestoreObjectStore(self.transport)
+        item = UniversalObject(object_id="market_example", object_type="market_observation",
+            title="Fixture observation", purpose="Exercise the cloud store contract.",
+            payload={"summary": "Fixture only."})
+        captured = store.capture(item, actor_id="test-agent", actor_type=ActorType.agent,
+                                 idempotency_key="capture-market-example")
+        replay = store.capture(item, actor_id="test-agent", actor_type=ActorType.agent,
+                               idempotency_key="capture-market-example")
+        self.assertEqual(captured.model_dump(), replay.model_dump())
+        curated = store.curate(item.object_id, CurationPatch(title="Updated fixture"),
+                               actor_id="test-agent", actor_type=ActorType.agent,
+                               expected_version=1, idempotency_key="curate-market-example")
+        self.assertEqual(curated.version, 2)
+        self.assertEqual(store.get(item.object_id).title, "Updated fixture")
+        self.assertEqual(len(store.list_objects(object_type="market_observation")), 1)
+        self.assertEqual([record.snapshot.version for record in store.history(item.object_id)], [1, 2])
 
 
 if __name__ == "__main__":
