@@ -24,6 +24,7 @@ API_ROOT = "https://gmail.googleapis.com/gmail/v1/users/me"
 TOKEN_URI = "https://oauth2.googleapis.com/token"
 TRACKING_KEYS = {"gclid", "fbclid", "mc_cid", "mc_eid", "ref", "source"}
 BLOCKED_HOST_SUFFIXES = ("google.com", "googleusercontent.com", "gstatic.com", "youtube.com", "youtu.be")
+GMAIL_READONLY_SCOPE = "https://www.googleapis.com/auth/gmail.readonly"
 
 
 class GmailAlertError(RuntimeError):
@@ -76,7 +77,7 @@ class GmailClient:
         self.client_secret = client_secret
         self.max_bytes = max_bytes
         self.token = json.loads(self.token_path.read_text(encoding="utf-8"))
-        if self.token.get("scope") != "https://www.googleapis.com/auth/gmail.readonly":
+        if set(str(self.token.get("scope", "")).split()) != {GMAIL_READONLY_SCOPE}:
             raise GmailAlertError("Stored Gmail token does not have the exact read-only scope.")
 
     def access_token(self) -> str:
@@ -91,6 +92,9 @@ class GmailClient:
         })
         if not refreshed.get("access_token"):
             raise GmailAlertError("Google did not return a refreshed Gmail access token.")
+        refreshed_scopes = set(str(refreshed.get("scope", self.token["scope"])).split())
+        if refreshed_scopes != {GMAIL_READONLY_SCOPE}:
+            raise GmailAlertError("Google refreshed an over-privileged token; Gmail ingestion remains blocked.")
         self.token["access_token"] = refreshed["access_token"]
         self.token["expires_in"] = int(refreshed.get("expires_in", 3600))
         self.token["obtained_at"] = time.time()
@@ -173,6 +177,40 @@ def extract_links(message: dict) -> list[str]:
     return sorted(links)
 
 
+def diagnose_delivery(client: GmailClient, workflow: dict, query: str) -> dict:
+    """Return aggregate visibility counts without reading or retaining message bodies."""
+    sender = workflow["source"]["alert_sender"]
+    checks = [
+        ("configured_topic_inbox", query, False),
+        ("configured_topic_all_mail", query, True),
+        ("google_alert_sender_all_mail", f"from:{sender}", True),
+    ]
+    counts = {}
+    for check_id, check_query, include_spam_trash in checks:
+        response = client.get("messages", {
+            "q": check_query,
+            "maxResults": 1,
+            "includeSpamTrash": str(include_spam_trash).lower(),
+            "fields": "resultSizeEstimate",
+        })
+        counts[check_id] = max(0, int(response.get("resultSizeEstimate", 0)))
+    if counts["configured_topic_inbox"]:
+        state = "matching_alert_visible"
+    elif counts["configured_topic_all_mail"]:
+        state = "matching_alert_only_in_spam_or_trash"
+    elif counts["google_alert_sender_all_mail"]:
+        state = "google_alerts_exist_but_topic_query_does_not_match"
+    else:
+        state = "no_google_alert_email_visible"
+    return {
+        "status": "completed",
+        "state": state,
+        "aggregate_counts": counts,
+        "message_ids_retained": 0,
+        "message_bodies_read": 0,
+    }
+
+
 def _connect(path: Path):
     path.parent.mkdir(parents=True, exist_ok=True)
     os.chmod(path.parent, 0o700)
@@ -211,8 +249,75 @@ def _connect(path: Path):
             links_seen INTEGER NOT NULL,
             articles_new INTEGER NOT NULL
         );
+        CREATE TABLE IF NOT EXISTS discovery_outbox(
+            object_id TEXT PRIMARY KEY,
+            url_hash TEXT NOT NULL UNIQUE,
+            created_at TEXT NOT NULL,
+            state TEXT NOT NULL CHECK(state IN ('pending','delivered')),
+            attempts INTEGER NOT NULL DEFAULT 0,
+            FOREIGN KEY(url_hash) REFERENCES articles(url_hash)
+        );
     """)
     return connection
+
+
+def _news_discovery_object(workflow: dict, url_hash: str, url: str, host: str, alerted_at: str) -> UniversalObject:
+    observed_at = datetime.fromisoformat(alerted_at.replace("Z", "+00:00"))
+    source = SourceReference(
+        source_id="alert_" + url_hash[:24], uri=url, captured_at=observed_at,
+        notes="Discovered through Google Alerts; the original article is not yet admitted as evidence.",
+    )
+    return UniversalObject(
+        object_id="news_discovery_" + url_hash[:32], object_type="news_discovery_item",
+        domain=workflow["domain"], title=("News discovery from " + host)[:240],
+        purpose="Keep a deduplicated world-event lead separate from product facts until source and event review pass.",
+        sources=[source],
+        payload={
+            "summary": "A Google Alert identified a possible domain news source; no article claim has been accepted.",
+            "article_url": url,
+            "source_host": host,
+            "first_alerted_at": alerted_at,
+            "discovery_channel": "google_alert_email",
+            "evidence_state": "discovery_only",
+            "event_state": "unclustered",
+            "video_eligibility": "blocked_pending_source_admission",
+        },
+        metadata={
+            "workflow_id": workflow["workflow_id"],
+            "context_type_candidate": "industry_event",
+            "human_review_required": False,
+            "publication_allowed": False,
+        },
+    )
+
+
+def _deliver_discovery_outbox(connection, store, workflow: dict, limit: int = 100) -> list[str]:
+    rows = connection.execute(
+        """SELECT o.object_id,a.url_hash,a.canonical_url,a.source_host,a.first_alerted_at
+           FROM discovery_outbox o JOIN articles a ON a.url_hash=o.url_hash
+           WHERE o.state='pending' ORDER BY o.created_at,o.object_id LIMIT ?""", (limit,),
+    ).fetchall()
+    delivered = []
+    for object_id, url_hash, url, host, alerted_at in rows:
+        item = _news_discovery_object(workflow, url_hash, url, host, alerted_at)
+        try:
+            store.capture(
+                item, actor_id="agent:gmail-alert-ingest", actor_type=ActorType.agent,
+                idempotency_key="capture-" + object_id,
+                request_input={"object_id": object_id, "url_hash": url_hash},
+            )
+        except Exception:
+            connection.execute(
+                "UPDATE discovery_outbox SET attempts=attempts+1 WHERE object_id=?", (object_id,),
+            )
+            connection.commit()
+            raise
+        connection.execute(
+            "UPDATE discovery_outbox SET state='delivered',attempts=attempts+1 WHERE object_id=?", (object_id,),
+        )
+        connection.commit()
+        delivered.append(object_id)
+    return delivered
 
 
 def ingest(client: GmailClient, store, workflow: dict, database_path: Path, query: str, now: datetime | None = None) -> dict:
@@ -260,11 +365,16 @@ def ingest(client: GmailClient, store, workflow: dict, database_path: Path, quer
                                        (url_hash, url, host, observed_at.isoformat(), observed_at.isoformat()))
                     articles_new += 1
                     new_urls.append(url)
+                    connection.execute(
+                        "INSERT OR IGNORE INTO discovery_outbox(object_id,url_hash,created_at,state) VALUES(?,?,?,'pending')",
+                        ("news_discovery_" + url_hash[:32], url_hash, observed_at.isoformat()),
+                    )
                 connection.execute("INSERT OR IGNORE INTO article_alerts VALUES(?,?,?)",
                                    (url_hash, message_id, observed_at.isoformat()))
         connection.execute("INSERT INTO runs VALUES(?,?,?,?,?,?)",
                            (run_id, observed_at.isoformat(), len(message_refs), messages_new, links_seen, articles_new))
         connection.commit()
+        news_discovery_item_ids = _deliver_discovery_outbox(connection, store, workflow)
     except Exception:
         connection.rollback()
         raise
@@ -296,10 +406,17 @@ def ingest(client: GmailClient, store, workflow: dict, database_path: Path, quer
     )
     store.capture(observation, actor_id="agent:gmail-alert-ingest", actor_type=ActorType.agent,
                   idempotency_key="capture-" + object_id,
-                  request_input={"run_id": run_id, "message_ids": sorted(ref.get("id", "") for ref in message_refs)})
+        request_input={
+            "run_id": run_id,
+            "message_fingerprints": sorted(
+                hashlib.sha256(str(ref.get("id", "")).encode()).hexdigest()[:24] for ref in message_refs
+            ),
+        })
     return {
         "status": "completed", "run_id": run_id, "messages_seen": len(message_refs),
         "messages_new": messages_new, "links_seen": links_seen, "articles_new": articles_new,
         "new_article_urls": new_urls[:10], "market_observation_id": object_id,
+        "news_discovery_item_ids": news_discovery_item_ids,
+        "news_video_eligibility": "blocked_pending_source_admission_and_event_clustering",
         "human_approvals_created": 0, "paid_model_calls": 0,
     }

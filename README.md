@@ -585,6 +585,12 @@ Vivid pictures, music and kinetic type cannot rescue a generic idea. A task-scop
 
 A candidate fails even with a high score when it could survive a product-name swap, lists specifications without impact, hides caveats, repeats decorative visuals, uses clickbait or lacks a defensible differentiator. The governing contract is [Story quality system](docs/STORY_QUALITY_SYSTEM.md).
 
+### World-events intelligence is a separate dataset
+
+Google Alerts, approved feeds and bounded research produce deduplicated `news_discovery_item` leads, not product facts. The original source must pass access, rights, credibility and freshness checks before related coverage can become a dated `industry_event`. Only an admitted event can supply claims to a current-event infographic or video, and it then follows the same story-quality, media-rights and exact-publication gates as other content.
+
+Email is one low-cost adapter rather than a dependency. Aggregate Gmail diagnostics distinguish absent delivery, spam/trash placement and topic-query mismatch without reading unrelated personal mail. Approved direct sources can later emit the same discovery contract, preserving continuity when Google Alerts is quiet.
+
 ---
 
 ## Read deeper
