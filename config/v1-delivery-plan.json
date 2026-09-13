@@ -1,0 +1,102 @@
+{
+  "version": "1.0",
+  "effective_date": "2026-09-13",
+  "objective": "A deployed, governed first working vertical, not a demo or a promise of income.",
+  "objective_weights": {
+    "reusable_asset": 0.5,
+    "sustainable_earning_potential": 0.5
+  },
+  "delivery_policy": "Use the full blueprint and later human corrections. Work through concrete acceptance checks; report unverified integrations honestly.",
+  "cloud": {
+    "project": "bs-cats-smartglasses-20260912",
+    "dataset": "smart_glasses_core",
+    "dataset_location": "US",
+    "firestore_location": "us-central1",
+    "asset_bucket": "bs-cats-smartglasses-20260912-assets",
+    "existing_cloud_run_services_observed": 0
+  },
+  "financial_gate": {
+    "cumulative_ceiling_usd": 500,
+    "owner_reported_subscription_usd": 80,
+    "other_costs_reconciled": false,
+    "paid_jobs_enabled": false
+  },
+  "tasks": [
+    {
+      "id": "V1-01",
+      "area": "Warehouse and provenance",
+      "acceptance": "Additive schemas, explicit projection, bounded authenticated data read/write path and verified loaded records.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-02",
+      "area": "Firestore workflow and identity",
+      "acceptance": "Durable versioned objects, tasks, proposals, decisions and concurrency control; Firebase identity with scoped roles.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-03",
+      "area": "Semantic tools and ontology",
+      "acceptance": "Definitions, synonyms, rules, source-linked assertions, recorded-as-of queries and reviewed ontology proposals.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-04",
+      "area": "Bounded agent runtime",
+      "acceptance": "Governor, custodian, validator, population and discovery roles execute typed tasks with context, budgets and permissions.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-05",
+      "area": "Feedback-driven execution",
+      "acceptance": "Sanitized feedback changes a scoped retrieved policy, passes evaluations and invalidates affected outputs; unsafe promotion is rejected.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-06",
+      "area": "Lawful data and product experience",
+      "acceptance": "Maintainable catalogue, governed acquisition, generated review forms, comparisons, evidence and confidence explanations.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-07",
+      "area": "Image-led content engine",
+      "acceptance": "Distinct workflow families reuse visual primitives and authorised colourful imagery with background music, not mechanical narration.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-08",
+      "area": "Exact-artifact review",
+      "acceptance": "Final MP4 plus metadata/thumbnail hashes, source and rights gates, structured review reasons and stale-approval invalidation.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-09",
+      "area": "Distribution and commercial measurement",
+      "acceptance": "Supported first-channel adapter or explicit manual fallback, post IDs, metrics and honest online revenue-path experiments.",
+      "status": "incomplete",
+      "verified_evidence": []
+    },
+    {
+      "id": "V1-10",
+      "area": "Deployment and operating proof",
+      "acceptance": "Working cloud backend and Firebase frontend, CI, bounded jobs, observability, costs, security and end-to-end acceptance evidence.",
+      "status": "incomplete",
+      "verified_evidence": []
+    }
+  ],
+  "exceptions": [
+    "Secrets remain local unless a specific production credential-storage boundary is resolved.",
+    "No rights, factual, publication or financial approval is inferred from autonomy.",
+    "Later human creative and online-business corrections supersede contradictory earlier defaults.",
+    "Media quality and factual quality are distinct gates; neither is replaced by test counts."
+  ]
+}

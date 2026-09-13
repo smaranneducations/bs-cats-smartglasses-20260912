@@ -1,0 +1,137 @@
+{
+  "schema_version": "commons-context-receipt-1",
+  "observed_at": "2026-09-13T05:56:18.361111+00:00",
+  "title": "File:Snowy Rocky Mountains in Banff 9.jpg",
+  "page_id": 92391919,
+  "page_revision": 731349323,
+  "source_permalink": "https://commons.wikimedia.org/w/index.php?curid=92391919&oldid=731349323",
+  "api_uri": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Cinfo&titles=File%3ACoastal+landscape+at+sunset+in+Rio+de+Janeiro%2C+Brazil.jpg%7CFile%3ASnowy+Rocky+Mountains+in+Banff+9.jpg%7CFile%3ASunset+over+the+horizon+1.jpg&iiprop=url%7Csize%7Csha1%7Cextmetadata&iiurlwidth=1920&maxlag=5",
+  "creator": "Rschroeder1985",
+  "source_credit": "Own work",
+  "license": "CC0-1.0",
+  "license_uri": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "download_uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg/1920px-Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "width": 1920,
+  "height": 1440,
+  "asset_uri": "assets/media/commons/92391919-731349323-a20f41842107/context.jpg",
+  "sha256": "a20f41842107a0debdddcb55ba3f5db4d6124def3c2a687dccffcdbc80a7f9ed",
+  "evidence_metadata_sha256": "2d2d3a3f34f9d37036e298bf7430f30551cc242aad61155f165363afe1f40cba",
+  "evidence_metadata": {
+    "pageid": 92391919,
+    "ns": 6,
+    "title": "File:Snowy Rocky Mountains in Banff 9.jpg",
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 3000478,
+        "width": 3264,
+        "height": 2448,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg/1920px-Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 1920,
+        "thumbheight": 1440,
+        "responsiveUrls": {
+          "2": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg/1920px-Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 1920,
+          "height": 1440,
+          "srcset": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/Snowy_Rocky_Mountains_in_Banff_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Snowy_Rocky_Mountains_in_Banff_9.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=92391919",
+        "sha1": "3534e3c73acf01b9860a29fc506bd834715e4b9a",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2020-07-19 15:35:42",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Snowy Rocky Mountains in Banff 9",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "CC-Zero|Banff National Park|Banff, Alberta|Self-published work",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "Views from snowshoeing across the Rocky Mountains in Banff.",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2018-04-27 13:52:07",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Rschroeder1985&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Rschroeder1985 (page does not exist)\">Rschroeder1985</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Zero, Public Domain Dedication",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "false",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ],
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-05-21T16:33:27Z",
+    "lastrevid": 731349323,
+    "length": 345
+  },
+  "representation_detail": "context_photograph",
+  "visual_risk_review": "pending",
+  "not_product_photography": true,
+  "not_camera_sample": true,
+  "publication_approval": false
+}

@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "updated_on": "2026-09-12",
+  "scope": "Development recommendations. Production API routing and enforcement are not implemented by this file.",
+  "evidence": "Initial task-fit hypotheses using app-listed models and official guidance; no project quality or cost benchmark collected yet.",
+  "tiers": {
+    "economy": {"models": ["gpt-5.6-luna"], "reasoning_effort": "medium", "max_output_tokens": 3000, "max_tool_calls": 12},
+    "balanced": {"models": ["gpt-5.6-terra"], "reasoning_effort": "medium", "max_output_tokens": 6000, "max_tool_calls": 25},
+    "review": {"models": ["gpt-5.6-sol"], "reasoning_effort": "high", "max_output_tokens": 6000, "max_tool_calls": 25},
+    "complex": {"models": ["gpt-6-astra"], "reasoning_effort": "high", "max_output_tokens": 8000, "max_tool_calls": 35}
+  },
+  "tier_order": ["economy", "balanced", "review", "complex"],
+  "task_tiers": {
+    "deterministic": "deterministic",
+    "documentation": "economy",
+    "classification": "economy",
+    "structured_extraction": "economy",
+    "feature": "balanced",
+    "integration": "balanced",
+    "script_draft": "balanced",
+    "claim_review": "review",
+    "security": "review",
+    "publishing_controls": "review",
+    "cost_governance": "review",
+    "architecture": "complex",
+    "hard_debugging": "complex"
+  },
+  "risk_floors": {"low": "economy", "medium": "balanced", "high": "review", "critical": "complex"},
+  "limits": {
+    "max_attempts_per_task": 3,
+    "escalate_after_failed_attempts": 2,
+    "max_parallel_workers": 2,
+    "default_parallel_workers": 1,
+    "low_usage_remaining_percent": 10
+  },
+  "runtime_spending": {
+    "new_recurring_paid_jobs_enabled": false,
+    "experiment_budget_file": "config/experiment-budget.json",
+    "approved_cumulative_experiment_amount": 500,
+    "approved_monthly_amount": null,
+    "internal_daily_variable_cost_limit": 5,
+    "internal_per_job_variable_cost_limit": 2,
+    "currency": "USD",
+    "price_table_verified_on": null,
+    "ledger_enforced": false,
+    "provider_caps_verified": false,
+    "note": "The owner authorized a cumulative $500 experiment including the reported $80 subscription. This is not a monthly allowance. Jobs remain unarmed until charge reconciliation and runtime admissions exist. A policy flag cannot stop existing resources or direct provider calls."
+  },
+  "adviser": {
+    "automation_id": "smartglasses-model-and-cost-adviser",
+    "cadence": "daily, 09:00 in the app scheduling timezone",
+    "intended_timezone": "Europe/Zurich",
+    "checkpoint_triggers": ["task_family_change", "repeated_quality_failure", "material_usage_pressure"],
+    "notify_on": ["daily_founder_check_in", "material_model_change", "new_cost_risk", "completed_milestone", "necessary_owner_decision"],
+    "changes_current_conversation_model": false,
+    "makes_provider_api_calls": false
+  }
+}

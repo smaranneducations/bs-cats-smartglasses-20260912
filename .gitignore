@@ -16,6 +16,7 @@ __pycache__/
 .env.*
 !.env.template
 !.env.example
+.local/
 service-account*.json
 *credentials*.json
 *key*.json
@@ -39,16 +40,11 @@ terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
 # Local owner governance and operating state (never publish)
-/AGENTS.md
-/config/experiment-budget.json
-/config/model-routing.json
-/docs/AUTONOMOUS_DELIVERY_PLAN.md
-/docs/EXECUTION_STATUS.md
-/docs/EXPERIMENT_SCORECARD.md
-/docs/OWNER_WORKING_AGREEMENT.md
-/scripts/model_advisor.py
-/tests/test_model_advisor.py
+dist/
 # Local object-event data
 /.local/
 # Local Python environment
 /.venv/
+
+# Human-supplied consulting evidence is local input, not redistributable source.
+/Vehicle_Data_Project_Decision_Handoff.docx

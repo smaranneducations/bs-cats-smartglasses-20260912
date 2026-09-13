@@ -1,0 +1,17 @@
+{
+  "schema_version": "ontology-standards-profile-1",
+  "version": 1,
+  "storage_model": "versioned_json_objects",
+  "graph_database_required": false,
+  "standards": {
+    "skos": {"status": "pattern_adopted", "use": ["concept_scheme", "stable_concept_id", "labels", "broader", "narrower", "related", "mapping_relations"]},
+    "shacl": {"status": "compatible_direction", "use": ["separate_shapes", "deterministic_constraints", "immutable_validation_reports"]},
+    "prov_o": {"status": "pattern_adopted", "use": ["entity", "activity", "agent", "attribution", "derivation"]},
+    "dcat_3": {"status": "compatible_direction", "use": ["dataset_catalog", "distribution", "data_service", "version", "quality"]},
+    "odrl_2_2": {"status": "compatible_direction", "use": ["permission", "prohibition", "duty", "constraint", "asset", "party"]},
+    "json_ld_1_1": {"status": "planned_export", "use": ["linked_identifiers", "portable_json_serialization"]}
+  },
+  "semantic_states": ["unknown", "not_applicable", "not_observed", "conflicting", "withdrawn", "false", "supported"],
+  "change_classes": ["additive", "compatible_definition_revision", "breaking_semantic_change", "mapping_change", "constraint_change", "policy_change"],
+  "authority": "docs/ONTOLOGY_ARCHITECTURE.md"
+}

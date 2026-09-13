@@ -23,8 +23,9 @@ WIDTH = 1280
 HEIGHT = 720
 FPS = 24
 SAMPLE_RATE = 22_050
-DISPLAY_FONT = Path("/System/Library/Fonts/Avenir Next Condensed.ttc")
-MONO_FONT = Path("/System/Library/Fonts/Menlo.ttc")
+FONT_ROOT = PROJECT_ROOT / "assets" / "fonts" / "barlow-condensed"
+DISPLAY_FONT = FONT_ROOT / "BarlowCondensed-ExtraBold.ttf"
+MONO_FONT = FONT_ROOT / "BarlowCondensed-Medium.ttf"
 SAFE_ID = re.compile(r"^[a-z0-9][a-z0-9_-]{2,80}$")
 
 
@@ -126,8 +127,8 @@ def load_spec(path: Path) -> tuple[dict[str, Any], list[Beat]]:
         raise ValueError("The kinetic video needs at least one beat")
     beats = [parse_beat(item, index) for index, item in enumerate(raw_beats)]
     duration = sum(beat.duration for beat in beats)
-    if not 60 <= duration <= 120:
-        raise ValueError(f"Kinetic video duration must be 60-120 seconds, not {duration:.2f}")
+    if not 30 <= duration <= 90:
+        raise ValueError(f"Kinetic video duration must be 30-90 seconds, not {duration:.2f}")
     bpm = int(payload.get("bpm", 120))
     if not 80 <= bpm <= 150:
         raise ValueError("bpm must be between 80 and 150")

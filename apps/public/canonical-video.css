@@ -1,0 +1,37 @@
+.video-poster {
+  display: grid;
+  place-items: center;
+  padding: 76px 16px 116px;
+  background: radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--accent), transparent 20%), transparent 35rem), #09090d;
+}
+
+.video-poster video {
+  width: min(92vw, 430px);
+  max-height: 70svh;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  border-radius: 24px;
+  background: #000;
+  box-shadow: 0 26px 80px #000b;
+}
+
+.video-copy {
+  position: absolute;
+  left: 50%;
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  width: min(90vw, 560px);
+  transform: translateX(-50%);
+  padding: 16px 18px;
+  border: 1px solid #fff3;
+  border-radius: 18px;
+  background: #09090ddd;
+  backdrop-filter: blur(16px);
+}
+
+.video-copy p { margin: 7px 0 12px; }
+.video-title {
+  margin: 0;
+  font: 900 clamp(25px, 7vw, 42px) / .95 var(--display);
+  letter-spacing: -.035em;
+  text-transform: uppercase;
+}

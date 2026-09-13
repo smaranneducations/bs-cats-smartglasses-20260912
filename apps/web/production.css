@@ -1,0 +1,38 @@
+.production-player{padding:clamp(12px,2vw,24px)}
+.production-stage{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:16/9;min-height:360px;background:radial-gradient(ellipse at 86% 8%,#ffbb7745,transparent 56%),linear-gradient(132deg,#f8eedc,#eed8bc);color:#28221b;border:1px solid #cba985;border-radius:18px;padding:clamp(22px,4vw,52px);display:flex;flex-direction:column}
+.production-stage::before{content:"";position:absolute;z-index:-1;width:64%;aspect-ratio:1;right:-22%;top:4%;border:35px solid #d7512926;border-radius:50%;box-shadow:0 0 0 55px #d7512910}
+.production-stage::after{content:"";position:absolute;z-index:-1;inset:0;background:repeating-linear-gradient(0deg,transparent 0 38px,#5b46340a 38px 39px)}
+.production-stage.palette-1{background:radial-gradient(ellipse at 4% 12%,#b5d8cb77,transparent 55%),linear-gradient(132deg,#eff0dd,#d6e1d4);border-color:#b2bda6}
+.production-stage.palette-2{background:radial-gradient(ellipse at 85% 90%,#e8a17566,transparent 55%),linear-gradient(138deg,#f9e0c9,#f1c6a4);border-color:#cda184}
+.scene-watermark{font-size:9px;letter-spacing:.16em;font-weight:700;opacity:.75;margin-bottom:20px}
+.scene-kicker{text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:.17em;color:#8c351b}
+.scene-copy{position:relative;z-index:1;margin:auto 0;padding:20px 0 40px;max-width:92%;animation:scene-arrive .55s cubic-bezier(.16,1,.3,1) both}
+.scene-copy h2{font-family:"Avenir Next Condensed","Avenir Next",sans-serif;font-size:clamp(30px,3.6vw,58px);line-height:1.05;letter-spacing:-.025em;margin:0 0 20px}
+.scene-lines{max-height:340px;overflow:auto}
+.scene-lines p{font-family:"Avenir Next",sans-serif;font-size:clamp(17px,1.65vw,26px);line-height:1.4;margin:0 0 16px;animation:scene-arrive .65s .08s both}
+.scene-lines p:nth-child(2){animation-delay:.16s}
+.scene-number{position:absolute;right:30px;bottom:26px;font-family:"Avenir Next Condensed",sans-serif;font-size:140px;font-weight:800;line-height:1;opacity:.07}
+.scene-footer{position:absolute;bottom:18px;left:clamp(22px,4vw,52px);right:clamp(22px,4vw,52px);display:flex;justify-content:space-between;gap:18px;font-size:8px;letter-spacing:.07em}
+.primitive-comparison_table .scene-lines{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.primitive-comparison_table .scene-lines p{padding:18px;background:#ffffff6e;border:1px solid #756a3e29;border-radius:10px;font-size:clamp(16px,1.5vw,23px)}
+.primitive-uncertainty_card .scene-copy{border-left:5px solid #b34b2a;padding-left:22px}
+.production-stage.portrait{aspect-ratio:9/16;max-width:460px;min-height:650px;margin:auto}
+.production-stage.portrait .scene-copy{max-width:100%}
+.production-stage.portrait h2{font-size:36px}
+.production-stage.portrait .scene-lines p{font-size:21px}
+.production-stage.portrait .scene-lines{display:block;max-height:440px}
+.production-stage.portrait .scene-footer{font-size:7px}
+.production-controls{flex-wrap:wrap;margin-top:18px;align-items:center}
+#production-clock{font-variant-numeric:tabular-nums;font-size:13px;margin-left:auto}
+#production-progress{display:block;width:100%;height:7px;margin-top:18px;accent-color:#b84b2d}
+.production-notes{border-top:1px solid #d8c9b3;margin-top:24px;padding-top:18px;font-size:13px;overflow-wrap:anywhere}
+.production-notes li{margin-bottom:8px}
+.source-plan-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px;font-size:13px}
+.source-plan-meta dt{opacity:.7}.source-plan-meta dd{margin:0;overflow-wrap:anywhere}
+.plan-control-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto;gap:18px;align-items:end}
+.plan-control-grid label{display:grid;gap:8px;font-size:13px}
+.plan-control-grid select{max-width:100%;min-width:0}
+.production-divider{border:0;border-top:1px solid #d8c9b3;margin:40px 0}
+@keyframes scene-arrive{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.plan-control-grid{grid-template-columns:1fr}.production-stage{aspect-ratio:auto;min-height:430px;padding:22px}.production-stage.portrait{min-height:610px}.scene-copy{max-width:100%}.scene-copy h2{font-size:32px}.scene-lines p{font-size:18px}.primitive-comparison_table .scene-lines{grid-template-columns:1fr}.scene-footer{left:22px;right:22px}.scene-watermark{font-size:8px}.source-plan-meta{grid-template-columns:1fr}.production-controls button{flex:1}#production-clock{width:100%;text-align:right}}
+@media(prefers-reduced-motion:reduce){.scene-copy,.scene-lines p{animation:none}}

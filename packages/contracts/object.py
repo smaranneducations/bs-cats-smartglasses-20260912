@@ -20,7 +20,7 @@ def new_identifier(prefix: str) -> str:
 
 
 class StrictContract(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
 
 
 class ObjectStatus(str, Enum):
@@ -110,6 +110,7 @@ class CurationPatch(StrictContract):
     purpose: str | None = Field(default=None, min_length=1, max_length=1000)
     confidence: float | None = Field(default=None, ge=0, le=1)
     tags: list[str] | None = None
+    sources: list[SourceReference] | None = Field(default=None, max_length=40)
     payload: dict[str, Any] | None = None
     metadata: dict[str, Any] | None = None
 

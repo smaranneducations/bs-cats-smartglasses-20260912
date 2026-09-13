@@ -1,0 +1,54 @@
+{
+  "schema_version": "external-capability-registry-1",
+  "registry_version": 1,
+  "reviewed_at": "2026-09-13",
+  "policy": {
+    "default_state": "disabled",
+    "admission_rule": "Adopt only when the capability improves an accepted workflow without weakening evidence, rights, security, publication or spend gates.",
+    "data_rule": "Never send credentials, private object history or unpublished evidence to an external capability unless an explicit adapter contract and applicable authorization permit it."
+  },
+  "capabilities": [
+    {
+      "capability_id": "archify",
+      "label": "Archify",
+      "source_url": "https://github.com/tt-a1i/archify",
+      "license": "MIT",
+      "status": "integrated_local",
+      "decision": "adopt_now",
+      "purpose": "Generate deterministic, inspectable architecture, workflow, sequence, data-flow and lifecycle documentation from typed JSON.",
+      "integration": "User-level Codex skill plus checked-in typed diagram sources and generated HTML documentation. Network update checks are disabled by the project wrapper.",
+      "cost": "No provider charge for local generation; local compute only.",
+      "data_boundary": "Receives only the bounded architecture specification supplied to the local CLI. No secrets or private datasets.",
+      "operator_location": "Learn and improve / Capability integrations",
+      "next_gate": "Regenerate diagrams when a material architecture decision changes the typed source."
+    },
+    {
+      "capability_id": "open_seo",
+      "label": "OpenSEO",
+      "source_url": "https://github.com/every-app/open-seo",
+      "license": "MIT",
+      "status": "adapter_ready_disabled",
+      "decision": "adopt_workflow_not_stack",
+      "purpose": "Add keyword research, rank tracking, competitor, backlink, site-audit and AI-visibility signals to demand learning.",
+      "integration": "Map normalized outputs into market observations, feedback signals and commercial experiments behind the existing object contracts. Do not duplicate its full UI, auth or database stack.",
+      "cost": "Disabled because self-hosted data requires a paid DataForSEO key and per-request spend.",
+      "data_boundary": "Future adapter may send only a bounded public domain or keyword request; credentials stay in the local secret boundary and raw provider payloads are retained only when licensed.",
+      "operator_location": "Learn and improve / Capability integrations",
+      "next_gate": "Approve a small costed demand experiment only after the public site and measurable buyer question exist."
+    },
+    {
+      "capability_id": "minimind",
+      "label": "MiniMind",
+      "source_url": "https://github.com/jingyaogong/minimind",
+      "license": "Apache-2.0",
+      "status": "evaluation_deferred",
+      "decision": "preserve_adapter_contract",
+      "purpose": "Potential local, OpenAI-compatible economical model route for low-risk bounded classification or extraction tasks.",
+      "integration": "Use the existing model-routing boundary if a local MiniMind endpoint later passes task-specific quality, latency, privacy and total-cost evaluation. No model weights or training datasets are installed now.",
+      "cost": "Avoided now: model downloads, local inference latency and training/GPU cost are not justified by current evidence.",
+      "data_boundary": "No project data is sent to or used to train MiniMind. A future local endpoint receives only the minimum task payload allowed by its evaluated route.",
+      "operator_location": "Learn and improve / Capability integrations",
+      "next_gate": "Benchmark one low-risk task against the economical API route and require equal acceptance quality at lower total cost."
+    }
+  ]
+}

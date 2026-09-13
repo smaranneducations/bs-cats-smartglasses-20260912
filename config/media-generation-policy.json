@@ -1,0 +1,68 @@
+{
+  "version": "1.0",
+  "updated_at": "2026-09-13",
+  "catalog": {
+    "path": ".local/media-catalog/catalog.sqlite3",
+    "reuse_required_before_generation": true,
+    "minimum_match_score": 0.45,
+    "allowed_asset_roots": [
+      ".local/assets/kinetic",
+      "assets/media/commons",
+      "assets/media/generated"
+    ]
+  },
+  "generation": {
+    "provider": "Google Gemini Developer API",
+    "model": "gemini-2.5-flash-image",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent",
+    "response_modalities": ["TEXT", "IMAGE"],
+    "output_resolution": "1024px",
+    "images_per_request": 1,
+    "maximum_attempts": 1,
+    "automatic_retry": false,
+    "grounding_enabled": false,
+    "maximum_prompt_characters": 2000,
+    "maximum_response_bytes": 8388608
+  },
+  "pricing": {
+    "currency": "USD",
+    "observed_at": "2026-09-13",
+    "recheck_after": "2026-10-13",
+    "official_source": "https://ai.google.dev/gemini-api/docs/pricing",
+    "image_output_usd": 0.039,
+    "text_input_usd_per_million_tokens": 0.30,
+    "conservative_complete_request_estimate_usd": 0.05,
+    "hard_maximum_per_image_usd": 0.10,
+    "price_staleness_blocks_generation": true
+  },
+  "admission": {
+    "shared_experiment_budget_required": true,
+    "fresh_cost_reconciliation_required": true,
+    "provider_price_verification_required": true,
+    "ambiguous_result_is_billable_and_not_retried": true,
+    "publication_approval_granted": false
+  },
+  "representation": {
+    "default": "concept_illustration",
+    "exact_named_product_generation_allowed": false,
+    "logos_and_trademarks_allowed": false,
+    "firsthand_or_camera_sample_implication_allowed": false,
+    "required_prompt_constraints": [
+      "original conceptual illustration",
+      "no logos or trademarks",
+      "not an exact named product",
+      "no text embedded in the image"
+    ]
+  },
+  "lifecycle": [
+    "normalize_request",
+    "search_catalog",
+    "reuse_rights-compatible_match",
+    "search_lawful_acquisition_sources",
+    "recheck_catalog",
+    "admit_single_generation",
+    "catalog_generated_bytes_and_metadata",
+    "visual_and_rights_review_before_publication",
+    "record_usage_and_feedback"
+  ]
+}

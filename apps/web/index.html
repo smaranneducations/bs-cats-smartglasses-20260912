@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Opening Solo Operator</title>
+  <script>
+    const legacyToStage={overview:'domain',catalogue:'dataset',compare:'dataset',review:'release',sources:'research',content:'generate',learning:'learn',commerce:'release',definitions:'ontology'};
+    const legacy=location.hash.slice(1).split('/')[0];
+    location.replace('/operator#'+(legacyToStage[legacy]||'domain'));
+  </script>
+</head>
+<body>
+  <p>The administration workspace is now integrated into <a href="/operator">Solo Operator</a>.</p>
+</body>
+</html>

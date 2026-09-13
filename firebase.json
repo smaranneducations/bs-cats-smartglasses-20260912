@@ -5,5 +5,22 @@
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "hosting": {
+    "public": "dist/firebase",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+      {"source": "/v1/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
+      {"source": "/media-review/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
+      {"source": "/intelligence", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
+      {"source": "/intelligence/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1", "pinTag": true}},
+      {"source": "/operator", "destination": "/operator/index.html"},
+      {"source": "/operator/**", "destination": "/operator/index.html"},
+      {"source": "/discover", "destination": "/discover/index.html"},
+      {"source": "/discover/**", "destination": "/discover/index.html"},
+      {"source": "**", "destination": "/index.html"}
+    ]
   }
 }

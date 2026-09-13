@@ -25,9 +25,10 @@ from packages.contracts.content import VideoScene, VideoScript  # noqa: E402
 WIDTH = 1280
 HEIGHT = 720
 FPS = 24
-DISPLAY_FONT = Path("/System/Library/Fonts/NewYork.ttf")
-SANS_FONT = Path("/System/Library/Fonts/Avenir Next Condensed.ttc")
-MONO_FONT = Path("/System/Library/Fonts/Menlo.ttc")
+FONT_ROOT = PROJECT_ROOT / "assets" / "fonts" / "barlow-condensed"
+DISPLAY_FONT = FONT_ROOT / "BarlowCondensed-ExtraBold.ttf"
+SANS_FONT = FONT_ROOT / "BarlowCondensed-Medium.ttf"
+MONO_FONT = FONT_ROOT / "BarlowCondensed-Medium.ttf"
 PALETTES = [
     ("#F2E9D5", "#15242E", "#E95135", "#1D6F8A"),
     ("#DDE9F0", "#112532", "#E85D35", "#2C6E49"),

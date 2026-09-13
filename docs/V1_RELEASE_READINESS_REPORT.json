@@ -1,0 +1,26 @@
+{
+  "schema_version": "release-readiness-report-1",
+  "observed_at": "2026-09-13T13:29:07.725999+00:00",
+  "candidate_version": "1.0.0-rc.1",
+  "repository_candidate_ready": true,
+  "production_ready": false,
+  "missing_files": [],
+  "invalid_json": [],
+  "safety_checks": {
+    "env_ignored": true,
+    "local_ignored": true,
+    "github_change_control": true,
+    "production_claim_blocked": true
+  },
+  "production_blockers": [
+    "credential_rotation",
+    "cost_reconciliation",
+    "durable_firestore_cutover",
+    "cloud_run_deployment",
+    "firebase_hosting_deployment",
+    "approved_rights_cleared_media",
+    "provider_publication_receipt",
+    "production_metric_return",
+    "repository_license_decision"
+  ]
+}

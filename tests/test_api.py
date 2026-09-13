@@ -18,6 +18,12 @@ class ApiTests(unittest.TestCase):
             {
                 "ENVIRONMENT": "test",
                 "API_WRITE_TOKEN": "",
+                "API_REVIEW_TOKEN": "review-test-only",
+                "API_READ_TOKEN": "",
+                "API_AGENT_TOKEN": "",
+                "ALLOW_LOCAL_OPERATOR": "0",
+                "API_OPERATOR_ID": "founder",
+                "ALLOWED_HOSTS": "testserver,127.0.0.1,localhost",
                 "OBJECT_STORE_PATH": str(
                     Path(self.temporary_directory.name) / "events.jsonl"
                 ),
@@ -25,9 +31,10 @@ class ApiTests(unittest.TestCase):
         )
         self.environment.start()
         self.addCleanup(self.environment.stop)
-        self.client = TestClient(app)
+        self.client = TestClient(app, headers={"X-BS-CATS-Key": "review-test-only", "X-Workspace-Action": "1"})
+        self.addCleanup(self.client.close)
 
-    def test_capture_curate_review_api_flow(self):
+    def test_capture_curate_routine_monitoring_api_flow(self):
         capture = self.client.post(
             "/v1/objects",
             json={
@@ -44,6 +51,7 @@ class ApiTests(unittest.TestCase):
         curate = self.client.post(
             "/v1/objects/obj_api_flow/curate",
             json={
+                "expected_version": 1,
                 "patch": {
                     "confidence": 0.76,
                     "payload": {"summary": "Curated for review."},
@@ -55,20 +63,19 @@ class ApiTests(unittest.TestCase):
 
         review = self.client.post(
             "/v1/objects/obj_api_flow/review",
-            json={"decision": "approved", "reviewer_id": "founder"},
+            json={"decision": "approved", "reviewer_id": "founder", "expected_version": 2},
         )
-        self.assertEqual(review.status_code, 200)
-        self.assertEqual(review.json()["status"], "active")
+        self.assertEqual(review.status_code, 409)
 
         history = self.client.get("/v1/objects/obj_api_flow/history")
-        self.assertEqual([item["event"]["sequence"] for item in history.json()], [1, 2, 3])
+        self.assertEqual([item["event"]["sequence"] for item in history.json()], [1, 2])
 
     def test_production_api_requires_configured_token(self):
         with patch.dict(
             os.environ,
             {"ENVIRONMENT": "production", "API_WRITE_TOKEN": "test-secret"},
         ):
-            denied = self.client.get("/v1/objects")
+            denied = self.client.get("/v1/objects", headers={"X-BS-CATS-Key": ""})
             allowed = self.client.get(
                 "/v1/objects", headers={"X-BS-CATS-Key": "test-secret"}
             )

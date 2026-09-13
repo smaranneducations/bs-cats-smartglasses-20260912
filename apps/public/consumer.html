@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ff5a36">
+  <title>LensBrief | Swipe smarter</title>
+  <link rel="stylesheet" href="/discover-assets/consumer.css">
+  <link rel="stylesheet" href="/discover-assets/canonical-video.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/discover" aria-label="LensBrief home"><span>LB</span>LensBrief</a>
+    <p class="promise">Evidence over hype</p>
+    <button class="icon-button" id="aboutButton" aria-label="About images and evidence">i</button>
+  </header>
+  <main>
+    <section class="feed" id="feed" aria-live="polite">
+      <div class="loader"><b></b><b></b><b></b><span>Building your evidence feed</span></div>
+    </section>
+  </main>
+  <nav class="dock" aria-label="Primary">
+    <button class="active" aria-label="Discover"><span>DISCOVER</span></button>
+    <a href="/intelligence#knowledge">COMPARE</a>
+    <button id="openSources">SOURCES</button>
+  </nav>
+  <dialog id="panel">
+    <button class="close" id="closePanel" aria-label="Close">Close</button>
+    <div id="panelContent"></div>
+  </dialog>
+  <script src="/global-nav.js"></script>
+  <script type="module" src="/discover-assets/consumer.js"></script>
+</body>
+</html>

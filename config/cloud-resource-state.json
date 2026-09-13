@@ -1,0 +1,32 @@
+{
+  "schema_version": "cloud-resource-observation-1",
+  "observed_on": "2026-09-13",
+  "project_id": "bs-cats-smartglasses-20260912",
+  "observation_basis": "Authenticated CLI resource responses and successful empty-table creation responses; not a live billing or readiness check.",
+  "warehouse": {
+    "dataset": "smart_glasses_core",
+    "location": "US",
+    "tables_created": 14,
+    "rows_loaded_by_this_implementation": 0,
+    "query_jobs_run_by_this_implementation": 0,
+    "state": "empty_schema_created"
+  },
+  "firestore": {
+    "database": "(default)",
+    "location": "us-central1",
+    "state": "database_exists_application_adapter_not_connected"
+  },
+  "storage": {
+    "bucket": "bs-cats-smartglasses-20260912-assets",
+    "location": "US-CENTRAL1"
+  },
+  "cloud_run": {
+    "services_observed": 0,
+    "state": "not_deployed"
+  },
+  "billing": {
+    "billing_enabled": true,
+    "actual_charges_reconciled": false,
+    "unattended_paid_jobs_enabled": false
+  }
+}

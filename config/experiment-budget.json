@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "started_on": "2026-09-12",
+  "currency": "USD",
+  "currency_note": "USD is the planning interpretation of the owner's dollar amounts; retain original currency and conversion evidence for actual non-USD charges.",
+  "scope": "First cumulative experiment: subscriptions, APIs, hosting and all other project expenses; no monthly reset.",
+  "owner_authorized_total_ceiling": 500,
+  "automatic_budget_increase_allowed": false,
+  "revenue_automatically_replenishes_budget": false,
+  "automatic_subscription_purchase_allowed": false,
+  "review_at_total_exposure": [150, 250, 350],
+  "pause_new_paid_work_at_total_exposure": 450,
+  "protected_late_charge_buffer": 50,
+  "internal_variable_cost_limits": {"per_job": 2, "per_day": 5},
+  "known_cost_entries": [
+    {
+      "id": "owner-subscription-2026-09-12",
+      "date": "2026-09-12",
+      "category": "coding_subscription",
+      "amount": 80,
+      "currency": "USD",
+      "source": "owner_report_in_task",
+      "payment_reported": true,
+      "invoice_verified": false,
+      "note": "Count once. Model usage against this subscription is not a second cash charge."
+    }
+  ],
+  "known_recorded_spend": 80,
+  "maximum_remaining_before_other_costs": 420,
+  "unreconciled_cost_categories": ["GCP and Firebase", "provider APIs and voice", "future renewal commitments"],
+  "spendable_headroom": null,
+  "enforcement": {
+    "runtime_ledger_implemented": false,
+    "existing_provider_charges_reconciled": false,
+    "provider_caps_verified": false,
+    "new_paid_jobs_armed": false,
+    "note": "This file records instructions and known costs. It does not stop existing cloud resources, subscription renewals or direct API calls."
+  },
+  "experiment_metrics_state": "not_connected",
+  "revenue_recorded": null,
+  "revenue_note": "No verified revenue evidence has been collected. Missing data is not an observed zero."
+}

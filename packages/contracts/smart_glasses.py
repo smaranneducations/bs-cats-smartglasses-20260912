@@ -25,6 +25,9 @@ class SmartGlassesObjectType(str, Enum):
     performance_metric = "performance_metric"
     experiment = "experiment"
     correction = "correction"
+    content_card = "content_card"
+    card_bundle = "card_bundle"
+    shorts_plan = "shorts_plan"
 
 
 class ClaimKind(str, Enum):
@@ -40,6 +43,7 @@ class EvidenceTier(str, Enum):
     primary_regulatory = "primary_regulatory"
     primary_first_party_test = "primary_first_party_test"
     reputable_independent = "reputable_independent"
+    independent_unassessed = "independent_unassessed"
     community_report = "community_report"
     anecdotal = "anecdotal"
     synthetic = "synthetic"
@@ -92,7 +96,7 @@ class EvidenceClaim(StrictContract):
     source_ids: list[str] = Field(default_factory=list)
     evidence_tier: EvidenceTier
     verification_state: VerificationState = VerificationState.unverified
-    confidence: float = Field(..., ge=0, le=1)
+    confidence: float | None = Field(default=None, ge=0, le=1)
     caveats: list[str] = Field(default_factory=list)
     freshness_check_required: bool = True
 
@@ -106,6 +110,7 @@ class EvidenceClaim(StrictContract):
         if source_required and not self.source_ids:
             raise ValueError(f"{self.kind.value} claims require at least one source_id")
         weak_tiers = {
+            EvidenceTier.independent_unassessed,
             EvidenceTier.community_report,
             EvidenceTier.anecdotal,
             EvidenceTier.synthetic,

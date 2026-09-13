@@ -1,60 +1,32 @@
-# GCP + Firebase Setup (local-first, cost-safe)
+# GCP + Firebase setup: local-first and cost-conscious
 
-You gave OAuth/API secrets. To finish full provisioning, we still need a project and service credentials that match your ownership.
+## Reuse the authorized project
 
-If you want me to do this by myself in this thread, I need:
-1. Cloud billing-enabled account access,
-2. Permission to create projects/services in GCP/Firebase,
-3. Approval to run provisioning commands.
+Use existing configuration and authorized CLI sessions to obtain non-secret project IDs, app metadata and repository bindings. Do not ask for values already available or create duplicate projects. Existing Blaze/billing approval is not unlimited spending authority; a resource is not proof of a working integration.
 
-If you prefer manual one-by-one, use this exact flow:
+Ask the financial owner only for necessary account-holder consent, unavailable access or a reserved financial decision. Prepare the precise local flow, not a request for passwords, JSON keys or tokens in chat.
 
-1. Create or select a GCP project
-- https://console.cloud.google.com/projectcreate
-- https://console.cloud.google.com/cloud-resource-manager
-- Capture: `GCP_PROJECT_ID`, project number
+## Identity and configuration
 
-2. Enable required APIs in that project
-- https://console.cloud.google.com/apis/library/run.googleapis.com
-- https://console.cloud.google.com/apis/library/firestore.googleapis.com
-- https://console.cloud.google.com/apis/library/bigquery.googleapis.com
-- https://console.cloud.google.com/apis/library/storage.googleapis.com
-- https://console.cloud.google.com/apis/library/cloudscheduler.googleapis.com
-- https://console.cloud.google.com/apis/library/youtube.googleapis.com
+- Prefer local Application Default Credentials or short-lived identity and narrowly scoped cloud/CI workload identity.
+- Do not download a service-account JSON key by default. Grant permissions by workload, data boundary and operation, not broad administration to bypass errors.
+- Reuse supported GitHub CLI/keychain authentication for local repository operations. A long-lived personal access token is not a universal prerequisite.
+- Retrieve Firebase web configuration as non-secret metadata where authorized. It does not secure the database; authenticated authorization and restrictive rules are separate gates.
+- Keep Firebase/GCP IDs consistent and preserve existing region, bucket and dataset choices unless an explicit migration decision applies.
+- Enable only APIs/resources required for the accepted slice. Do not create a service per agent or reprovision merely to assess another domain.
 
-3. Create Firestore + bucket + BigQuery dataset
-- Firestore: https://console.firebase.google.com/ (or GCP console)
-- Cloud Storage: https://console.cloud.google.com/storage
-- BigQuery dataset: https://console.cloud.google.com/bigquery
+## Secret boundary
 
-4. Create Firebase app/service bindings
-- Firebase Console: https://console.firebase.google.com/
-- Register web app and copy:
-  - `FIREBASE_WEB_API_KEY`
-  - `FIREBASE_AUTH_DOMAIN`
-  - `FIREBASE_STORAGE_BUCKET`
-  - `FIREBASE_MESSAGING_SENDER_ID`
-  - `FIREBASE_APP_ID`
+Keep secrets in approved device-local storage, never chat, public Git, frontend bundles or build contexts. Establish the actual OneDrive sync policy before keeping replacement credentials there. Ignore rules neither prevent synchronization nor purge history.
 
-5. Create a service account for backend services
-- https://console.cloud.google.com/iam-admin/serviceaccounts
-- Create a least-privilege service account for:
-  - `Cloud Run Invoker`
-  - `BigQuery Data Editor` (or narrower roles as needed)
-  - `Storage Object Admin`
-  - `Firestore User`
-- Download JSON key and fill:
-  - `GOOGLE_APPLICATION_CREDENTIALS`
+Do not assume moving third-party secrets to cloud Secret Manager or GitHub secrets satisfies a local-only charter. Workload identity does not automatically solve third-party publishing/model credentials. Document the integration boundary and obtain specific authorization if external secret storage is necessary.
 
-6. GitHub pipeline auth
-- https://github.com/settings/personal-access-tokens/new
-- Use narrow scope token, fill `GITHUB_TOKEN`
+Previously disclosed credentials need legitimate rotation/revocation planning. Identify shared-project dependencies first; do not revoke shared keys blindly. Record field/status only, never values.
 
-Cost safety:
-- No heavy deploy/builds are executed by default.
-- Cloud Run services are set to run on-demand with minimal instances in bootstrap.
-- We keep Playwright/FFmpeg work disabled until you explicitly approve publish-scale rendering.
+## Resource and release gates
 
-Important:
-- Keep all secrets local only (`.env` is ignored).
-- Do not commit any credential strings.
+Use scale-to-zero and bounded workloads where supported. Before unattended paid work, require reconciled accounting and enforced task, daily and total admissions. Budget alerts alone are not spend caps. Existing storage, subscriptions and delayed charges count.
+
+Firestore/Auth rules, IAM, product initialization, artifact storage, source permissions, publisher consent and actual deployment are separate gates. Complete the applicable controls before claiming a cloud milestone. Continue deterministic local work while an integration is blocked.
+
+See `docs/ENV_SETUP.md` and `docs/PIPELINE.md`. This document does not provision resources or install cost controls.

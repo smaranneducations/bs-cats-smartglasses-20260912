@@ -1,0 +1,8 @@
+Firebase JavaScript SDK browser bundles
+Copyright 2017 Google LLC
+Licensed under the Apache License, Version 2.0.
+Source and licence: https://github.com/firebase/firebase-js-sdk
+
+Vendored files:
+- firebase-app-compat.js
+- firebase-auth-compat.js
