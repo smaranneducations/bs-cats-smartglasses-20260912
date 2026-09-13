@@ -17,3 +17,7 @@ Add regression cases for observer stability, loading/failure/success, navigation
 
 ## Risk and rollback
 No administrator permission, data-store or publication-gate changes. Revert the scoped controller patch and redeploy the preceding recorded Hosting artifact if the change causes a regression.
+
+## Cache consistency follow-up
+
+The Hosting builder now adds a content-derived version to each owned entrypoint script and stylesheet URL. Existing query parameters, fragments and external assets are preserved; missing or escaped local paths fail the build. Seven regression cases cover version changes, repeatability, browser-relative paths and isolation. This prevents mixing a new document with an older browser-cached bundle; it is not a substitute for live browser acceptance.

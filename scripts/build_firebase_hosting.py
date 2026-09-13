@@ -7,6 +7,60 @@ import shutil
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def version_entrypoint_assets(root):
+    """Keep browsers from mixing an updated entrypoint with an older local bundle."""
+    import hashlib
+    import html
+    import re
+    from html.parser import HTMLParser
+    from urllib.parse import parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
+
+    root = Path(root).resolve()
+    routes = {"/": "index.html", "/operator": "operator/index.html", "/discover": "discover/index.html"}
+    for route, filename in routes.items():
+        entry = root / filename
+        text = entry.read_text(encoding="utf-8")
+        offsets = [0]
+        for line in text.splitlines(keepends=True):
+            offsets.append(offsets[-1] + len(line))
+        edits = []
+
+        class Assets(HTMLParser):
+            def handle_starttag(self, tag, attrs):
+                attributes = dict(attrs)
+                key = "src" if tag == "script" else "href"
+                if tag != "script" and not (tag == "link" and "stylesheet" in attributes.get("rel", "").lower().split()):
+                    return
+                address = attributes.get(key)
+                if not address:
+                    return
+                resolved = urlsplit(urljoin("https://hosting.invalid" + route, address))
+                if resolved.scheme != "https" or resolved.netloc != "hosting.invalid":
+                    return
+                from urllib.parse import unquote
+                asset = (root / unquote(resolved.path).lstrip("/")).resolve()
+                if not asset.is_relative_to(root) or not asset.is_file():
+                    raise ValueError("Cannot version a missing or out-of-bundle asset")
+                digest = hashlib.sha256(asset.read_bytes()).hexdigest()[:16]
+                original = urlsplit(address)
+                query = [(name, value) for name, value in parse_qsl(original.query, keep_blank_values=True) if name != "v"]
+                updated = urlunsplit(original._replace(query=urlencode(query + [("v", digest)])))
+                raw = self.get_starttag_text()
+                pattern = re.compile(r"(\b" + key + r"\s*=\s*)([\"'])(.*?)(\2)", re.IGNORECASE | re.DOTALL)
+                replacement, count = pattern.subn(lambda match: match[1] + match[2] + html.escape(updated, quote=True) + match[2], raw, count=1)
+                if count != 1:
+                    raise ValueError("Local asset references must use quoted attributes")
+                row, column = self.getpos()
+                start = offsets[row - 1] + column
+                edits.append((start, start + len(raw), replacement))
+
+        parser = Assets(convert_charrefs=True)
+        parser.feed(text)
+        for start, end, replacement in reversed(edits):
+            text = text[:start] + replacement + text[end:]
+        entry.write_text(text, encoding="utf-8")
 OUTPUT = ROOT / "dist" / "firebase"
 
 
@@ -77,6 +131,7 @@ def main() -> None:
 
     # The audience page loads this shared asset from the site root.
     shutil.copy2(ROOT / "apps/operator/global-nav.js", OUTPUT / "global-nav.js")
+    version_entrypoint_assets(OUTPUT)
     validate_entrypoint_assets(OUTPUT)
 
     manifest = {
