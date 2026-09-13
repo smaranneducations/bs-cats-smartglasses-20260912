@@ -147,7 +147,7 @@ No channel is validated merely because an API exists or a merchant accepts onlin
 
 | Persona | Purpose | May do | May not do alone |
 |---|---|---|---|
-| Platform custodian | Maintains laptop, repository, cloud accounts and browser-only consent | Install tools, maintain GitHub, complete account-holder flows, recover infrastructure | Transfer legal or financial accountability to an agent |
+| Codex workstation operator / platform custodian | Operates Codex on the laptop and controls repository, cloud accounts and authenticated browser sessions | Start and steer sessions, install tools, maintain GitHub, complete account-holder consent, supply judgment and recover infrastructure | Transfer identity, unrestricted browser authority, legal or financial accountability to an agent |
 | Agent operating manager | Leads strategy and routine execution within delegated policy | Research, plan, implement, monitor and execute reversible permitted work | Own accounts, approve expanded authority, overspend or publish unseen artifacts |
 | Business administrator | Teaches the system and governs domain quality | Review ontology, correct data, answer genuine exceptions and approve exact releases | Perform every routine review or relabel opinion as verified fact |
 | Audience or customer | Consumes and reacts to useful outputs | Swipe, watch, compare, react, comment and use available offers | Access administration or directly rewrite governed truth |
@@ -162,6 +162,56 @@ The operating agent acts like an accountable general manager, not a legal owner.
 - Service access uses scoped workload identity rather than downloaded permanent account keys.
 - Every important write records actor, timestamp, input version, policy version and affected object.
 - Publisher credentials belong only to publishing adapters; research and rendering workers do not receive them.
+
+### Codex workstation and ad hoc operations
+
+The workstation is the practical bridge between the governed intelligence and tools that require a human-owned computer or account.
+
+```mermaid
+flowchart LR
+    U[Human Codex workstation operator]
+    C[Codex agent operating manager]
+    T[Typed task and context envelope]
+    A[Supported APIs and CLI]
+    M[Scoped MCP tools]
+    B[Chrome computer-use extension]
+    O[Governed objects and receipts]
+
+    U -->|goal, judgment, consent| C
+    C --> T
+    T --> A
+    T --> M
+    T --> B
+    A --> O
+    M --> O
+    B --> O
+    O -->|exceptions and evidence| C
+    C -->|smallest necessary action| U
+```
+
+Codex carries the project charter, ontology, relevant object context, permissions, cost limits and acceptance criteria into each task. It selects deterministic tools first and the least expensive adequate model for judgment work. The human does not need to manually administer routine collection or coding.
+
+Tool order is intentional:
+
+1. Use an existing deterministic local function when it is sufficient.
+2. Use a supported provider API or CLI for structured, repeatable work.
+3. Use an approved MCP tool for scoped semantic or connected-system access.
+4. Use the Chrome computer-use extension for account consent, visual verification or a task with no safe supported programmatic route.
+5. Ask the human only for identity, judgment, payment, legal authority or an action tools genuinely cannot perform.
+
+Examples of governed ad hoc work include checking a newly announced product, inspecting a provider console, validating a visual page, collecting a permitted public observation, diagnosing a failed deployment or preparing a channel profile. "Ad hoc" changes scheduling, not controls.
+
+| Operation | Required handling |
+|---|---|
+| Read-only public research | Check source policy; record URL, observation time, claim scope and evidence strength |
+| Authenticated browser observation | Use the minimum page scope; never capture passwords, cookies, tokens or unrelated personal data |
+| Dataset or ontology change | Create a versioned proposal with provenance and impact analysis |
+| Repository or infrastructure change | GitHub issue, `codex/` branch, PR, CI and rollback record |
+| Provider or cloud write | Scoped identity, cost admission, governing issue and non-secret receipt |
+| Public publication | Exact artifact and metadata approval plus independent rights, factual and cost gates |
+| Financial or account action | Human account-holder authority; never inferred from browser availability |
+
+The browser extension is an instrument, not a security bypass or a general-purpose scraping license. Terms, robots guidance where applicable, copyright, privacy, rate limits and account permissions still apply. Browser observations enter the same governed object and context system as API data so their origin and limitations remain visible.
 
 ---
 
