@@ -80,6 +80,11 @@ class ProductionPlanningTests(unittest.TestCase):
         self.assertEqual(sum(scene.duration_seconds for scene in plan.scenes), 90)
         self.assertFalse(plan.publication_allowed)
         self.assertEqual(plan.narration, "none")
+        self.assertEqual([scene.story_role for scene in plan.scenes],
+                         ["hook", "tension", "differentiator_and_proof", "implication", "payoff"])
+        self.assertLessEqual(plan.scenes[0].duration_seconds, 8)
+        self.assertEqual(len(plan.story_strategy.evidence_anchor_claim_ids), 2)
+        self.assertEqual(plan.creative_gate.strong_model_review_state, "required_before_release_candidate")
 
     def test_storyboard_identity_is_stable_and_revision_sensitive(self):
         brief = fixture_brief()
@@ -92,14 +97,21 @@ class ProductionPlanningTests(unittest.TestCase):
 
     def test_invalid_timing_duplicate_scene_and_publish_flag_are_rejected(self):
         original = build_storyboard(fixture_brief()).payload
-        for key in ["duration", "duplicate", "publish"]:
+        for key in ["duration", "duplicate", "publish", "arc", "evidence_anchor", "creative_gate"]:
             data = deepcopy(original)
             if key == "duration":
                 data["scenes"][0]["duration_seconds"] += 1
             elif key == "duplicate":
                 data["scenes"][1]["scene_id"] = data["scenes"][0]["scene_id"]
             else:
-                data["publication_allowed"] = True
+                if key == "publish":
+                    data["publication_allowed"] = True
+                elif key == "arc":
+                    data["scenes"][1]["story_role"] = "hook"
+                elif key == "evidence_anchor":
+                    data["story_strategy"]["evidence_anchor_claim_ids"] = ["missing_claim"]
+                else:
+                    data["creative_gate"]["decision_lever_source_bound"] = False
             with self.subTest(case=key), self.assertRaises(ValidationError):
                 StoryboardPayload.model_validate(data)
 

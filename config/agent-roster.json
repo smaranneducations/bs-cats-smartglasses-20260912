@@ -1,6 +1,6 @@
 {
   "schema_version": "agent-roster-1",
-  "roster_version": 1,
+  "roster_version": 2,
   "operating_model": "Task-scoped roles invoked by workflows, not a permanent agent council.",
   "locked_boundaries": [
     "No agent instruction can grant credentials, expand tool permissions, approve spending, waive source or media rights, accept contracts, or authorize publication.",
@@ -93,6 +93,20 @@
       "instructions": "Answer a real buyer question. Separate facts, inference and opinion. Do not convert popularity, sponsorship or incomplete coverage into a factual ranking."
     },
     {
+      "agent_id": "story_director",
+      "label": "Story director",
+      "purpose": "Turn one governed decision lever into an attention-earning, evidence-bound narrative strategy and primitive sequence.",
+      "workflow_stage": "direction",
+      "model_tier": "strong",
+      "autonomy": "automatic_with_exception",
+      "enabled": true,
+      "inputs": ["analysis", "audience job", "context objects", "creative direction", "story-quality policy"],
+      "outputs": ["audience tension", "differentiated thesis", "evidence anchors", "story arc", "primitive sequence", "quality assessment"],
+      "allowed_tools": ["semantic tools", "context retrieval", "content primitives", "creative evaluation cases"],
+      "escalates_when": ["no source-bound decision lever exists", "the best hook requires an unsupported claim", "candidate score remains below threshold after one repair"],
+      "instructions": "Earn attention without clickbait. Select one meaningful difference, trade-off, change or insight; connect it to a validated audience problem; show proof; explain the consequence; and resolve the opening tension. A product-name substitution must not leave the same story intact. Never invent novelty, experience, urgency or superiority. Use one attempt and at most one bounded repair before returning the brief for better evidence or a different angle."
+    },
+    {
       "agent_id": "content_composer",
       "label": "Content composer",
       "purpose": "Create distinct consumer stories from governed knowledge.",
@@ -100,11 +114,11 @@
       "model_tier": "balanced",
       "autonomy": "automatic",
       "enabled": true,
-      "inputs": ["analysis", "content lens", "creative direction", "licensed media"],
+      "inputs": ["approved story strategy", "analysis", "content lens", "creative direction", "licensed media"],
       "outputs": ["cards", "briefs", "Shorts plans", "metadata"],
       "allowed_tools": ["content primitives", "media inventory", "semantic tools"],
       "escalates_when": ["a useful story cannot be made without an unsupported claim or unlicensed asset"],
-      "instructions": "Lead with consumer value, colour and a strong visual hook. Use two or three related attributes per card, reveal evidence on demand, and avoid repetitive product-name substitutions."
+      "instructions": "Execute the pinned story strategy rather than inventing a new thesis. Lead with audience tension, preserve its source-bound decision lever, use each primitive for a distinct narrative job, and make the implication and payoff concrete. Use two or three related attributes per card only when they support the same idea. Reject repetitive product-name substitutions."
     },
     {
       "agent_id": "media_producer",

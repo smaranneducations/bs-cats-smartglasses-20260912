@@ -7,6 +7,7 @@ from pathlib import Path
 
 from packages.contracts.media import ImageBeat, MediaAssetPayload, RenderCell, RenderRecipePayload
 from packages.contracts.object import ActorType, UniversalObject
+from packages.contracts.production import StoryboardPayload
 from packages.contracts.workflows import compose_brief, project_field_claim
 from packages.knowledge.semantic import SemanticTools
 from packages.intelligence.learning import assert_memory_current, creative_settings, retrieve_memory
@@ -91,6 +92,8 @@ def validate_storyboard(store, storyboard_id):
     if story is None or story.object_type != "storyboard":
         raise ValueError("A governed storyboard is required.")
     data = story.payload
+    if (getattr(story, "metadata", {}) or {}).get("primitive_registry_version") == "story-quality-1":
+        data = StoryboardPayload.model_validate(data).model_dump(mode="json")
     brief = objects.get(data["brief_object_id"])
     if not brief or brief.object_type != "content_brief" or brief.version != data["brief_version"]:
         raise ValueError("The source brief changed; regenerate the storyboard.")

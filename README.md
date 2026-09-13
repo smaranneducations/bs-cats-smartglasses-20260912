@@ -579,6 +579,12 @@ A contextual story is a dependency graph, not a free-form prompt. It declares it
 
 The current release defines the schema and policy but does not claim that the contextual warehouse is populated or connected to production. See [Domain context and storytelling](docs/DOMAIN_CONTEXT_AND_STORYTELLING.md) for the object model, gates and implementation sequence.
 
+### Story quality is a gate, not decoration
+
+Vivid pictures, music and kinetic type cannot rescue a generic idea. A task-scoped strong story director must identify one source-bound difference, trade-off, change or insight; connect it to an audience tension; show the proof; explain the consequence; and resolve the opening with a memorable payoff. Deterministic validation enforces the five-beat arc, visible evidence anchor, short opening and varied primitive functions. It cannot honestly measure excitement, so a scored model review is required before release-candidate status and the exact final artifact remains a human publication decision.
+
+A candidate fails even with a high score when it could survive a product-name swap, lists specifications without impact, hides caveats, repeats decorative visuals, uses clickbait or lacks a defensible differentiator. The governing contract is [Story quality system](docs/STORY_QUALITY_SYSTEM.md).
+
 ---
 
 ## Read deeper
@@ -598,6 +604,7 @@ The current release defines the schema and policy but does not claim that the co
 | Incremental data growth | [Incremental catalogue policy](docs/INCREMENTAL_CATALOG_POLICY.md) |
 | Issue summaries and technical learning | [Engineering change memory](docs/ENGINEERING_CHANGE_MEMORY.md) |
 | Domain context and contextual stories | [Domain context and storytelling](docs/DOMAIN_CONTEXT_AND_STORYTELLING.md) |
+| Story direction and creative quality | [Story quality system](docs/STORY_QUALITY_SYSTEM.md) |
 
 ---
 

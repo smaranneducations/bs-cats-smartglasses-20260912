@@ -1,0 +1,53 @@
+{
+  "policy_version": "story-quality-1",
+  "status": "active",
+  "purpose": "Prevent safe but generic creative from becoming a release candidate while keeping every factual differentiator source-bound.",
+  "routing": {
+    "director_model_tier": "strong",
+    "reason": "Story direction is a high-leverage judgment task; rendering and structural validation remain deterministic.",
+    "maximum_initial_attempts": 1,
+    "maximum_repairs": 1,
+    "below_threshold_action": "Return the brief for better evidence or a different angle rather than escalating cost repeatedly."
+  },
+  "required_arc": ["hook", "tension", "differentiator_and_proof", "implication", "payoff"],
+  "rubric": {
+    "minimum_total": 80,
+    "dimensions": {
+      "hook_and_curiosity": 20,
+      "audience_relevance": 15,
+      "decision_relevant_differentiation": 25,
+      "evidence_and_credibility": 20,
+      "visual_progression": 10,
+      "payoff_and_memory": 10
+    },
+    "scoring_rule": "The story director supplies concise reasons per dimension; deterministic checks verify structure and lineage but do not pretend to judge excitement.",
+    "independence_rule": "A score cannot override a hard failure, evidence gate, rights gate or exact-artifact review."
+  },
+  "hard_failures": [
+    "No source-bound difference, trade-off, change or insight supports the thesis.",
+    "Replacing the product or subject name leaves the story materially unchanged.",
+    "The hook depends on clickbait, false urgency, unsupported superiority or invented experience.",
+    "The story lists specifications without explaining an audience consequence.",
+    "The payoff does not resolve the opening tension or provide a meaningful next action.",
+    "A visual primitive is decorative and repeated without a narrative function.",
+    "Material caveats or comparison conditions are hidden to make the story more exciting."
+  ],
+  "structural_gate": {
+    "required_checks": [
+      "audience_tension_present",
+      "decision_lever_source_bound",
+      "arc_complete_and_ordered",
+      "at_least_four_distinct_primitives",
+      "hook_eight_seconds_or_less",
+      "payoff_distinct_from_hook"
+    ],
+    "private_preview_allowed_after_pass": true,
+    "release_candidate_requires_strong_model_review": true,
+    "publication_requires_exact_artifact_human_review": true
+  },
+  "measurement": {
+    "creative_review_signals": ["hook clarity", "felt relevance", "remembered differentiator", "trust", "desire to continue", "confusion"],
+    "audience_signals": ["three-second hold", "completion", "rewatch", "save or share", "qualified click", "useful comment"],
+    "optimization_rule": "Optimize contribution and qualified audience value, not retention or excitement in isolation."
+  }
+}
