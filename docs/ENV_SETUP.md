@@ -1,16 +1,16 @@
 # Environment Setup Guide
 
-Your `.env` is private, ignored by Git, excluded from the root container context, and restricted to the local owner account by the setup tool. Because the workspace path contains `OneDrive`, confirm the folder's actual sync policy before treating it as device-only storage.
+The setup tool is designed to keep `.env` ignored by Git, excluded from the root container context and restricted to the local owner account. These controls do not prove credentials were never committed or synchronized. Establish the actual OneDrive sync policy before treating this workspace as device-only storage. Never paste secrets into chat.
 
-## 1) Copy template
+## 1) Preserve existing configuration
 
-```bash
-cp .env.template .env
-```
+Reuse an existing `.env`; do not overwrite it with a template. For a genuinely new setup, create configuration from `.env.template` only if the target does not exist, with restrictive permissions in a confirmed device-local location. Use local CLI/browser consent; report field names and status, not values.
 
 ## 2) Fill required values first (minimum working set)
 
-### Required to run locally
+### Cloud integration configuration
+
+Deterministic local foundation work does not need every cloud/publishing credential. Configure only the next integration. Nonempty values do not prove validity, scope or connectivity.
 
 1. `GCP_PROJECT_ID`
 2. `GCP_REGION`
@@ -67,7 +67,7 @@ bash scripts/check-env.sh youtube
 
 ## 4.1 Optional project provisioning (cost-safe)
 
-After you confirm budget and ownership, run:
+For an authorized provisioning slice only, reuse the selected project and current financial envelope before this helper. Do not repeat project creation or request approval already provided. This command can modify cloud resources:
 
 ```bash
 bash scripts/provision-gcp-firebase.sh
@@ -79,13 +79,12 @@ The script reads allow-listed non-secret values through `scripts/env_config.py`;
 
 Firebase Auth, Firebase Storage product initialization, rules, IAM, budgets and application deployment remain separate gates. Use the [Firebase setup guide](./GCP_FIREBASE_SETUP.md).
 
-## 5) How I can guide you step-by-step
+## 5) Minimal-human-effort credential collection
 
-If you want, provide values in this order and I will update `.env`:
+Discover non-secret metadata through authorized CLI access, reuse secure sessions and prepare local consent flows for missing permissions. Do not block deterministic local work on unrelated keys or collect credentials for speculative integrations.
 
-1. Core infra block (GCP/Firebase)
-2. LLM and agent keys
-3. GitHub CI block
-4. YouTube block
-5. LinkedIn block
-6. Storage/render and security extras
+When human action is unavoidable, provide the exact local consent page or field and its required permission. The human enters secrets locally, never through chat or a model prompt. Persist only in approved device-local storage and report field/status. Never request Google, Firebase, GitHub or email account passwords.
+
+Prefer local ADC/keychain and short-lived workload identity. Treat YouTube upload and analytics permissions separately. Restrict publishing tokens to the publisher; do not forward the entire environment to every service.
+
+Resolve third-party secret-store conflicts before cloud execution. Plan rotation of disclosed secrets with shared-project dependencies in mind. Formatting checks and ignore rules do not prove token validity, least privilege, device-only storage or safe publication.

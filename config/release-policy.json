@@ -1,0 +1,11 @@
+{
+  "schema_version": "release-policy-1",
+  "candidate_version": "1.0.0-rc.1",
+  "production_version": "1.0.0",
+  "candidate_requires": ["requirements_audit", "release_audit", "full_local_tests", "browser_smoke", "tracked_secret_scan", "hosting_bundle"],
+  "production_requires": ["rotated_credentials", "reconciled_costs", "durable_firestore_store", "cloud_run_receipt", "firebase_hosting_receipt", "authenticated_admin_smoke", "approved_exact_media_package", "rights_gate", "owned_media_copy", "one_channel_receipt", "production_metric_return", "rollback_evidence", "repository_license_decision"],
+  "github_issue_required_after_candidate": true,
+  "direct_default_branch_changes_allowed": false,
+  "public_artifact_self_approval_allowed": false,
+  "authority": "docs/V1_RELEASE_READINESS.md"
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": "runtime-profiles-1",
+  "charter_version": "1.6",
+  "profiles": {
+    "catalogue_auditor": {
+      "revision": 1,
+      "tool": "catalogue_coverage",
+      "purpose": "Identify missing, stale, or weakly supported product fields without inventing replacements.",
+      "permissions": ["read_objects", "read_ontology", "propose_review"],
+      "execution": "deterministic",
+      "maximum_seconds": 30,
+      "maximum_attempts": 2,
+      "maximum_objects": 100,
+      "external_cost_cents": 0,
+      "model_recommendation": "deterministic"
+    },
+    "source_policy_adviser": {
+      "revision": 1,
+      "tool": "source_policy_queue",
+      "purpose": "Produce a rights-aware refresh and consent queue; do not fetch, approve, or republish sources.",
+      "permissions": ["read_objects", "read_source_policy", "propose_review"],
+      "execution": "deterministic",
+      "maximum_seconds": 30,
+      "maximum_attempts": 2,
+      "maximum_objects": 100,
+      "external_cost_cents": 0,
+      "model_recommendation": "deterministic"
+    },
+    "workflow_planner": {
+      "revision": 1,
+      "tool": "workflow_readiness",
+      "purpose": "Plan one content family against pinned product versions and the saved creative direction.",
+      "permissions": ["read_objects", "read_ontology", "read_creative_policy", "propose_review"],
+      "execution": "deterministic",
+      "maximum_seconds": 30,
+      "maximum_attempts": 2,
+      "maximum_objects": 10,
+      "external_cost_cents": 0,
+      "model_recommendation": "balanced_for_future_script_judgment"
+    }
+  },
+  "limitations": [
+    "These are bounded deterministic workers, not live language-model agents.",
+    "No source collector, publisher, cloud renderer, or provider API is enabled by this registry.",
+    "Results are proposals, not source-policy approval, verified facts, or publication consent.",
+    "A profile recommendation does not switch the Codex conversation model."
+  ]
+}

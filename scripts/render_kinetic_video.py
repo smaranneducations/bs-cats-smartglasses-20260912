@@ -126,8 +126,8 @@ def load_spec(path: Path) -> tuple[dict[str, Any], list[Beat]]:
         raise ValueError("The kinetic video needs at least one beat")
     beats = [parse_beat(item, index) for index, item in enumerate(raw_beats)]
     duration = sum(beat.duration for beat in beats)
-    if not 60 <= duration <= 120:
-        raise ValueError(f"Kinetic video duration must be 60-120 seconds, not {duration:.2f}")
+    if not 30 <= duration <= 90:
+        raise ValueError(f"Kinetic video duration must be 30-90 seconds, not {duration:.2f}")
     bpm = int(payload.get("bpm", 120))
     if not 80 <= bpm <= 150:
         raise ValueError("bpm must be between 80 and 150")

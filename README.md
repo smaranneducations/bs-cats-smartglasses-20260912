@@ -1,114 +1,76 @@
-# Smart Glasses Intelligence Platform (Bootstrap Edition)
+# BS CATS Intelligence Platform
 
-This repository is the foundation for a reusable domain-intelligence platform, with SmartGlasses as its first domain.
+Version 1 release candidate for a governed, reusable system that turns a lawful domain dataset into useful knowledge, short-form media, audience learning, and testable revenue opportunities.
 
-## What is included
+Smart glasses are the first working domain. The engine is domain-portable: domain definitions, ontology concepts, evidence rules, agent profiles, workflows, and channel adapters are configuration and governed objects rather than hard-coded business logic.
 
-The scaffold is intentionally conservative and aligned with the blueprint:
+## Release truth
 
-- Firebase web app skeleton
-- Cloud Run-ready Python services
-- Render and publisher worker placeholders
-- Shared contract packages
-- Terraform-like infrastructure placeholders
-- GitHub Actions baseline pipeline
-- Docker Compose local stack
-- Zero-cost local video renderer and founder demo dashboard
-- Secrets/config template (`.env.template`)
-- `.env` ignore policy and onboarding docs
+The repository contains a working local operator application, public swipe experience, governed object store, semantic comparison layer, evidence and feedback workflows, bounded agent runtime, image-led video renderer, distribution-package adapters, analytics contracts, Firebase rules, BigQuery schemas, and cloud deployment packaging.
 
-## Folder layout
+It is not yet a production deployment. As of 2026-09-13, the Firebase project and its Firestore, Storage, Hosting site, and BigQuery foundation exist, but no Cloud Run application service is deployed, the warehouse contains no project-loaded rows, provider charges are not reconciled, previously disclosed credentials require rotation, and no exact media package has passed all public-release gates. See [release readiness](docs/V1_RELEASE_READINESS.md).
 
-```
-apps/web                 # Firebase web frontend
-services/api             # Main Cloud Run API / orchestration
-services/agent-runtime   # Reusable generic agent runtime
-services/render-worker   # Playwright + FFmpeg render worker
-services/publisher-worker # Social channel adapters
-packages/contracts       # Shared JSON/Pydantic contract placeholders
-packages/mcp-tools       # Domain/tool layer placeholders
-infra/terraform          # Infrastructure placeholders
-docs                    # Setup and secrets guides
-scripts                 # Bootstrap and validation helpers
-```
+## Four personas
 
-## Quick start
+| Persona | Purpose | Authority boundary |
+| --- | --- | --- |
+| Platform custodian | Maintains the workstation, Codex, repository, cloud accounts, and browser-only consent flows | Human account holder; controls identity, legal, billing, and irreversible account actions |
+| Delegated operating executive | Plans and executes permitted business and engineering work using the least costly capable tools | May not own accounts, accept liabilities, raise budgets, publish unapproved artifacts, or bypass consent |
+| Business administrator | Curates ontology and data, resolves exceptions, reviews material changes, and approves exact release artifacts | Authenticated, allowlisted, attributable human role |
+| Audience and customer | Discovers, swipes, watches, reacts, comments, follows evidence, and may buy disclosed offers | Public role with no administrative access |
 
-1. Copy env template to `.env`:
+The complete role model is in [governance/personas-and-authority.md](governance/personas-and-authority.md).
+
+## System map
+
+The platform follows this loop:
+
+`domain definition -> ontology -> lawful research -> governed assertions -> analysis -> content plan -> media catalog -> render -> exact approval -> channel distribution -> owned metrics -> feedback -> evaluated improvement`
+
+The ontology is the semantic contract, not merely a glossary. The harness binds every task to exact object versions, evidence, actor, permissions, cost limits, idempotency, acceptance criteria, and release gates. Read [the v1 system specification](docs/V1_SYSTEM_SPECIFICATION.md) and [the ontology architecture](docs/ONTOLOGY_ARCHITECTURE.md).
+
+## Local use
 
 ```bash
-cp .env.template .env
+python3 -m venv .venv
+.venv/bin/pip install -r services/api/requirements.txt
+.venv/bin/uvicorn services.api.src.main:app --host 127.0.0.1 --port 8766
 ```
 
-2. Fill only the values needed for the current phase. Never source `.env` in a shell.
+Open:
 
-```text
-GCP_PROJECT_ID
-FIREBASE_PROJECT_ID
-OPENAI_API_KEY
-YOUTUBE_API_CLIENT_ID / YOUTUBE_API_CLIENT_SECRET
-LINKEDIN_CLIENT_ID / LINKEDIN_CLIENT_SECRET
-GITHUB_OWNER / GITHUB_REPO (the local GitHub CLI keychain may provide authentication)
-```
+- Operator: `http://127.0.0.1:8766/operator`
+- Audience: `http://127.0.0.1:8766/discover?preview=1`
+- Intelligence workspace: `http://127.0.0.1:8766/intelligence`
+- Health: `http://127.0.0.1:8766/health`
 
-3. Canonicalize and check the private configuration:
+Local secrets belong in `.env` or ignored local configuration. Never paste credentials into issues, pull requests, logs, prompts, or tracked files. See [SECURITY.md](SECURITY.md) and [docs/ENV_SETUP.md](docs/ENV_SETUP.md).
+
+## Change control
+
+After this snapshot, implementation requests enter through GitHub issues and land through pull requests. Discussion may happen elsewhere, but it is not an executable change request until the decision, evidence, acceptance criteria, cost boundary, and authority are recorded in GitHub. See [the GitHub operating process](docs/GITHUB_CHANGE_CONTROL.md).
+
+## Repository guide
+
+- `apps/`: operator, audience, and intelligence browser surfaces
+- `packages/`: reusable contracts, ontology, runtime, agents, media, publishing, cloud, and analytics code
+- `services/`: deployable API plus clearly labeled inactive worker shells
+- `config/`: non-secret machine-readable business and runtime policy
+- `governance/`: version-controlled operating directives and authority boundaries
+- `docs/`: architecture, operations, evidence, release, and decision documentation
+- `sql/`: BigQuery schemas and bounded warehouse definitions
+- `scripts/`: deterministic operations, audits, build, and maintenance commands
+- `tests/`: contract and behavior tests
+- `.github/`: issue intake, pull-request policy, ownership, and CI
+
+See [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md) for ownership and dependency rules.
+
+## Release commands
 
 ```bash
-bash scripts/bootstrap.sh
-bash scripts/check-env.sh
+.venv/bin/python scripts/audit_requirements.py
+.venv/bin/python scripts/release_readiness.py
+.venv/bin/python scripts/build_firebase_hosting.py
 ```
 
-4. Start local services:
-
-```bash
-docker compose up --build
-```
-
-## Zero-cost local content demo
-
-The demo path uses Pillow, FFmpeg, and the built-in macOS `say` voice. It does not call an external model, speech, image, or hosting API. Generated media and source data stay under the Git-ignored `.local/` directory.
-
-```bash
-python3 -m pip install -r scripts/requirements-demo.txt
-python3 scripts/render_local_video.py .local/content/<script>.json
-python3 scripts/build_demo_dashboard.py .local/content/<script>.json \
-  --video .local/renders/<script-id>/demo.mp4 \
-  --captions .local/renders/<script-id>/captions.en.srt \
-  --thumbnail .local/renders/<script-id>/thumbnail.png \
-  --review-packet .local/reviews/<script-id>.html
-python3 scripts/serve_demo.py
-```
-
-For the voice-free 60-120 second format, provide original background images and a kinetic beat specification, then run:
-
-```bash
-python3 scripts/render_kinetic_video.py .local/content/<kinetic-spec>.json \
-  --assets .local/assets/kinetic
-```
-
-The preview binds only to `127.0.0.1` and serves only the self-contained `.local/demo/` package. It cannot expose the broader private `.local/` research and event store.
-
-## Note
-
-The `.env` file must never be committed or included in a container image. `scripts/env_config.py` treats it as data, reports statuses without values, removes duplicate assignments atomically, and sets mode `0600`.
-
-Before staging or pushing, scan public repository candidates without printing matched values:
-
-```bash
-python3 scripts/secret_scan.py --mode worktree
-```
-
-## Technical charter
-
-- Keep architecture simple, incremental, and low-cost by default.
-- Do not create or run cost-intensive workloads without explicit approval.
-- Keep all secrets on local disk only (`.env`).
-- Build internal, zero-cost drafts autonomously; require explicit approval for external publishing, material spend, and irreversible actions.
-
-## Next milestone after this setup
-
-- Implement schema and data model migrations
-- Add object registry and charter persistence
-- Add MCP tool endpoints
-- Add publisher adapter for first channel (YouTube) once OAuth is configured
-- Wire review/approval gates before automated publishing
+The release audit reports readiness; it does not grant publication approval, reconcile billing, rotate secrets, or prove a cloud deployment.

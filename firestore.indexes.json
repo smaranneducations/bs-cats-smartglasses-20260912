@@ -1,4 +1,10 @@
 {
   "indexes": [],
-  "fieldOverrides": []
+  "fieldOverrides": [
+    {"collectionGroup": "governed_objects", "fieldPath": "snapshot_json", "indexes": []},
+    {"collectionGroup": "governed_objects", "fieldPath": "input_versions_json", "indexes": []},
+    {"collectionGroup": "governed_object_versions", "fieldPath": "snapshot_json", "indexes": []},
+    {"collectionGroup": "governed_object_versions", "fieldPath": "input_versions_json", "indexes": []},
+    {"collectionGroup": "governed_requests", "fieldPath": "result_json", "indexes": []}
+  ]
 }

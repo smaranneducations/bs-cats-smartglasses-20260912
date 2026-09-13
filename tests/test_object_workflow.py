@@ -6,6 +6,7 @@ from packages.contracts import (
     ActorType,
     CurationPatch,
     DuplicateObjectError,
+    InvalidTransitionError,
     LocalObjectStore,
     ObjectStatus,
     ReviewDecision,
@@ -22,7 +23,7 @@ class ObjectWorkflowTests(unittest.TestCase):
         self.store_path = Path(self.temporary_directory.name) / "events.jsonl"
         self.store = LocalObjectStore(self.store_path)
 
-    def test_capture_curate_and_human_approve(self):
+    def test_capture_curate_and_routine_monitoring(self):
         item = UniversalObject(
             object_id="obj_test_glasses",
             object_type="market_observation",
@@ -51,18 +52,16 @@ class ObjectWorkflowTests(unittest.TestCase):
         self.assertIn("raw_note", curated.payload)
         self.assertIn("summary", curated.payload)
 
-        approved = self.store.review(
-            captured.object_id,
-            ReviewDecision.approved,
-            reviewer_id="founder",
-            notes="Evidence and interpretation are aligned.",
-        )
-        self.assertEqual(approved.status, ObjectStatus.active)
-        self.assertEqual(approved.review.state, ReviewState.approved)
-        self.assertEqual(approved.version, 3)
+        with self.assertRaises(InvalidTransitionError):
+            self.store.review(
+                captured.object_id,
+                ReviewDecision.approved,
+                reviewer_id="founder",
+                notes="Routine records should not enter the review inbox.",
+            )
         self.assertEqual(
             [record.event.sequence for record in self.store.history(captured.object_id)],
-            [1, 2, 3],
+            [1, 2],
         )
 
     def test_duplicate_capture_is_rejected(self):

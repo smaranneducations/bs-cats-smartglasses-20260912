@@ -1,0 +1,1 @@
+{"schema_version":"1","admins":[{"email":"admin@example.com","role":"reviewer","enabled":false,"note":"Copy to .local/admin-allowlist.json, replace the email, then enable it."}]}

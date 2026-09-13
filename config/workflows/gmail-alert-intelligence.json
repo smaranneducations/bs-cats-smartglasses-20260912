@@ -1,0 +1,50 @@
+{
+  "version": "1.0",
+  "workflow_id": "gmail_alert_intelligence",
+  "domain": "smart_glasses",
+  "purpose": "Use Google Alerts email as a low-cost discovery feed for dated industry intelligence without treating email snippets as verified facts.",
+  "source": {
+    "provider": "Gmail API",
+    "oauth_scope": "https://www.googleapis.com/auth/gmail.readonly",
+    "query": "from:googlealerts-noreply@google.com (\"smart glasses\" OR \"AR glasses\" OR \"AI glasses\")",
+    "max_messages_per_run": 25,
+    "max_pages_per_run": 2,
+    "max_message_bytes": 1048576
+  },
+  "schedule": {
+    "cadence": "daily",
+    "preferred_local_time": "08:00",
+    "timezone": "Europe/Zurich"
+  },
+  "storage": {
+    "database": ".local/gmail-alerts/intelligence.sqlite3",
+    "oauth_token": ".local/gmail-alerts/oauth-token.json",
+    "retain_full_email": false,
+    "retain_attachments": false,
+    "dedupe_keys": ["gmail_message_id", "canonical_article_url_sha256"]
+  },
+  "pipeline": [
+    "list_matching_messages_incrementally",
+    "extract_and_canonicalize_external_article_links",
+    "deduplicate_message_and_article_receipts",
+    "create_compact_market_observation",
+    "queue_source_policy_and_credibility_assessment",
+    "cluster_approved_articles_into_dated_news_events",
+    "prepare_hot_news_blog_and_monthly_digest_drafts",
+    "require_exact_artifact_review_before_publication"
+  ],
+  "gates": {
+    "discovery_is_not_evidence": "Google Alerts and email snippets locate possible sources but never substantiate a product, market or government claim.",
+    "article_rights": "Do not retain full copyrighted article text. Fetch and quote only within the applicable source policy and copyright limits.",
+    "credibility": "Consequential claims require primary evidence or corroboration from genuinely independent sources.",
+    "privacy": "Store no unrelated email, contact graph, attachments or message body.",
+    "content": "Never represent scraped reporting as original reporting or firsthand experience.",
+    "publication": "Every exact post, blog article, video and metadata package remains human-approved before publication."
+  },
+  "cost": {
+    "gmail_api_expected_incremental_cost_usd": 0,
+    "paid_model_calls_per_ingest": 0,
+    "article_fetches_per_run": 0,
+    "note": "Gmail discovery is free within Google's current standard threshold. Article research and model work need separate bounded admission."
+  }
+}

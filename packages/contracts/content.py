@@ -30,9 +30,9 @@ class VideoScript(StrictContract):
     brief_object_id: str = Field(..., min_length=3, max_length=128)
     working_title: str = Field(..., min_length=1, max_length=240)
     thumbnail_text: str = Field(..., min_length=1, max_length=80)
-    video_format: VideoFormat = VideoFormat.youtube_long
+    video_format: VideoFormat = VideoFormat.youtube_short
     language: str = "en"
-    target_duration_seconds: int = Field(..., ge=15, le=3600)
+    target_duration_seconds: int = Field(..., ge=15, le=90)
     description: str = Field(..., min_length=1, max_length=5000)
     disclosure: str = Field(..., min_length=1, max_length=1000)
     scenes: list[VideoScene] = Field(..., min_length=1)

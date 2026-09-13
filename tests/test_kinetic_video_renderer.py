@@ -39,7 +39,7 @@ class KineticVideoRendererTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            with self.assertRaisesRegex(ValueError, "60-120 seconds"):
+            with self.assertRaisesRegex(ValueError, "30-90 seconds"):
                 renderer.load_spec(spec_path)
 
     def test_frame_uses_original_background_and_kinetic_copy(self) -> None:

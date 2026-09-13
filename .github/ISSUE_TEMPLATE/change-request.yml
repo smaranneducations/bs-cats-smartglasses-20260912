@@ -1,0 +1,59 @@
+name: Governed change request
+description: Request a bounded product, ontology, agent, data, workflow, media, integration, cost, or governance change.
+title: "[Change]: "
+labels: ["change-request", "needs-triage"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: System area
+      options:
+        - Governance and charter
+        - Domain and ontology
+        - Data and evidence
+        - Agents and harness
+        - Analysis and reports
+        - Creative and media
+        - Release and publishing
+        - Audience and commerce
+        - Analytics and learning
+        - Security and infrastructure
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: State the user or operating outcome, not only a proposed implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and context
+      description: Provide sanitized evidence, object IDs, links, or observed behavior. Never include credentials or private data.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List observable conditions that establish completion.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Risk cost and authority boundaries
+      description: Note ethical, security, privacy, rights, legal, financial, migration, consent, and rollback considerations.
+    validations:
+      required: true
+  - type: checkboxes
+    id: hygiene
+    attributes:
+      label: Submission checks
+      options:
+        - label: I did not include credentials, tokens, private data, or unlicensed media.
+          required: true
+        - label: I understand that discussion is not approval for spending, publication, contracts, or account consent.
+          required: true

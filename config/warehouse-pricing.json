@@ -1,0 +1,13 @@
+{
+  "schema_version": "warehouse-price-1",
+  "pricing_model": "on_demand",
+  "public_reference_uri": "https://cloud.google.com/bigquery/pricing",
+  "public_reference_usd_per_tib": "6.25",
+  "public_reference_observed_at": null,
+  "account_currency": null,
+  "account_on_demand_verified": false,
+  "verified_upper_bound_usd_per_tib": null,
+  "verification_evidence_ref": null,
+  "verified_at": null,
+  "valid_until": null
+}

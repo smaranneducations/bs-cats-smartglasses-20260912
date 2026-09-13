@@ -1,0 +1,18 @@
+{
+  "schema_version": "project-architecture-1",
+  "version": "1.0.0-rc.1",
+  "domain": "smart_glasses",
+  "core_product": "governed_domain_intelligence_engine",
+  "optimization_order": ["ethics_legality_safety_truth_rights", "avoid_unmanaged_loss", "sustainable_revenue", "compounding_intelligence", "low_human_effort"],
+  "personas": [
+    {"id": "platform_custodian", "actor_type": "human", "reserved_authority": ["identity", "billing", "legal", "account_consent", "credential_rotation", "contracts"]},
+    {"id": "delegated_operating_executive", "actor_type": "agent", "authority": ["plan", "research", "implement", "operate_within_policy", "measure", "propose_improvements"]},
+    {"id": "business_administrator", "actor_type": "human", "authority": ["curate", "resolve_exceptions", "review_material_semantic_changes", "approve_exact_artifacts"]},
+    {"id": "audience_customer", "actor_type": "public", "authority": ["view", "react", "comment", "ask", "follow_disclosed_offers", "purchase"]}
+  ],
+  "layers": ["governance", "domain", "ontology", "knowledge", "harness", "agent_capabilities", "analysis", "creative", "release", "distribution", "audience_commerce", "learning_analytics"],
+  "canonical_media": {"orientation": "9:16", "minimum_seconds": 30, "maximum_seconds": 90, "maximum_products": 2, "primary_questions": 1, "owned_copy_required": true},
+  "preferred_topology": {"api": "cloud_run_scale_to_zero", "transactional_state": "firestore", "artifacts": "cloud_storage", "analytics": "bigquery", "web": "firebase_hosting"},
+  "production_state": "blocked",
+  "production_blocker_authority": "docs/V1_RELEASE_READINESS.md"
+}

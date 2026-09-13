@@ -69,7 +69,7 @@ class ResearchIntakeTests(unittest.TestCase):
             self.assertEqual(item.status, ObjectStatus.proposed)
             self.assertEqual(item.review.state, ReviewState.pending)
             self.assertEqual(len(store.history(item.object_id)), 2)
-            self.assertEqual(store_path.stat().st_mode & 0o777, 0o600)
+            self.assertEqual(store.db_path.stat().st_mode & 0o777, 0o600)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Solo Intelligence Platform: Governed Value Loop",
+    "output": "platform-overview.html",
+    "quality_profile": "showcase",
+    "viewBox": [1320, 780],
+    "views": [
+      {"id": "operating-loop", "label": "Operating loop", "focus": ["operator", "api", "semantic", "objects", "agents", "renderer", "channels", "feedback"], "note": "Follow governed knowledge from operator intent to content and measured learning."},
+      {"id": "trust-boundaries", "label": "Trust boundaries", "focus": ["firebase", "api", "objects", "warehouse", "channels"], "note": "Identity, private state, cloud projection and publication remain separate boundaries."},
+      {"id": "capability-adapters", "label": "Capability adapters", "focus": ["capabilities", "agents", "semantic", "feedback"], "note": "External projects enter through evaluated adapters, never as parallel control planes."}
+    ]
+  },
+  "components": [
+    {"id": "operator", "type": "frontend", "label": "Solo Operator", "sublabel": "Admin workflow and exceptions", "pos": [40, 165], "size": [175, 76], "tag": "LOCAL UI"},
+    {"id": "audience", "type": "frontend", "label": "Audience Experience", "sublabel": "Cards, comparisons and feedback", "pos": [40, 360], "size": [175, 76], "tag": "PREVIEW"},
+    {"id": "firebase", "type": "security", "label": "Firebase Auth", "sublabel": "Google identity configured", "pos": [275, 45], "size": [170, 70], "tag": "ALLOWLIST"},
+    {"id": "api", "type": "backend", "label": "FastAPI Control Plane", "sublabel": "Typed routes and policy gates", "pos": [285, 260], "size": [190, 82], "tag": "LOCAL"},
+    {"id": "semantic", "type": "backend", "label": "Semantic Layer", "sublabel": "Concepts, definitions and tools", "pos": [555, 165], "size": [190, 76]},
+    {"id": "objects", "type": "database", "label": "Versioned Object Store", "sublabel": "SQLite snapshots and history", "pos": [555, 360], "size": [190, 76], "tag": "PRIVATE"},
+    {"id": "agents", "type": "backend", "label": "Task-scoped Agents", "sublabel": "Routed roles and bounded tasks", "pos": [825, 165], "size": [190, 76]},
+    {"id": "feedback", "type": "messagebus", "label": "Learning Loop", "sublabel": "Signal, decision, evaluation", "pos": [825, 360], "size": [190, 76]},
+    {"id": "renderer", "type": "backend", "label": "Creative Renderer", "sublabel": "Cards, posters and kinetic video", "pos": [1085, 165], "size": [190, 76], "tag": "LOCAL"},
+    {"id": "capabilities", "type": "external", "label": "Capability Adapters", "sublabel": "Archify active; SEO/model gated", "pos": [1085, 555], "size": [190, 76], "tag": "EVALUATED"},
+    {"id": "warehouse", "type": "cloud", "label": "BigQuery Projection", "sublabel": "Schemas exist / sync pending", "pos": [555, 555], "size": [190, 76], "tag": "NOT LIVE"},
+    {"id": "channels", "type": "external", "label": "Publishing Channels", "sublabel": "YouTube and LinkedIn adapters", "pos": [1085, 360], "size": [190, 76], "tag": "HUMAN GATE"}
+  ],
+  "boundaries": [
+    {"kind": "region", "label": "Trusted local workspace", "wraps": ["operator", "audience", "api", "semantic", "objects", "agents", "feedback", "renderer"], "pad": 24}
+  ],
+  "connections": [
+    {"id": "operator-api", "from": "operator", "to": "api", "label": "authenticated intent", "labelAt": [250, 252], "variant": "emphasis"},
+    {"id": "audience-api", "from": "audience", "to": "api", "label": "read and signal", "labelAt": [250, 350]},
+    {"id": "firebase-api", "from": "firebase", "to": "api", "label": "verify identity", "variant": "security", "fromSide": "bottom", "toSide": "top", "route": "auto"},
+    {"id": "api-semantic", "from": "api", "to": "semantic", "label": "domain tools", "variant": "emphasis"},
+    {"id": "semantic-objects", "from": "semantic", "to": "objects", "label": "typed meaning", "labelAt": [650, 260]},
+    {"id": "semantic-agents", "from": "semantic", "to": "agents", "label": "governed context", "labelAt": [785, 255], "variant": "emphasis"},
+    {"id": "agents-renderer", "from": "agents", "to": "renderer", "label": "approved recipe", "labelAt": [1050, 255], "variant": "emphasis"},
+    {"id": "renderer-channels", "from": "renderer", "to": "channels", "label": "exact artifact approval", "labelAt": [1180, 260], "variant": "security"},
+    {"id": "channels-feedback", "from": "channels", "to": "feedback", "label": "measured outcomes", "labelAt": [1050, 450], "variant": "dashed"},
+    {"id": "feedback-agents", "from": "feedback", "to": "agents", "label": "evaluated change", "labelAt": [850, 300], "variant": "dashed"},
+    {"id": "objects-warehouse", "from": "objects", "to": "warehouse", "label": "bounded projection", "labelAt": [650, 490], "variant": "dashed"},
+    {"id": "capabilities-agents", "from": "capabilities", "to": "agents", "label": "admitted tool output", "labelAt": [1160, 120], "variant": "dashed", "fromSide": "right", "toSide": "top", "via": [[1310, 593], [1310, 130], [920, 130]]},
+    {"id": "capabilities-feedback", "from": "capabilities", "to": "feedback", "label": "cost and quality evidence", "labelAt": [965, 505], "variant": "dashed", "fromSide": "left", "toSide": "bottom", "via": [[1040, 593], [1040, 485], [920, 485]]}
+  ],
+  "cards": [
+    {"dot": "emerald", "title": "Working locally", "items": ["Versioned objects, ontology, operator UI and deterministic rendering", "Firebase Google provider configured; browser login still requires a compatible external browser"]},
+    {"dot": "amber", "title": "Prepared, not connected", "items": ["BigQuery schemas do not prove application synchronization", "Publishing remains blocked until exact-artifact human approval"]},
+    {"dot": "cyan", "title": "Integration rule", "items": ["Archify documents the system locally", "OpenSEO and MiniMind stay behind cost, data and measured-quality gates"]}
+  ]
+}

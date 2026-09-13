@@ -1,0 +1,137 @@
+{
+  "schema_version": "commons-context-receipt-1",
+  "observed_at": "2026-09-13T05:56:23.463418+00:00",
+  "title": "File:Sunset over the horizon 1.jpg",
+  "page_id": 195805021,
+  "page_revision": 1248708481,
+  "source_permalink": "https://commons.wikimedia.org/w/index.php?curid=195805021&oldid=1248708481",
+  "api_uri": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&prop=imageinfo%7Cinfo&titles=File%3ACoastal+landscape+at+sunset+in+Rio+de+Janeiro%2C+Brazil.jpg%7CFile%3ASnowy+Rocky+Mountains+in+Banff+9.jpg%7CFile%3ASunset+over+the+horizon+1.jpg&iiprop=url%7Csize%7Csha1%7Cextmetadata&iiurlwidth=1920&maxlag=5",
+  "creator": "Johnnybam",
+  "source_credit": "Own work",
+  "license": "CC0-1.0",
+  "license_uri": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "download_uri": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Sunset_over_the_horizon_1.jpg/1920px-Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+  "width": 1920,
+  "height": 2560,
+  "asset_uri": "assets/media/commons/195805021-1248708481-31bf649a1b8c/context.jpg",
+  "sha256": "31bf649a1b8c9d639998eecc30c85b816a4610600a32176370c6b57286b22e42",
+  "evidence_metadata_sha256": "6e9c5344a11ede195a70d0ea54351fba81c2699f69d72a3ad4a01a5f23fd4095",
+  "evidence_metadata": {
+    "pageid": 195805021,
+    "ns": 6,
+    "title": "File:Sunset over the horizon 1.jpg",
+    "imagerepository": "local",
+    "imageinfo": [
+      {
+        "size": 2677594,
+        "width": 3072,
+        "height": 4096,
+        "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Sunset_over_the_horizon_1.jpg/1920px-Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "thumbwidth": 1920,
+        "thumbheight": 2560,
+        "responsiveUrls": {
+          "2": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
+        },
+        "thumbattribs": {
+          "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Sunset_over_the_horizon_1.jpg/1920px-Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+          "decoding": "async",
+          "loading": "lazy",
+          "width": 1920,
+          "height": 2560,
+          "srcset": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled 2x"
+        },
+        "url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Sunset_over_the_horizon_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+        "descriptionurl": "https://commons.wikimedia.org/wiki/File:Sunset_over_the_horizon_1.jpg",
+        "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=195805021",
+        "sha1": "c1bd6ecb09b57648c23d8a180ea32f892bb0fa01",
+        "extmetadata": {
+          "DateTime": {
+            "value": "2026-07-17 15:14:37",
+            "source": "mediawiki-metadata",
+            "hidden": ""
+          },
+          "ObjectName": {
+            "value": "Sunset over the horizon 1",
+            "source": "mediawiki-metadata"
+          },
+          "CommonsMetadataExtension": {
+            "value": 1.2,
+            "source": "extension",
+            "hidden": ""
+          },
+          "Categories": {
+            "value": "CC-Zero|Self-published work|Images from Wiki Loves Earth 2026 in Nigeria|Wiki Loves Earth 2026 in South East Nigeria",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "Assessments": {
+            "value": "",
+            "source": "commons-categories",
+            "hidden": ""
+          },
+          "ImageDescription": {
+            "value": "The golden sun sets behind silhouettes of trees, casting a warm glow across the cloudy sky.",
+            "source": "commons-desc-page"
+          },
+          "DateTimeOriginal": {
+            "value": "2026-06-26 18:24:01",
+            "source": "commons-desc-page"
+          },
+          "Credit": {
+            "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+            "source": "commons-desc-page"
+          },
+          "Artist": {
+            "value": "<a href=\"//commons.wikimedia.org/wiki/User:Johnnybam\" title=\"User:Johnnybam\">Johnnybam</a>",
+            "source": "commons-desc-page"
+          },
+          "LicenseShortName": {
+            "value": "CC0",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "UsageTerms": {
+            "value": "Creative Commons Zero, Public Domain Dedication",
+            "source": "commons-desc-page"
+          },
+          "AttributionRequired": {
+            "value": "false",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "LicenseUrl": {
+            "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+            "source": "commons-desc-page"
+          },
+          "Copyrighted": {
+            "value": "True",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "Restrictions": {
+            "value": "",
+            "source": "commons-desc-page",
+            "hidden": ""
+          },
+          "License": {
+            "value": "cc0",
+            "source": "commons-templates",
+            "hidden": ""
+          }
+        }
+      }
+    ],
+    "contentmodel": "wikitext",
+    "pagelanguage": "en",
+    "pagelanguagehtmlcode": "en",
+    "pagelanguagedir": "ltr",
+    "touched": "2026-07-17T22:23:18Z",
+    "lastrevid": 1248708481,
+    "length": 421
+  },
+  "representation_detail": "context_photograph",
+  "visual_risk_review": "pending",
+  "not_product_photography": true,
+  "not_camera_sample": true,
+  "publication_approval": false
+}

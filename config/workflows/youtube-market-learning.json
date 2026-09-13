@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "workflow_id": "youtube_market_learning",
+  "domain": "smart_glasses",
+  "purpose": "Discover recurring SmartGlasses coverage signals and turn them into bounded ontology and content-strategy learning without treating videos as product-fact evidence.",
+  "schedule": {
+    "cadence": "every_4_weeks",
+    "reason": "Stay within YouTube API data-refresh requirements while approximating a monthly research cycle."
+  },
+  "source": {
+    "provider": "YouTube Data API v3",
+    "authentication": "YOUTUBE_API_KEY",
+    "mode": "public_metadata_only",
+    "queries": [
+      "smart glasses review",
+      "AR glasses comparison",
+      "AI smart glasses review",
+      "smart glasses app ecosystem",
+      "smart glasses subscription",
+      "smart glasses buyer guide"
+    ],
+    "relevance_language": "en",
+    "lookback_days": 365,
+    "max_results_per_query": 10,
+    "max_candidate_channels": 12
+  },
+  "budgets": {
+    "max_search_requests_per_run": 6,
+    "max_api_response_bytes": 2097152,
+    "max_runtime_seconds": 120,
+    "paid_model_calls": 0,
+    "media_downloads": 0
+  },
+  "retention": {
+    "current_snapshot_days": 29,
+    "current_snapshot": ".local/youtube-market-learning/current-snapshot.json",
+    "dedupe_scope": "Deduplicate raw video IDs only against the current unexpired snapshot; delete or refresh non-authorized metadata before 30 days.",
+    "history": "Long-term run receipts retain our request/result counts and a snapshot fingerprint, but no video IDs, channel IDs, titles, descriptions, comments, transcripts, statistics or audiovisual content."
+  },
+  "topic_taxonomy": {
+    "display_optics": ["field of view", "fov", "micro oled", "resolution", "brightness", "refresh rate", "display"],
+    "compatibility_ecosystem": ["android", "iphone", "windows", "mac", "steam deck", "app store", "companion app", "ecosystem"],
+    "ownership_cost": ["price", "subscription", "monthly fee", "membership", "accessory", "adapter", "value"],
+    "comfort_fit": ["weight", "comfort", "fit", "prescription", "nose", "eye strain"],
+    "privacy_social": ["camera", "recording", "privacy", "indicator", "bystander"],
+    "use_cases": ["gaming", "productivity", "translation", "navigation", "filming", "travel", "work"],
+    "comparison_buying": [" versus ", " vs ", "compare", "comparison", "best", "review", "worth", "buyer"],
+    "reliability_support": ["firmware", "update", "warranty", "return", "support", "overheating", "battery"],
+    "audio_voice_ai": ["ai", "assistant", "microphone", "speaker", "audio", "voice"]
+  },
+  "ontology_candidates": [
+    {
+      "key": "required_companion_device",
+      "label": "Required companion device",
+      "value_type": "text",
+      "unit": null,
+      "category": "all",
+      "description": "Required phone, compute puck, console, adapter or other host device, including compatibility conditions.",
+      "trigger_terms": ["required phone", "compute puck", "companion device", "required adapter"],
+      "minimum_distinct_channels": 2,
+      "minimum_distinct_videos": 3
+    },
+    {
+      "key": "firmware_support",
+      "label": "Firmware and software support",
+      "value_type": "text",
+      "unit": null,
+      "category": "all",
+      "description": "Documented update channel, support commitment and feature dependencies; do not infer future support.",
+      "trigger_terms": ["firmware update", "software update", "support policy", "update support"],
+      "minimum_distinct_channels": 2,
+      "minimum_distinct_videos": 3
+    }
+  ],
+  "workflow_families": ["category", "product", "feature", "comparison", "use_case", "value", "change", "compatibility", "question", "myth", "market", "commercial"],
+  "gates": {
+    "product_fact_evidence": "YouTube topic discovery cannot establish product facts; claims still require governed primary or qualified independent evidence.",
+    "ontology_promotion": "A detected topic remains an expiring signal until independently corroborated; it never activates a field definition or becomes permanent product evidence.",
+    "publication": "No discovered title, strategy or draft is publication approval.",
+    "rights": "Do not download video, audio, thumbnails or transcripts. Store no comments or viewer identity.",
+    "channel_selection": "Candidate channels are recurring results in a bounded query set, not a definitive popularity, quality or endorsement ranking."
+  },
+  "references": {
+    "design_inspiration": "https://github.com/EfficientStreet/youtube-subscriptions-ingest",
+    "license": "MIT",
+    "youtube_terms": "https://www.youtube.com/t/terms",
+    "youtube_api_policies": "https://developers.google.com/youtube/terms/developer-policies"
+  }
+}

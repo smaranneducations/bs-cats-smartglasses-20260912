@@ -1,0 +1,5 @@
+{
+  "domain_id": "smart-glasses",
+  "selection_state": "working_default",
+  "note": "This selects a replaceable domain pack; it does not rename or fork the core engine."
+}

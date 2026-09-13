@@ -1,0 +1,28 @@
+{
+  "domain_id": "smart-glasses",
+  "version": "1.0.0",
+  "label": "Smart glasses",
+  "primary_entity_type": "product",
+  "catalogue_identity": ["brand", "model", "variant", "market"],
+  "ontology": {
+    "namespace": "smart_glasses",
+    "definition_source": "versioned_field_definition_objects",
+    "required_context": ["market", "variant", "unit", "conditions", "observed_at", "source_ids"]
+  },
+  "buyer_jobs": ["portable_visual_workspace", "media_and_gaming", "mobile_productivity", "communication", "accessibility_and_assistance"],
+  "content_lenses": ["product", "comparison", "feature", "category", "use_case", "change", "engagement", "commercial"],
+  "workflow_roles": [
+    {"role_id": "source_scout", "output": "source_candidate", "default_mode": "automatic"},
+    {"role_id": "rights_gate", "output": "source_policy", "default_mode": "automatic_with_exception"},
+    {"role_id": "extractor", "output": "assertion", "default_mode": "automatic"},
+    {"role_id": "normalizer", "output": "normalized_assertion", "default_mode": "automatic"},
+    {"role_id": "conflict_resolver", "output": "resolution_or_exception", "default_mode": "automatic_with_exception"},
+    {"role_id": "analyst", "output": "analysis", "default_mode": "automatic"},
+    {"role_id": "content_composer", "output": "content_bundle", "default_mode": "automatic"},
+    {"role_id": "release_controller", "output": "exact_publication_decision", "default_mode": "human_exception"}
+  ],
+  "source_classes": ["manufacturer", "official_support", "authorized_retailer", "regulator", "licensed_media_repository", "firsthand_human_observation"],
+  "media_policy": {"exact_product_identity_required": true, "category_context_must_be_labeled": true, "license_manifest_required": true},
+  "commercial_paths": ["disclosed_affiliate", "sponsored_editorial_separation", "paid_report", "decision_tool", "licensed_export"],
+  "presentation_channels": ["public_swipe_feed", "youtube_short", "comparison_page", "report"]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_version": "performance-metrics-workflow-1",
+  "workflow_id": "performance_metrics",
+  "purpose": "Link channel performance to the exact canonical video and creative recipe without treating popularity as factual truth.",
+  "sources": {
+    "owned_app": {
+      "state": "implemented_local",
+      "input": ".local/audience-events.jsonl",
+      "collector": "scripts/collect_owned_metrics.py",
+      "text_retention": "Comments remain in the moderation store and are not copied into analytics rows."
+    },
+    "youtube": {
+      "state": "planned",
+      "method": "Authorized YouTube Analytics or Data API for project-owned videos only",
+      "retention": "Reconfirm authorization and video existence at least every 30 days."
+    },
+    "linkedin": {
+      "state": "planned",
+      "method": "Authorized organization or member analytics where the approved API product permits it"
+    }
+  },
+  "warehouse_targets": [
+    "smart_glasses_core.analytics_metric_snapshots",
+    "smart_glasses_core.analytics_primitive_usage"
+  ],
+  "separation_rules": [
+    "Reach, retention and engagement can tune creative selection but cannot validate a product fact.",
+    "Reviewer factual and rights decisions remain separate governed objects.",
+    "Every metric row identifies the canonical distribution package and platform post ID.",
+    "Primitive usage is version-bound to the render recipe."
+  ],
+  "admission": {
+    "warehouse_write_enabled": false,
+    "reason": "Enable only after idempotent projection and current cost/query-byte controls are connected.",
+    "paid_model_calls": 0
+  }
+}

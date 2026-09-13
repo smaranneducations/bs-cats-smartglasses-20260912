@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.2",
+  "profile_id": "vivid_evidence_kinetic",
+  "revision": 3,
+  "effective_date": "2026-09-13",
+  "scope": "Canonical SmartGlasses audience video reused across the owned app and channel adapters",
+  "authority": "Human creative preference; no change to financial, source-rights or publishing authority.",
+  "reference": {
+    "specification": ".local/content/kinetic_2026_category_guide_v2.json",
+    "use": "Visual and pacing reference only. Reassess claims, media rights and old wording before reuse.",
+    "missing_reference": "Report the missing reference; do not silently substitute a different creative style."
+  },
+  "duration_seconds": {
+    "minimum": 30,
+    "maximum": 90
+  },
+  "atomic_content": {
+    "maximum_products": 2,
+    "primary_attributes": 1,
+    "master_aspect_ratio": "9:16",
+    "rule": "One buyer question, one primary attribute or comparison concept, one canonical video. Evidence caveats and attribution do not create extra topics."
+  },
+  "visuals": {
+    "direction": "Vivid, colourful, realistic imagery with energetic kinetic typography.",
+    "imagery": "Original or appropriately licensed imagery. Concept imagery must not imply verified product appearance or capabilities.",
+    "abstract_only": "Technical preview fallback only; not the audience-facing default."
+  },
+  "audio": {
+    "background_music": "Required for the normal audience-facing creative profile; original or appropriately licensed.",
+    "mechanical_narration": "Do not use.",
+    "voiceover": "Off by default. Narration and background music are independent settings.",
+    "rights": "Record provenance and intended channel/commercial-use rights; do not assume any available track is cleared."
+  },
+  "editorial": {
+    "promise": "Evidence over hype",
+    "presentation": "Use concise hooks and readable copy. Keep decision-critical caveats visible and fuller evidence readily accessible.",
+    "prohibited": "Do not invent hands-on experience, product performance, source clearance, guaranteed views or revenue."
+  },
+  "feedback_disposition": {
+    "creative_regression": "The plain, silent comparison/product/feature exports are technical drafts, not accepted creative baselines.",
+    "architecture_regression": "Video demos and passing local tests do not establish a functioning warehouse, agent runtime or feedback-learning loop."
+  },
+  "proposed_acceptance_checks": [
+    "Audio inspection confirms a background-music stream independently of narration.",
+    "Required image assets and rights metadata are available.",
+    "The output follows the preferred vivid image-led reference rather than a plain-card fallback.",
+    "The active profile revision is stored in the storyboard and render manifest.",
+    "A creative-preference change identifies affected outputs for rework."
+  ],
+  "enforcement": {
+    "status": "specified_not_enforced",
+    "renderer_reads_profile": true,
+    "automatic_feedback_promotion": false,
+    "publication_allowed": false
+  },
+  "runtime_settings": {
+    "duration_min_seconds": 30,
+    "duration_max_seconds": 90,
+    "background_music_required": true,
+    "voiceover_enabled": false,
+    "imagery_mode": "original_or_licensed_realistic",
+    "kinetic_text": true,
+    "media_rights_required": true,
+    "mechanical_narration_allowed": false
+  }
+}

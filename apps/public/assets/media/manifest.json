@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "policy": {
+    "purpose": "Rights-governed visual inventory for public cards and video compositions.",
+    "selection_rule": "Only use an asset when its file-level license permits the intended use and all attribution/derivative conditions can be met.",
+    "identity_rule": "Category-context imagery must never be presented as the product named in a card unless asset.product_identity matches that product version.",
+    "exact_product_gap": "No reusable VITURE Luma Pro product photograph is currently approved. These assets depict Google Glass and are category context only."
+  },
+  "assets": [
+    {
+      "asset_id": "commons_google_glass_wearer",
+      "local_path": "/discover-assets/assets/media/google-glass-wearer.jpg",
+      "title": "A Google Glass wearer",
+      "creator": "Loic Le Meur",
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_Google_Glass_wearer.jpg",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution": "A Google Glass wearer by Loic Le Meur, CC BY 2.0, via Wikimedia Commons. Cropped and overlaid with text.",
+      "product_identity": "Google Glass Explorer Edition",
+      "usage_scope": "category_context_only",
+      "commercial_reuse": true,
+      "derivatives_allowed": true,
+      "attribution_required": true,
+      "share_alike_required": false,
+      "personality_rights_review": "Use as editorial category context only; do not imply endorsement."
+    },
+    {
+      "asset_id": "commons_google_glass_product",
+      "local_path": "/discover-assets/assets/media/google-glass-product.jpg",
+      "title": "Google Glass (14810331679)",
+      "creator": "Karlis Dambrans",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Google_Glass_(14810331679).jpg",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0/",
+      "attribution": "Google Glass by Karlis Dambrans, CC BY 2.0, via Wikimedia Commons. Cropped and overlaid with text.",
+      "product_identity": "Google Glass",
+      "usage_scope": "category_context_only",
+      "commercial_reuse": true,
+      "derivatives_allowed": true,
+      "attribution_required": true,
+      "share_alike_required": false
+    },
+    {
+      "asset_id": "commons_google_glass_detail",
+      "local_path": "/discover-assets/assets/media/google-glass-detail.jpg",
+      "title": "Google Glass Main",
+      "creator": "Tim.Reckmann",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Google_Glass_Main.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "attribution": "Google Glass Main by Tim.Reckmann, CC BY-SA 3.0, via Wikimedia Commons. Cropped and overlaid with text; resulting visual treatment is offered under CC BY-SA 3.0 where required.",
+      "product_identity": "Google Glass",
+      "usage_scope": "category_context_only",
+      "commercial_reuse": true,
+      "derivatives_allowed": true,
+      "attribution_required": true,
+      "share_alike_required": true
+    },
+    {
+      "asset_id": "commons_google_glass_sunglasses",
+      "local_path": "/discover-assets/assets/media/google-glass-sunglasses.jpg",
+      "title": "Google Glass Sunglasses",
+      "creator": "Tim.Reckmann",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Google_Glass_Sunglasses.jpg",
+      "license": "CC BY-SA 3.0",
+      "license_url": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "attribution": "Google Glass Sunglasses by Tim.Reckmann, CC BY-SA 3.0, via Wikimedia Commons. Cropped and overlaid with text; resulting visual treatment is offered under CC BY-SA 3.0 where required.",
+      "product_identity": "Google Glass with sunglass shield",
+      "usage_scope": "category_context_only",
+      "commercial_reuse": true,
+      "derivatives_allowed": true,
+      "attribution_required": true,
+      "share_alike_required": true
+    }
+  ]
+}

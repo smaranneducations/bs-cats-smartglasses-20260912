@@ -1,0 +1,28 @@
+{
+  "schema_version": "revenue-portfolio-1",
+  "version": 1,
+  "currency": "USD",
+  "experiment_ceiling": 500,
+  "paid_work_stop": 450,
+  "reserve": 50,
+  "ethical_override": true,
+  "channels": [
+    {"id": "youtube_advertising", "state": "hypothesis"},
+    {"id": "affiliate_referral", "state": "evidence_gate"},
+    {"id": "sponsorship", "state": "hypothesis"},
+    {"id": "paid_reports_tools", "state": "hypothesis"},
+    {"id": "dataset_api_access", "state": "hypothesis"},
+    {"id": "customer_funded_video", "state": "hypothesis", "target_gross_margin_percent": 30},
+    {"id": "platform_licensing", "state": "hypothesis"},
+    {"id": "education_training", "state": "hypothesis"},
+    {"id": "asset_channel_sale", "state": "hypothesis"}
+  ],
+  "truth_rules": [
+    "Ethics, legality, safety, truth, privacy, rights and human dignity override revenue.",
+    "Revenue is recorded only when collected.",
+    "Views do not prove commercial demand.",
+    "Customer-funded model use does not make platform cost zero.",
+    "Commercial relationships cannot determine factual rankings."
+  ],
+  "authority": "docs/BUSINESS_MODEL_AND_MEASUREMENT.md"
+}

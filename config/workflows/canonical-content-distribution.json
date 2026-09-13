@@ -1,0 +1,89 @@
+{
+  "version": "1.0",
+  "workflow_id": "canonical_content_distribution",
+  "principle": "Create one governed audience asset and adapt only its delivery metadata.",
+  "canonical_asset": {
+    "ownership": "self_hosted",
+    "format": "MP4 H.264 with AAC audio",
+    "aspect_ratio": "9:16",
+    "duration_seconds": {"minimum": 30, "maximum": 90, "default": 60},
+    "maximum_products": 2,
+    "primary_attributes": 1,
+    "content_shapes": [
+      "one_product_one_attribute_and_practical_impact",
+      "two_products_one_attribute_comparison",
+      "one_news_event_and_why_it_matters",
+      "one_buyer_question_and_evidence_bound_answer"
+    ],
+    "storage_rule": "The owned application copy is canonical. Platform copies are distribution replicas and never the sole surviving asset."
+  },
+  "task_stages": [
+    {"role": "strategist", "output": "one audience question and content shape"},
+    {"role": "evidence_researcher", "output": "source-bound claims and explicit unknowns"},
+    {"role": "marketer", "output": "hook, audience promise and channel-specific framing"},
+    {"role": "script_writer", "output": "one 30-90 second kinetic-text script"},
+    {"role": "media_curator", "output": "rights-compatible catalog assets or one admitted generation request"},
+    {"role": "editor", "output": "clarity, originality, factual and pacing corrections"},
+    {"role": "director", "output": "one 9:16 storyboard and render recipe"},
+    {"role": "renderer", "output": "canonical video, poster, captions and manifest"},
+    {"role": "release_reviewer", "output": "one exact package for destination approval"},
+    {"role": "publisher", "output": "idempotent destination receipts after approval"}
+  ],
+  "destinations": {
+    "owned_app": {
+      "mode": "automatic_after_exact_approval",
+      "video": "canonical_self_hosted_asset",
+      "engagement": ["like", "dislike", "comment", "report"],
+      "reason": "Preserve the audience asset and first-party learning if an external channel is suspended."
+    },
+    "youtube": {
+      "mode": "api_after_exact_approval",
+      "video": "canonical_asset_replica",
+      "copy": ["title", "description", "tags", "disclosure", "canonical_app_link"]
+    },
+    "linkedin": {
+      "mode": "api_after_exact_approval",
+      "video": "canonical_asset_replica",
+      "copy": ["post_text", "title", "disclosure", "canonical_app_link"]
+    },
+    "instagram": {
+      "mode": "manual_posting_kit",
+      "copy": ["caption", "hashtags", "canonical_app_link"]
+    },
+    "tiktok": {
+      "mode": "manual_posting_kit",
+      "copy": ["caption", "hashtags", "canonical_app_link"]
+    },
+    "x": {
+      "mode": "manual_posting_kit",
+      "copy": ["post_text", "canonical_app_link"]
+    }
+  },
+  "approval": {
+    "single_review_package": true,
+    "must_include": [
+      "exact_video_hash",
+      "poster_and_caption_hashes",
+      "factual_and_source_review",
+      "media_rights_review",
+      "each_destination",
+      "exact_platform_copy",
+      "disclosures",
+      "self_hosted_public_url"
+    ],
+    "approval_effect": "Approval authorizes only the pinned hashes, copy and destinations. Any change creates a new package."
+  },
+  "resilience": {
+    "platform_id_is_not_primary_key": true,
+    "canonical_video_id_is_primary_key": true,
+    "retain_source_manifest": true,
+    "retain_publication_receipts": true,
+    "ambiguous_uploads_are_not_retried_blindly": true
+  },
+  "cost_controls": {
+    "one_render_per_approved_content_version": true,
+    "channel_specific_video_rerenders": false,
+    "owned_delivery_egress_measured": true,
+    "preview_before_final_render": true
+  }
+}
