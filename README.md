@@ -346,6 +346,34 @@ Unknown is a valid value. Manufacturer-stated specifications are not presented a
 
 ---
 
+## Incremental catalogue growth
+
+The system does not wait for a perfect product row before learning that a product exists. After durable Firebase/Firestore persistence is operational, the SmartGlasses collector will pursue broad market discovery, with 60 to 70 models as a target to validate rather than a claimed market total.
+
+A new model can enter with stable product, variant and market identity plus at least one lawful source receipt. Every attribute then evolves independently.
+
+| Availability state | Meaning | Default next action |
+|---|---|---|
+| `available` | A value is present with its applicable evidence state | Use only within its confidence, rights, market and freshness limits |
+| `unknown` | The system has not established whether a value exists | Queue only when the field matters to a prioritized task |
+| `not_found_yet` | Bounded research did not find a usable value | Retry on a later refresh or new source, with deduplication |
+| `not_disclosed` | A relevant source intentionally provides no value | Do not repeatedly scrape; revisit when source/version changes |
+| `not_applicable` | The concept does not apply to this product or variant | Exclude from coverage penalties and comparisons |
+| `conflicting` | Current sources disagree materially | Preserve both assertions and route the consequential conflict |
+| `stale` | A previous value exceeded its freshness policy | Keep history, block freshness-dependent claims and refresh |
+
+Missing never means false, zero or invented. Human-supplied information is stored as an attributed observation until the appropriate evidence and review process promotes it.
+
+### Usefulness is dependency-based
+
+A KPI, card, comparison or video declares the concepts it needs. Missing subscription information should block a subscription-cost claim, but it should not prevent a supported display-resolution story. Missing weight should not block an app-store comparison unless weight is part of that output.
+
+The eligibility decision therefore evaluates the exact required fields, object versions, evidence, confidence, freshness, rights and market scope. Unrelated missing attributes remain visible but do not create a blanket incomplete-record rejection.
+
+Catalogue quality is measured through distinct comparable identities, priority-field coverage, freshness, source diversity, accepted assertions, correction rate, cost and human minutes. Record count alone is not success.
+
+---
+
 ## One guided operating loop
 
 1. **Define domain:** describe the domain, audience, buyer problem and source boundaries.
@@ -532,6 +560,7 @@ The current baseline is 187 passing tests. One non-failing fixture warning is do
 | Media rights | [Media catalog and generation](docs/MEDIA_CATALOG_AND_GENERATION.md) |
 | Release truth | [Release readiness](docs/V1_RELEASE_READINESS.md) |
 | Strategic leverage | [Innovation and atomic context](docs/STRATEGIC_INNOVATION_AND_CONTEXT.md) |
+| Incremental data growth | [Incremental catalogue policy](docs/INCREMENTAL_CATALOG_POLICY.md) |
 
 ---
 
