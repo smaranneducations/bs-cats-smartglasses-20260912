@@ -2,6 +2,8 @@
 
 Start with [current execution](CURRENT_EXECUTION.md), not an old checkpoint. The [root README](../README.md) describes the product and economics; this index locates implementation evidence and instructions.
 
+Latest [agent-run acceptance report](acceptance/2026-09-13.md): automated checks, Chrome audience/admin journeys, and the remaining human-UAT gates. Test results are tied to their source/deployment, not treated as universal proof of readiness.
+
 ## Purpose, authority, and operating rules
 
 | Question | Canonical reference |
