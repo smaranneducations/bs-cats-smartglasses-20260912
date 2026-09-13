@@ -462,6 +462,19 @@ Only production is live. Preprod and UAT are immutable snapshots and validation 
 - Production versions use semantic versioning, release notes and a rollback target.
 - Direct cloud-console changes are break-glass only and must be reconciled through GitHub.
 
+Every human-identified issue and pull request starts with the same compact review card:
+
+| Section | Content rule |
+|---|---|
+| Problem statement | What outcome or user problem requires attention; maximum two non-empty lines |
+| Issue/change identified | The observed defect, gap or enhancement; maximum two non-empty lines |
+| Root cause or opportunity rationale | Observable cause for a defect, or present limitation/value hypothesis for an enhancement; maximum two non-empty lines |
+| Key steps | The essential implementation and validation path; maximum two non-empty lines |
+
+A PR may carry multiple changes when they form one coherent patch and share an outcome, acceptance boundary and rollback. Unrelated work uses separate PRs. CI validates the summary format before merge.
+
+Resolved technical mistakes become concise engineering lessons. A lesson records the symptom, root-cause category, fix, prevention and regression evidence, then is retrieved only for relevant future work. Repeated lessons should become automated tests or controls so the system improves without preserving private reasoning or sensitive incident detail.
+
 Read the [change and release constitution](docs/CHANGE_AND_RELEASE_CONSTITUTION.md) and [contribution guide](CONTRIBUTING.md).
 
 ---
@@ -561,6 +574,7 @@ The current baseline is 187 passing tests. One non-failing fixture warning is do
 | Release truth | [Release readiness](docs/V1_RELEASE_READINESS.md) |
 | Strategic leverage | [Innovation and atomic context](docs/STRATEGIC_INNOVATION_AND_CONTEXT.md) |
 | Incremental data growth | [Incremental catalogue policy](docs/INCREMENTAL_CATALOG_POLICY.md) |
+| Issue summaries and technical learning | [Engineering change memory](docs/ENGINEERING_CHANGE_MEMORY.md) |
 
 ---
 

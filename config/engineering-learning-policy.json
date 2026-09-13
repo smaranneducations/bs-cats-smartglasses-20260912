@@ -1,0 +1,66 @@
+{
+  "schema_version": "engineering-learning-policy-1",
+  "policy_id": "concise-change-and-recurrence-memory",
+  "version": "1.0.0",
+  "summary_contract": {
+    "sections": [
+      "problem_statement",
+      "issue_or_change_identified",
+      "root_cause_or_opportunity_rationale",
+      "key_steps"
+    ],
+    "maximum_non_empty_lines_per_section": 2,
+    "plain_language_required": true,
+    "implementation_detail_belongs_in_linked_artifacts": true
+  },
+  "patch_scope": {
+    "one_or_more_changes_allowed": true,
+    "changes_must_share_one_coherent_outcome": true,
+    "shared_acceptance_and_rollback_required": true,
+    "unrelated_changes_split": true
+  },
+  "learning_record": {
+    "required_fields": [
+      "lesson_id",
+      "observed_symptom",
+      "root_cause_category",
+      "corrective_change",
+      "prevention",
+      "affected_technology_or_workflow",
+      "regression_evidence",
+      "first_seen_at",
+      "last_seen_at",
+      "recurrence_count",
+      "policy_and_code_versions"
+    ],
+    "forbidden_content": [
+      "hidden_chain_of_thought",
+      "credentials_or_tokens",
+      "personal_or_restricted_data",
+      "private_exploit_details",
+      "unsupported_blame_or_speculation"
+    ]
+  },
+  "retrieval": {
+    "match_on": [
+      "technology",
+      "workflow",
+      "failure_category",
+      "affected_contract",
+      "task_risk"
+    ],
+    "retrieve_only_relevant_current_lessons": true,
+    "superseded_lessons_are_not_active": true
+  },
+  "promotion": {
+    "on_recurrence_consider": [
+      "regression_test",
+      "deterministic_validator",
+      "static_check_or_linter",
+      "template_or_form_constraint",
+      "architecture_or_policy_control"
+    ],
+    "root_cause_must_be_observable": true,
+    "security_detail_uses_private_reporting": true
+  }
+}

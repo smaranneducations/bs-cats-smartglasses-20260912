@@ -37,6 +37,20 @@
     "deletion_allowed": false,
     "conversation_resolution_required": true
   },
+  "change_summary": {
+    "required_sections": [
+      "problem_statement",
+      "issue_or_change_identified",
+      "root_cause_or_opportunity_rationale",
+      "key_steps"
+    ],
+    "maximum_non_empty_lines_per_section": 2,
+    "applies_to": ["human_identified_issue", "enhancement", "bug_fix", "pull_request"],
+    "enhancement_uses_opportunity_rationale": true,
+    "multiple_changes_allowed_when_coherent": true,
+    "unrelated_changes_require_separate_pull_requests": true,
+    "enforced_in_pull_request_ci": true
+  },
   "snapshots": {
     "daily": {
       "frequency": "daily_and_on_main_change",
