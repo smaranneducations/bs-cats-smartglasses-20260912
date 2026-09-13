@@ -72,6 +72,45 @@
         "actor_id": {"type": ["string", "null"]}
       }
     },
+    "business_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "industry_context_ids",
+        "audience_segment_ids",
+        "technology_concept_ids",
+        "narrative_angle_id"
+      ],
+      "properties": {
+        "industry_context_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "audience_segment_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "technology_concept_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "narrative_angle_id": { "type": ["string", "null"] },
+        "market_snapshot_id": { "type": ["string", "null"] },
+        "company_snapshot_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "event_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
     "assurance": {
       "type": "object",
       "additionalProperties": false,

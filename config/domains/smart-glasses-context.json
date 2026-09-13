@@ -1,0 +1,28 @@
+{
+  "configuration_version": "smart-glasses-context-1",
+  "domain_id": "smart_glasses",
+  "status": "ontology-seed-requires-evidence-population",
+  "domain_definition": {
+    "working_scope": "Consumer and prosumer wearable computing devices worn in an eyewear form factor, with explicit distinctions among display-first, audio-first, camera-first, AI-companion and spatial-computing capabilities.",
+    "boundary_rule": "A product label alone does not establish comparable capability; classify capabilities, market variant, ecosystem and intended job separately.",
+    "claim_status": "taxonomy_only_not_a_market_fact"
+  },
+  "audience_hypotheses": [
+    { "segment_id": "mobile_productivity", "job_to_be_done": "Access useful information or a private display while mobile.", "validation_state": "hypothesis" },
+    { "segment_id": "media_and_gaming", "job_to_be_done": "Use a portable immersive or large-screen media experience.", "validation_state": "hypothesis" },
+    { "segment_id": "developers_and_early_adopters", "job_to_be_done": "Evaluate emerging interaction models, ecosystems and integration options.", "validation_state": "hypothesis" },
+    { "segment_id": "accessibility_and_assistance", "job_to_be_done": "Explore assistance capabilities while keeping individual needs and product evidence explicit.", "validation_state": "hypothesis" }
+  ],
+  "industry_concepts": ["category_boundaries", "value_chain", "business_models", "distribution_and_fulfilment", "standards_and_interoperability", "app_and_content_ecosystems", "adoption_drivers", "adoption_barriers", "privacy_and_social_acceptance", "regulatory_environment"],
+  "technology_concepts": ["display_and_optics", "audio", "cameras_and_sensing", "input_and_interaction", "compute_architecture", "battery_and_power", "connectivity", "operating_system_and_apps", "ai_capabilities", "privacy_and_security", "accessibility", "maturity_and_dependencies", "tradeoffs", "interoperability"],
+  "market_concepts": ["market_size_estimate", "growth_forecast", "pricing_distribution", "availability_by_market", "adoption_signal", "company_market_capitalization_snapshot"],
+  "narrative_families": ["feature_to_user_impact", "one_tradeoff_two_products", "technology_explained", "who_this_is_for", "ecosystem_dependency", "what_changed", "regulation_and_privacy", "timeline", "evidence_gap_or_unknown"],
+  "population_rules": {
+    "require_source_receipt": true,
+    "require_time_and_geography_for_volatile_claims": true,
+    "unknown_is_allowed": true,
+    "audience_hypotheses_require_validation": true,
+    "market_cap_is_not_product_rank": true,
+    "market_cap_is_not_market_size": true
+  }
+}
