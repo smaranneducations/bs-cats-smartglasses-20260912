@@ -1,3 +1,5 @@
+> Execution evidence: [CURRENT_EXECUTION.md](CURRENT_EXECUTION.md). Agent roster entries and MCP specifications are not executable integrations. The registered local runtime has three deterministic profiles; its paid adapter remains disabled.
+
 # Skills tools MCP and API registry
 
 ## Purpose

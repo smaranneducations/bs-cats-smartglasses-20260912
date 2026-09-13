@@ -1,12 +1,16 @@
 {
   "schema_version": "runtime-profiles-1",
-  "charter_version": "1.6",
+  "charter_version": "1.7",
   "profiles": {
     "catalogue_auditor": {
       "revision": 1,
       "tool": "catalogue_coverage",
       "purpose": "Identify missing, stale, or weakly supported product fields without inventing replacements.",
-      "permissions": ["read_objects", "read_ontology", "propose_review"],
+      "permissions": [
+        "read_objects",
+        "read_ontology",
+        "propose_review"
+      ],
       "execution": "deterministic",
       "maximum_seconds": 30,
       "maximum_attempts": 2,
@@ -18,7 +22,11 @@
       "revision": 1,
       "tool": "source_policy_queue",
       "purpose": "Produce a rights-aware refresh and consent queue; do not fetch, approve, or republish sources.",
-      "permissions": ["read_objects", "read_source_policy", "propose_review"],
+      "permissions": [
+        "read_objects",
+        "read_source_policy",
+        "propose_review"
+      ],
       "execution": "deterministic",
       "maximum_seconds": 30,
       "maximum_attempts": 2,
@@ -30,7 +38,12 @@
       "revision": 1,
       "tool": "workflow_readiness",
       "purpose": "Plan one content family against pinned product versions and the saved creative direction.",
-      "permissions": ["read_objects", "read_ontology", "read_creative_policy", "propose_review"],
+      "permissions": [
+        "read_objects",
+        "read_ontology",
+        "read_creative_policy",
+        "propose_review"
+      ],
       "execution": "deterministic",
       "maximum_seconds": 30,
       "maximum_attempts": 2,

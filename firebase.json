@@ -8,20 +8,143 @@
   },
   "hosting": {
     "public": "dist/firebase",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "cleanUrls": true,
     "trailingSlash": false,
     "rewrites": [
-      {"source": "/health", "run": {"serviceId": "bs-cats-api", "region": "us-central1"}},
-      {"source": "/v1/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1"}},
-      {"source": "/media-review/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1"}},
-      {"source": "/intelligence", "run": {"serviceId": "bs-cats-api", "region": "us-central1"}},
-      {"source": "/intelligence/**", "run": {"serviceId": "bs-cats-api", "region": "us-central1"}},
-      {"source": "/operator", "destination": "/operator/index.html"},
-      {"source": "/operator/**", "destination": "/operator/index.html"},
-      {"source": "/discover", "destination": "/discover/index.html"},
-      {"source": "/discover/**", "destination": "/discover/index.html"},
-      {"source": "**", "destination": "/index.html"}
+      {
+        "source": "/health",
+        "run": {
+          "serviceId": "bs-cats-api",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/v1/**",
+        "run": {
+          "serviceId": "bs-cats-api",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/media-review/**",
+        "run": {
+          "serviceId": "bs-cats-api",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/intelligence",
+        "run": {
+          "serviceId": "bs-cats-api",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/intelligence/**",
+        "run": {
+          "serviceId": "bs-cats-api",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/operator",
+        "destination": "/operator/index.html"
+      },
+      {
+        "source": "/operator/**",
+        "destination": "/operator/index.html"
+      },
+      {
+        "source": "/discover",
+        "destination": "/discover/index.html"
+      },
+      {
+        "source": "/discover/**",
+        "destination": "/discover/index.html"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/operator",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/operator/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/discover",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/discover/**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "/global-nav.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      },
+      {
+        "source": "**/*.css",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
+          }
+        ]
+      }
     ]
   }
 }

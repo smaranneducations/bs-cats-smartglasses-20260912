@@ -1,0 +1,33 @@
+{
+  "schema_version": "hosting-deployment-observation-1",
+  "project_id": "bs-cats-smartglasses-20260912",
+  "source_commit": "da95e4233ce3340d42bc4148c64dccd8d1163cc3",
+  "pull_request": "https://github.com/smaranneducations/bs-cats-smartglasses-20260912/pull/33",
+  "release_time": "2026-09-13T16:07:31.593Z",
+  "release_name": "sites/bs-cats-smartglasses-20260912/releases/1789315651593000",
+  "version_name": "sites/bs-cats-smartglasses-20260912/versions/af9a2499cfc6e1f0",
+  "rollback_version_name": "sites/bs-cats-smartglasses-20260912/versions/645b3d5d16090b03",
+  "scope": "firebase_hosting_only",
+  "path": "explicitly_approved_one_time_emergency_deployment",
+  "ordinary_promotion_evidence": false,
+  "cloud_run_changed": false,
+  "authentication_changed": false,
+  "data_changed": false,
+  "checks": {
+    "operator_html": "HTTP 200, corrected asset references",
+    "operator_css": "HTTP 200, text/css",
+    "operator_scripts": "four referenced scripts HTTP 200, text/javascript",
+    "discover_html": "HTTP 200, text/html",
+    "admin_auth_config": "HTTP 200, application/json; values not recorded",
+    "health": "HTTP 200, healthy, object_store firestore, version 0.4.0",
+    "browser": "Designed operator presentation and administrator sign-in prompt visible after reload"
+  },
+  "not_established": [
+    "authenticated_end_to_end_workflow",
+    "full_production_acceptance",
+    "backup_restore_acceptance",
+    "publication_or_revenue"
+  ],
+  "cost": "No priced model calls initiated; provider infrastructure costs remain unreconciled.",
+  "follow_up_issue": "https://github.com/smaranneducations/bs-cats-smartglasses-20260912/issues/34"
+}

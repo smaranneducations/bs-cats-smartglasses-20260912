@@ -1,3 +1,5 @@
+> Historical checkpoint: current priorities and verified deployment observations are in [CURRENT_EXECUTION.md](CURRENT_EXECUTION.md). Earlier stop instructions, next steps, record counts, and infrastructure states below are historical, not the active handoff.
+
 # V1 execution checkpoint
 
 Date: 2026-09-13. This checkpoint supersedes the earlier overnight handoff's pre-execution statements for the capabilities below.
