@@ -17,6 +17,17 @@
 
 ---
 
+## Start here: live application and current work
+
+- [Audience application](https://bs-cats-smartglasses-20260912.web.app/discover)
+- [Administrator sign-in](https://bs-cats-smartglasses-20260912.web.app/operator)
+- [Current implementation status and completion plan](docs/CURRENT_EXECUTION.md)
+- [Documentation map](docs/README.md)
+
+On 2026-09-13, the merged operator asset-path fix was deployed to Firebase Hosting. The designed operator page and Google sign-in prompt render after a reload; its scripts/styles and the Firestore-backed health endpoint respond correctly. The [deployment receipt](docs/releases/2026-09-13-hosting-hotfix.json) records the exact commit and rollback version. Administrator workflow acceptance, recovery, publication, and commercial results remain separate gates; this is not a claim that the whole application is complete.
+
+The current handoff supersedes old checkpoint next steps and model-switch pauses. Changes continue through GitHub with a concise problem statement, identified change, root cause, implementation, evidence, and rollback. Routine authorized work does not require repeated human approvals.
+
 ## Current release reality
 
 | Surface | State | Where |

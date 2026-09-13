@@ -14,32 +14,29 @@ services:
       - smart-glasses-object-data:/data
 
   agent-runtime:
+    profiles: [scaffolds]
     build:
       context: ./services/agent-runtime
     ports:
       - "8081:8081"
-    env_file:
-      - .env
     environment:
       AGENT_RUNTIME_PORT: 8081
 
   render-worker:
+    profiles: [scaffolds]
     build:
       context: ./services/render-worker
     ports:
       - "8082:8082"
-    env_file:
-      - .env
     environment:
       RENDER_WORKER_PORT: 8082
 
   publisher-worker:
+    profiles: [scaffolds]
     build:
       context: ./services/publisher-worker
     ports:
       - "8083:8083"
-    env_file:
-      - .env
     environment:
       PUBLISHER_WORKER_PORT: 8083
 

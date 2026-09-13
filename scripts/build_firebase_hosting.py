@@ -16,6 +16,46 @@ def copy_tree(source: Path, target: Path) -> None:
     shutil.copytree(source, target)
 
 
+
+def validate_entrypoint_assets(output):
+    """Check packaged entrypoint scripts/styles, not browser or API behavior.
+
+    External assets and JavaScript imports are outside this check's scope.
+    """
+    from html.parser import HTMLParser
+    from urllib.parse import unquote, urljoin, urlsplit
+
+    class References(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.assets = []
+
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if tag == "script" and values.get("src"):
+                self.assets.append((values["src"], ".js"))
+            if tag == "link" and "stylesheet" in values.get("rel", "").lower().split():
+                if values.get("href"):
+                    self.assets.append((values["href"], ".css"))
+
+    root = output.resolve()
+    missing = []
+    for route, filename in (("/", "index.html"), ("/operator", "operator/index.html"),
+                            ("/discover", "discover/index.html")):
+        parser = References()
+        parser.feed((root / filename).read_text(encoding="utf-8"))
+        for reference, extension in parser.assets:
+            supplied = urlsplit(reference)
+            if supplied.scheme or supplied.netloc:
+                continue
+            resolved = urlsplit(urljoin("https://hosting.invalid" + route, reference))
+            asset = (root / unquote(resolved.path).lstrip("/")).resolve()
+            if not asset.is_relative_to(root) or not asset.is_file() or asset.suffix != extension:
+                missing.append(f"{route}: {reference}")
+    if missing:
+        raise ValueError("Hosting entrypoint assets are missing or invalid: " + "; ".join(missing))
+
+
 def main() -> None:
     if OUTPUT.exists():
         shutil.rmtree(OUTPUT)
@@ -34,6 +74,10 @@ def main() -> None:
     architecture = ROOT / "docs" / "architecture"
     if architecture.is_dir():
         copy_tree(architecture, OUTPUT / "operator" / "docs")
+
+    # The audience page loads this shared asset from the site root.
+    shutil.copy2(ROOT / "apps/operator/global-nav.js", OUTPUT / "global-nav.js")
+    validate_entrypoint_assets(OUTPUT)
 
     manifest = {
         "schema_version": "firebase-hosting-bundle-1",

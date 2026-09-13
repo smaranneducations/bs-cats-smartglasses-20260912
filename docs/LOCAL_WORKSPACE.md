@@ -1,3 +1,5 @@
+> Historical checkpoint: current priorities and verified deployment observations are in [CURRENT_EXECUTION.md](CURRENT_EXECUTION.md). Earlier stop instructions, next steps, record counts, and infrastructure states below are historical, not the active handoff.
+
 # Private local workspace
 
 Implementation checkpoint: 2026-09-13. This is a local research and review

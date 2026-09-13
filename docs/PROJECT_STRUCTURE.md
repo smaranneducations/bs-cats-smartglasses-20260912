@@ -1,3 +1,5 @@
+> Current operating state and implementation queue: [CURRENT_EXECUTION.md](CURRENT_EXECUTION.md). Keep one deployable API; inactive service shells are opt-in. Preserve stable paths and data rather than performing cosmetic repository moves.
+
 # Project structure and ownership
 
 ## Dependency direction

@@ -1,3 +1,5 @@
+> Historical checkpoint: current priorities and verified deployment observations are in [CURRENT_EXECUTION.md](CURRENT_EXECUTION.md). Earlier stop instructions, next steps, record counts, and infrastructure states below are historical, not the active handoff.
+
 # SmartGlasses execution checkpoint
 
 Checkpoint date: 2026-09-12. Product owner: Bhasker.
