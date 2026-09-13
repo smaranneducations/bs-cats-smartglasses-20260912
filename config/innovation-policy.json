@@ -1,0 +1,107 @@
+{
+  "schema_version": "innovation-policy-1",
+  "policy_id": "bounded-strategic-creativity",
+  "version": "1.0.0",
+  "purpose": "Continuously identify higher-value reuse of governed intelligence without expanding authority, risk or cost silently.",
+  "operating_rule": "Creativity generates hypotheses and low-cost evidence. Constitutional, security, privacy, rights, publication and financial gates decide whether an opportunity may progress.",
+  "observation_triggers": [
+    "material_human_feedback",
+    "new_reusable_dataset_or_ontology_capability",
+    "repeated_customer_or_audience_question",
+    "measured_channel_or_content_result",
+    "meaningful_provider_or_platform_change",
+    "monthly_business_review",
+    "verified_revenue_milestone"
+  ],
+  "evaluation_dimensions": [
+    "buyer_problem_and_willingness_to_pay",
+    "reuse_of_existing_governed_assets",
+    "legal_rights_privacy_and_platform_fit",
+    "security_and_access_surface",
+    "quality_advantage_over_cheaper_baseline",
+    "human_minutes_per_accepted_output",
+    "total_cost_and_positive_contribution",
+    "reversibility_and_rollback",
+    "evidence_needed_for_next_decision"
+  ],
+  "default_experiment": {
+    "paid_execution_authorized": false,
+    "production_permission_granted": false,
+    "prefer_local_or_existing_subscription": true,
+    "one_hypothesis_one_metric_one_stop_condition": true
+  },
+  "opportunities": [
+    {
+      "id": "read_first_mcp_intelligence",
+      "status": "candidate",
+      "first_step": "Expose allowlisted read-only semantic tools over approved object versions.",
+      "required_controls": [
+        "authentication_and_row_field_authorization",
+        "privacy_and_rights_redaction",
+        "query_and_cost_limits",
+        "audit_receipts",
+        "no_secret_or_hidden_context_return",
+        "separate_consequential_write_workflow"
+      ]
+    },
+    {
+      "id": "retrieval_backed_specialist_assistant",
+      "status": "candidate",
+      "first_step": "Evaluate retrieval over semantic tools against a generic model baseline.",
+      "required_controls": [
+        "version_pinned_context",
+        "citation_and_unknown_handling",
+        "provider_policy_review",
+        "cost_per_accepted_answer"
+      ]
+    },
+    {
+      "id": "specialized_model",
+      "status": "deferred_until_evidence",
+      "first_step": "Build a rights-cleared evaluation set before any training corpus or paid fine-tune.",
+      "promotion_requires": [
+        "retrieval_baseline_is_insufficient",
+        "curated_rights_cleared_training_corpus",
+        "measured_quality_gain",
+        "privacy_and_security_clearance",
+        "positive_unit_economics",
+        "explicit_paid_experiment_admission"
+      ]
+    },
+    {
+      "id": "assistant_and_plugin_adapters",
+      "status": "candidate",
+      "providers": ["ChatGPT", "Claude", "Gemini"],
+      "first_step": "Validate one supported thin adapter over the same governed semantic interface.",
+      "rule": "Never fork the ontology or evidence model per provider."
+    },
+    {
+      "id": "customer_funded_governed_generation",
+      "status": "candidate",
+      "first_step": "Model delegated billing, credential scope, full cost and acceptance before implementation.",
+      "target_gross_margin_fraction": 0.3,
+      "margin_is_guarantee": false
+    },
+    {
+      "id": "premium_three_minute_advertisement",
+      "status": "conditional_future_experiment",
+      "current_canonical_unit_seconds": {"minimum": 30, "maximum": 90},
+      "candidate_total_seconds": 180,
+      "composition": "Stitch approved short-form primitives into a newly reviewed exact artifact.",
+      "trigger": {
+        "verified_collected_revenue_usd_more_than": 500,
+        "views_or_forecast_qualify": false,
+        "explicit_new_financing_decision_required": true,
+        "authorized_reward_or_budget_usd": null
+      }
+    }
+  ],
+  "directive_propagation": {
+    "classify_scope_and_authority": true,
+    "record_canonical_decision": true,
+    "update_all_affected_surfaces": true,
+    "create_requirement_or_evaluation_when_testable": true,
+    "link_duplicates": true,
+    "preserve_ambiguity_without_inventing_authority": true
+  }
+}

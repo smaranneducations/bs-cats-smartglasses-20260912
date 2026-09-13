@@ -63,6 +63,23 @@
     "production_release_notes_required": true,
     "rollback_target_required": true
   },
+  "directive_propagation": {
+    "required_for_substantive_feedback": true,
+    "canonical_surfaces": [
+      "readme",
+      "master_and_project_charter",
+      "machine_policy",
+      "ontology_or_schema_when_applicable",
+      "requirements_and_evaluation_cases",
+      "agent_and_workflow_instructions_when_applicable",
+      "implementation_and_tests_when_applicable",
+      "release_and_operating_documentation"
+    ],
+    "single_canonical_rule_preferred": true,
+    "duplicate_text_must_link_to_canonical_rule": true,
+    "unresolved_ambiguity_preserves_current_policy": true,
+    "silent_production_policy_rewrite_allowed": false
+  },
   "emergency": {
     "direct_change_is_break_glass_only": true,
     "issue_and_evidence_required": true,
