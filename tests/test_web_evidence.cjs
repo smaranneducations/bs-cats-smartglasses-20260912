@@ -7,7 +7,8 @@ const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '../apps/web/app.js'), 'utf8');
 const context = vm.createContext({
   document: {querySelector: () => ({}), addEventListener() {}},
-  window: {addEventListener() {}}, URL, FormData,
+  // These tests exercise evidence parsing, not the separate production UI adapter.
+  window: {addEventListener() {}, WorkspaceProduction: {configure() {}}}, URL, FormData,
 });
 vm.runInContext(source.replace(/\nstart\(\);\s*$/, '') +
   '\nglobalThis.buildForTest = buildEvidenceFields;', context);
