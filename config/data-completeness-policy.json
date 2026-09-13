@@ -1,0 +1,91 @@
+{
+  "schema_version": "data-completeness-policy-1",
+  "policy_id": "incremental-catalog-and-field-missingness",
+  "version": "1.0.0",
+  "activation_dependency": "durable_production_firestore_persistence",
+  "domain_targets": {
+    "smart_glasses": {
+      "discovery_target_models": {"minimum": 60, "maximum": 70},
+      "target_is_verified_market_total": false,
+      "target_requires_discovery_validation": true
+    }
+  },
+  "minimal_record_admission": {
+    "required": [
+      "stable_product_id",
+      "brand",
+      "model_name",
+      "variant_or_explicit_unknown",
+      "market_or_explicit_unknown",
+      "lawful_source_receipt",
+      "observed_at"
+    ],
+    "all_ontology_attributes_required": false,
+    "fabricated_placeholder_values_allowed": false
+  },
+  "availability_states": {
+    "available": {"retry": false, "meaning": "A value is present; evidence and assurance are evaluated separately."},
+    "unknown": {"retry": "when_prioritized", "meaning": "No determination has been made."},
+    "not_found_yet": {"retry": "on_refresh_or_new_source", "meaning": "A bounded search found no usable value."},
+    "not_disclosed": {"retry": "on_source_version_change", "meaning": "The applicable source does not disclose the value."},
+    "not_applicable": {"retry": false, "meaning": "The concept does not apply to the scoped product or variant."},
+    "conflicting": {"retry": "seek_resolving_evidence", "meaning": "Current assertions materially disagree."},
+    "stale": {"retry": true, "meaning": "A prior assertion exceeded its freshness policy."}
+  },
+  "missingness_rules": [
+    "absence_is_not_false",
+    "absence_is_not_zero",
+    "absence_is_not_permission_to_invent",
+    "retain_prior_versions_and_source_receipts",
+    "do_not_replace_field_state_with_display_copy"
+  ],
+  "refresh_policy": {
+    "deduplicate_by": ["product_id", "field_concept_id", "source_id", "source_version_or_observed_date"],
+    "prioritize_by": [
+      "dependent_output_demand",
+      "commercial_or_user_decision_value",
+      "staleness",
+      "resolvable_conflict",
+      "source_change_signal",
+      "expected_cost_and_human_effort"
+    ],
+    "stop_when": [
+      "bounded_source_budget_exhausted",
+      "same_absence_already_observed_for_current_source_version",
+      "field_not_needed_by_prioritized_work",
+      "rights_privacy_or_access_gate_denies",
+      "cost_admission_denies"
+    ]
+  },
+  "human_contribution": {
+    "default_evidence_type": "attributed_human_observation",
+    "silently_verified": false,
+    "promotion_follows_field_evidence_policy": true
+  },
+  "output_eligibility": {
+    "workflow_declares_required_concepts": true,
+    "unrelated_missing_fields_block": false,
+    "required_missing_field_scope": "dependent_claim_or_output_only",
+    "required_checks": [
+      "concept_and_definition_version",
+      "product_variant_and_market_scope",
+      "availability_state",
+      "evidence_and_confidence",
+      "freshness",
+      "rights_and_privacy",
+      "correction_impact"
+    ]
+  },
+  "quality_metrics": [
+    "distinct_comparable_product_variants",
+    "priority_concept_coverage",
+    "freshness_by_concept",
+    "source_diversity",
+    "accepted_assertions",
+    "conflict_and_correction_rate",
+    "cost_per_accepted_field",
+    "human_minutes_per_accepted_field",
+    "useful_outputs_enabled"
+  ],
+  "record_count_alone_is_success": false
+}

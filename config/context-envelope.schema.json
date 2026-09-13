@@ -75,9 +75,10 @@
     "assurance": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "confidence_reason"],
+      "required": ["status", "availability_state", "confidence_reason"],
       "properties": {
         "status": {"enum": ["verified", "supported", "unassessed", "disputed", "unknown"]},
+        "availability_state": {"enum": ["available", "unknown", "not_found_yet", "not_disclosed", "not_applicable", "conflicting", "stale"]},
         "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
         "confidence_reason": {"type": "string", "minLength": 1},
         "review_state": {"enum": ["not_required", "pending", "approved", "rejected", "stale"]}
