@@ -92,7 +92,7 @@ def validate_storyboard(store, storyboard_id):
     if story is None or story.object_type != "storyboard":
         raise ValueError("A governed storyboard is required.")
     data = story.payload
-    if story.metadata.get("primitive_registry_version") == "story-quality-1":
+    if (getattr(story, "metadata", {}) or {}).get("primitive_registry_version") == "story-quality-1":
         data = StoryboardPayload.model_validate(data).model_dump(mode="json")
     brief = objects.get(data["brief_object_id"])
     if not brief or brief.object_type != "content_brief" or brief.version != data["brief_version"]:
