@@ -16,11 +16,20 @@ class MediaAssetPayload(StrictContract):
     sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     provenance_kind: Literal["legacy_workspace", "open_license", "generated_recipe"]
     provenance_reference: str = Field(min_length=1, max_length=1000)
-    representation: Literal["concept_illustration", "typography", "original_synthesis"]
+    representation: Literal["concept_illustration", "typography", "original_synthesis", "product_photography", "editorial_photography"]
     private_preview_allowed: bool = False
     rights_state: Literal["unassessed", "documented", "denied"] = "unassessed"
     commercial_use_allowed: bool | None = None
     credit: str = Field(min_length=1, max_length=1500)
+
+    @model_validator(mode="after")
+    def truthful_photography_representation(self):
+        if self.representation in {"product_photography", "editorial_photography"}:
+            if self.asset_kind != "image":
+                raise ValueError("Photography representation requires an image asset.")
+            if self.provenance_kind == "generated_recipe":
+                raise ValueError("Generated imagery cannot be represented as photography.")
+        return self
 
 
 class RenderCell(StrictContract):

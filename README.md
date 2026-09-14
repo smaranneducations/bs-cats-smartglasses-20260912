@@ -24,7 +24,9 @@
 - [Current implementation status and completion plan](docs/CURRENT_EXECUTION.md)
 - [Documentation map](docs/README.md)
 
-On 2026-09-13, the merged operator asset-path fix was deployed to Firebase Hosting. The designed operator page and Google sign-in prompt render after a reload; its scripts/styles and the Firestore-backed health endpoint respond correctly. The [deployment receipt](docs/releases/2026-09-13-hosting-hotfix.json) records the exact commit and rollback version. Administrator workflow acceptance, recovery, publication, and commercial results remain separate gates; this is not a claim that the whole application is complete.
+On 2026-09-14, [PR #49](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/pull/49) deployed schema-driven operator forms to Firebase Hosting from merged commit `ef70b13`. Google sign-in, protected administrator access, and feedback create/edit/search/reload were exercised in Chrome; anonymous administrator requests were rejected. The release passed 242 Python tests, 66 JavaScript tests and 23 read-only hosted checks. See the [form acceptance record](docs/UAT_SCHEMA_FORMS_2026-09-14.md) and the PR deployment receipt. These checks do not establish completion of every workflow or friends-and-family readiness.
+
+The [targeted readiness reconciliation](docs/UAT_MEDIA_READINESS_2026-09-14.md) separates deployed evidence, local-only capabilities and outstanding end-to-end gates. The [requirements registry](config/requirements-traceability.json) is the current scope ledger; older release reports remain dated snapshots, not current acceptance certificates.
 
 The current handoff supersedes old checkpoint next steps and model-switch pauses. Changes continue through GitHub with a concise problem statement, identified change, root cause, implementation, evidence, and rollback. Routine authorized work does not require repeated human approvals.
 
@@ -36,11 +38,11 @@ The current handoff supersedes old checkpoint next steps and model-switch pauses
 | Monthly recovery snapshot | Frozen | [`snapshot-2026-09`](https://github.com/smaranneducations/bs-cats-smartglasses-20260912/releases/tag/snapshot-2026-09) |
 | Local audience, intelligence and operator experience | Working candidate | Run locally using the instructions below |
 | Firebase production hosting | **Live** | [Open the production application](https://bs-cats-smartglasses-20260912.web.app/) |
-| Production operator workspace | Live hosting; protected access has a known authentication-state defect | [Open the operator workspace](https://bs-cats-smartglasses-20260912.web.app/operator) |
+| Production operator workspace | Sign-in and feedback CRUD exercised; full acceptance incomplete | [Open the operator workspace](https://bs-cats-smartglasses-20260912.web.app/operator) |
 
 **Firebase production URL:** [https://bs-cats-smartglasses-20260912.web.app/](https://bs-cats-smartglasses-20260912.web.app/)
 
-Firebase Hosting is live and can be used to begin browser testing. This does not claim that every protected backend workflow is production-complete: the operator authentication path currently has a known access-state defect that can return HTTP 503 instead of the intended unauthorized response. Keep that distinction in test reports until its prepared security change is merged and deployed.
+Firebase Hosting is live. Friends-and-family UAT is **not yet ready**: media delivery and approved audience playback, complete agent/warehouse execution, recovery, and cost admission still need end-to-end evidence. Code merged after the recorded Hosting release is not automatically deployed, and a Hosting deployment does not deploy the backend.
 
 The repository is a substantial governed foundation, not proof of revenue, audience demand, complete integrations or production readiness. See the [validation report](docs/V1_VALIDATION_REPORT_2026-09-13.md) and [machine-readable readiness report](docs/V1_RELEASE_READINESS_REPORT.json).
 
