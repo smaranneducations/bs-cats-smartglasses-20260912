@@ -1,9 +1,12 @@
 {
-  "schema_version": "release-readiness-report-1",
-  "observed_at": "2026-09-13T13:29:07.725999+00:00",
+  "schema_version": "release-readiness-report-2",
+  "observed_at": "2026-09-14T05:03:48.600685+00:00",
+  "assessment_scope": "repository file presence, JSON syntax and ignore declarations only",
   "candidate_version": "1.0.0-rc.1",
   "repository_candidate_ready": true,
   "production_ready": false,
+  "production_readiness_assessed": false,
+  "production_status": "not_assessed_by_this_check",
   "missing_files": [],
   "invalid_json": [],
   "safety_checks": {
@@ -13,14 +16,12 @@
     "production_claim_blocked": true
   },
   "production_blockers": [
-    "credential_rotation",
-    "cost_reconciliation",
-    "durable_firestore_cutover",
-    "cloud_run_deployment",
-    "firebase_hosting_deployment",
-    "approved_rights_cleared_media",
-    "provider_publication_receipt",
-    "production_metric_return",
-    "repository_license_decision"
-  ]
+    "production_admission_not_assessed_by_repository_check"
+  ],
+  "next_checks": [
+    "Run scripts/check_hosted_app.py for bounded live HTTP and first-party asset checks.",
+    "Use authenticated browser acceptance for login, persistence and media playback.",
+    "Review deployment, backup, security, cost, rights and exact-publication evidence separately."
+  ],
+  "latest_acceptance_record": "docs/acceptance/2026-09-14-hosted-workflows.md"
 }
