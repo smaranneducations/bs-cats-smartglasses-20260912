@@ -1,5 +1,14 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionGroup": "governed_object_versions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {"fieldPath": "object_id", "order": "ASCENDING"},
+        {"fieldPath": "version", "order": "ASCENDING"}
+      ]
+    }
+  ],
   "fieldOverrides": [
     {"collectionGroup": "governed_objects", "fieldPath": "snapshot_json", "indexes": []},
     {"collectionGroup": "governed_objects", "fieldPath": "input_versions_json", "indexes": []},
