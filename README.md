@@ -679,3 +679,7 @@ No repository-wide open-source license has been selected. Public visibility does
 ### Latest hosted maintenance acceptance (2026-09-14)
 
 [Open the administrator app](https://bs-cats-smartglasses-20260912.web.app/operator) or [the audience page](https://bs-cats-smartglasses-20260912.web.app/discover). Fresh Google sign-in and real feedback create/edit/reload checks now pass in hosted Chrome. See the [test results, deployment receipts, rollback and remaining acceptance boundaries](docs/acceptance/2026-09-14-production-maintenance.md). This is a verified maintenance milestone, not a claim that publishing or the complete commercial workflow is finished.
+
+### Hosted workflow validation, 2026-09-14
+
+[Open the live administrator app](https://bs-cats-smartglasses-20260912.web.app/operator) or [the audience app](https://bs-cats-smartglasses-20260912.web.app/discover). Fresh Google sign-in, product evidence and ontology-driven comparison have been exercised in production. See the [verified workflow acceptance record](docs/acceptance/2026-09-14-hosted-workflows.md) for the tests and remaining gates: private video playback and the complete autonomous publishing/revenue loop are **not yet accepted**.
