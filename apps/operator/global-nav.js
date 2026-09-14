@@ -5,16 +5,16 @@
   const adminLinks = [
     ['/operator', 'Workflow'],
     ['/operator#agents', 'Agents'],
-    ['/intelligence#knowledge', 'Data'],
+    ['/operator#dataset', 'Data'],
     ['/operator#ontology', 'Ontology'],
-    ['/#content', 'Create'],
-    ['/#review', 'Decisions'],
-    ['/#learning', 'Learning'],
-    ['/discover?preview=1', 'Audience']
+    ['/operator#generate', 'Create'],
+    ['/operator#release', 'Decisions'],
+    ['/operator#learn', 'Learning'],
+    ['/discover', 'Audience']
   ];
   const publicLinks = [
-    ['/discover?preview=1', 'Discover'],
-    ['/intelligence#comparison', 'Compare'],
+    ['/discover', 'Discover'],
+    ['/discover#compare', 'Compare'],
     ['#visual-sources', 'Image sources']
   ];
   const links = publicView ? [...publicLinks, ...(local ? [['/operator', 'Local admin']] : [])] : adminLinks;
