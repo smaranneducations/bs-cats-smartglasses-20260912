@@ -675,3 +675,7 @@ No repository-wide open-source license has been selected. Public visibility does
 ### Maintenance versus commercial readiness
 
 [Technical deployment policy](docs/TECHNICAL_DEPLOYMENT_POLICY.md) separates repairs to existing hosting and login from approval to publish a video or claim business readiness. Security, privacy, GitHub traceability, exact-source checks and rollback remain mandatory. See the [acceptance record](docs/acceptance/2026-09-13.md) for observed results rather than treating a deployment as proof that every workflow is complete.
+
+### Latest hosted maintenance acceptance (2026-09-14)
+
+[Open the administrator app](https://bs-cats-smartglasses-20260912.web.app/operator) or [the audience page](https://bs-cats-smartglasses-20260912.web.app/discover). Fresh Google sign-in and real feedback create/edit/reload checks now pass in hosted Chrome. See the [test results, deployment receipts, rollback and remaining acceptance boundaries](docs/acceptance/2026-09-14-production-maintenance.md). This is a verified maintenance milestone, not a claim that publishing or the complete commercial workflow is finished.

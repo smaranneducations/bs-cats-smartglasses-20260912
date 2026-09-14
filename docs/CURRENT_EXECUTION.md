@@ -80,3 +80,7 @@ The larger application remains in completion work. User acceptance testing shoul
 ## Current repair direction
 
 The account holder requested repair of hosted Google login and reconciliation of deployment/security policy. Follow `docs/TECHNICAL_DEPLOYMENT_POLICY.md`. Audience tests now pass 10/10 after correcting the markup-sensitive assertion; Python checks pass 208/208. Hosted administrator acceptance remains pending until tested against the deployed correction. Do not send the human back to UAT based on local tests alone.
+
+## 2026-09-14: hosted login and persistence repair
+
+Production now serves the corrected API revision `bs-cats-api-check-60b0e90`. Fresh Google sign-in and authenticated feedback creation/versioned editing survive full reload. Operator filtering, ontology/agent inspection and creative primitives were exercised in Chrome. Read `docs/acceptance/2026-09-14-production-maintenance.md` for exact evidence, rollback and limitations. Keep overall issue #36 open: public publishing and the ordinary-visitor comparison workflow are not accepted yet. Do not publish unapproved content or mistake these repairs for full business readiness.
