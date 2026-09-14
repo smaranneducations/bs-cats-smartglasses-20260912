@@ -1,0 +1,879 @@
+{
+  "feedback": {
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Summary",
+        "type": "string"
+      },
+      "input": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "title": "Input",
+        "type": "string"
+      },
+      "classification": {
+        "enum": [
+          "preference",
+          "correction",
+          "operating_directive",
+          "hypothesis",
+          "ontology_gap"
+        ],
+        "title": "Classification",
+        "type": "string"
+      },
+      "target_ids": {
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 30,
+        "title": "Target Ids",
+        "type": "array"
+      },
+      "proposed_improvement": {
+        "default": "",
+        "maxLength": 3000,
+        "title": "Proposed Improvement",
+        "type": "string"
+      },
+      "system_area": {
+        "default": "governance",
+        "enum": [
+          "governance",
+          "agents_workflows",
+          "ontology_schema",
+          "data_evidence",
+          "content_editorial",
+          "media_rights",
+          "release_publication",
+          "commerce",
+          "cost_operations",
+          "audience_experience"
+        ],
+        "title": "System Area",
+        "type": "string"
+      },
+      "authority": {
+        "default": "observation",
+        "enum": [
+          "observation",
+          "preference",
+          "verified_evidence",
+          "operating_directive"
+        ],
+        "title": "Authority",
+        "type": "string"
+      }
+    },
+    "required": [
+      "summary",
+      "input",
+      "classification"
+    ],
+    "title": "FeedbackPayload",
+    "type": "object"
+  },
+  "source_policy": {
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Summary",
+        "type": "string"
+      },
+      "source_uri": {
+        "title": "Source Uri",
+        "type": "string"
+      },
+      "publisher": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Publisher",
+        "type": "string"
+      },
+      "access": {
+        "enum": [
+          "manual_excerpt",
+          "api",
+          "licensed_feed"
+        ],
+        "title": "Access",
+        "type": "string"
+      },
+      "automation": {
+        "default": "pending",
+        "enum": [
+          "pending",
+          "allowed",
+          "denied"
+        ],
+        "title": "Automation",
+        "type": "string"
+      },
+      "media_reuse": {
+        "default": "pending",
+        "enum": [
+          "pending",
+          "allowed",
+          "denied"
+        ],
+        "title": "Media Reuse",
+        "type": "string"
+      },
+      "commercial_reuse": {
+        "default": "pending",
+        "enum": [
+          "pending",
+          "allowed",
+          "denied"
+        ],
+        "title": "Commercial Reuse",
+        "type": "string"
+      },
+      "rights_basis": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Rights Basis",
+        "type": "string"
+      },
+      "attribution": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Attribution",
+        "type": "string"
+      },
+      "refresh_days": {
+        "default": 30,
+        "maximum": 365,
+        "minimum": 1,
+        "title": "Refresh Days",
+        "type": "integer"
+      },
+      "last_observed_at": {
+        "format": "date-time",
+        "title": "Last Observed At",
+        "type": "string"
+      },
+      "terms_uri": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Terms Uri"
+      },
+      "permission_expires_at": {
+        "anyOf": [
+          {
+            "format": "date-time",
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Permission Expires At"
+      }
+    },
+    "required": [
+      "summary",
+      "source_uri",
+      "publisher",
+      "access",
+      "rights_basis",
+      "attribution",
+      "last_observed_at"
+    ],
+    "title": "SourcePolicyPayload",
+    "type": "object"
+  },
+  "commerce_path": {
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Summary",
+        "type": "string"
+      },
+      "merchant_uri": {
+        "title": "Merchant Uri",
+        "type": "string"
+      },
+      "program_uri": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Program Uri"
+      },
+      "customer_market": {
+        "maxLength": 200,
+        "minLength": 1,
+        "title": "Customer Market",
+        "type": "string"
+      },
+      "checkout": {
+        "default": "unknown",
+        "enum": [
+          "observed",
+          "unknown"
+        ],
+        "title": "Checkout",
+        "type": "string"
+      },
+      "publisher_access": {
+        "default": "unknown",
+        "enum": [
+          "unknown",
+          "not_applied",
+          "invitation_required",
+          "applied",
+          "approved",
+          "rejected"
+        ],
+        "title": "Publisher Access",
+        "type": "string"
+      },
+      "purchase_friction": {
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 20,
+        "title": "Purchase Friction",
+        "type": "array"
+      },
+      "obligations": {
+        "items": {
+          "type": "string"
+        },
+        "maxItems": 20,
+        "title": "Obligations",
+        "type": "array"
+      },
+      "attribution_terms": {
+        "default": "Unknown",
+        "maxLength": 2000,
+        "title": "Attribution Terms",
+        "type": "string"
+      },
+      "payment_terms": {
+        "default": "Unknown",
+        "maxLength": 2000,
+        "title": "Payment Terms",
+        "type": "string"
+      },
+      "commission_rate": {
+        "anyOf": [
+          {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Commission Rate"
+      },
+      "evidence_source_ids": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Evidence Source Ids",
+        "type": "array"
+      },
+      "observed_at": {
+        "format": "date-time",
+        "title": "Observed At",
+        "type": "string"
+      }
+    },
+    "required": [
+      "summary",
+      "merchant_uri",
+      "customer_market",
+      "observed_at"
+    ],
+    "title": "CommercePathPayload",
+    "type": "object"
+  },
+  "media_asset": {
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Summary",
+        "type": "string"
+      },
+      "asset_kind": {
+        "enum": [
+          "image",
+          "font",
+          "procedural_audio"
+        ],
+        "title": "Asset Kind",
+        "type": "string"
+      },
+      "asset_uri": {
+        "maxLength": 500,
+        "minLength": 1,
+        "title": "Asset Uri",
+        "type": "string"
+      },
+      "sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Sha256",
+        "type": "string"
+      },
+      "provenance_kind": {
+        "enum": [
+          "legacy_workspace",
+          "open_license",
+          "generated_recipe"
+        ],
+        "title": "Provenance Kind",
+        "type": "string"
+      },
+      "provenance_reference": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Provenance Reference",
+        "type": "string"
+      },
+      "representation": {
+        "enum": [
+          "concept_illustration",
+          "typography",
+          "original_synthesis"
+        ],
+        "title": "Representation",
+        "type": "string"
+      },
+      "private_preview_allowed": {
+        "default": false,
+        "title": "Private Preview Allowed",
+        "type": "boolean"
+      },
+      "rights_state": {
+        "default": "unassessed",
+        "enum": [
+          "unassessed",
+          "documented",
+          "denied"
+        ],
+        "title": "Rights State",
+        "type": "string"
+      },
+      "commercial_use_allowed": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Commercial Use Allowed"
+      },
+      "credit": {
+        "maxLength": 1500,
+        "minLength": 1,
+        "title": "Credit",
+        "type": "string"
+      }
+    },
+    "required": [
+      "summary",
+      "asset_kind",
+      "asset_uri",
+      "sha256",
+      "provenance_kind",
+      "provenance_reference",
+      "representation",
+      "credit"
+    ],
+    "title": "MediaAssetPayload",
+    "type": "object"
+  },
+  "render_artifact": {
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "title": "Summary",
+        "type": "string"
+      },
+      "recipe_object_id": {
+        "title": "Recipe Object Id",
+        "type": "string"
+      },
+      "recipe_version": {
+        "minimum": 1,
+        "title": "Recipe Version",
+        "type": "integer"
+      },
+      "artifact_uri": {
+        "title": "Artifact Uri",
+        "type": "string"
+      },
+      "poster_uri": {
+        "title": "Poster Uri",
+        "type": "string"
+      },
+      "manifest_uri": {
+        "title": "Manifest Uri",
+        "type": "string"
+      },
+      "video_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Video Sha256",
+        "type": "string"
+      },
+      "manifest_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Manifest Sha256",
+        "type": "string"
+      },
+      "metadata_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "title": "Metadata Sha256",
+        "type": "string"
+      },
+      "publish_metadata": {
+        "title": "Publish Metadata",
+        "type": "object"
+      },
+      "duration_seconds": {
+        "maximum": 90.1,
+        "minimum": 29.9,
+        "title": "Duration Seconds",
+        "type": "number"
+      },
+      "width": {
+        "maximum": 3840,
+        "minimum": 200,
+        "title": "Width",
+        "type": "integer"
+      },
+      "height": {
+        "maximum": 3840,
+        "minimum": 200,
+        "title": "Height",
+        "type": "integer"
+      },
+      "audio_present": {
+        "const": true,
+        "default": true,
+        "enum": [
+          true
+        ],
+        "title": "Audio Present",
+        "type": "boolean"
+      },
+      "media_mode": {
+        "const": "image_led_private_preview",
+        "default": "image_led_private_preview",
+        "enum": [
+          "image_led_private_preview"
+        ],
+        "title": "Media Mode",
+        "type": "string"
+      },
+      "rights_gate": {
+        "const": "not_cleared_for_publication",
+        "default": "not_cleared_for_publication",
+        "enum": [
+          "not_cleared_for_publication"
+        ],
+        "title": "Rights Gate",
+        "type": "string"
+      },
+      "factual_gate": {
+        "const": "requires_review",
+        "default": "requires_review",
+        "enum": [
+          "requires_review"
+        ],
+        "title": "Factual Gate",
+        "type": "string"
+      },
+      "publication_allowed": {
+        "const": false,
+        "default": false,
+        "enum": [
+          false
+        ],
+        "title": "Publication Allowed",
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "summary",
+      "recipe_object_id",
+      "recipe_version",
+      "artifact_uri",
+      "poster_uri",
+      "manifest_uri",
+      "video_sha256",
+      "manifest_sha256",
+      "metadata_sha256",
+      "publish_metadata",
+      "duration_seconds",
+      "width",
+      "height"
+    ],
+    "title": "RenderArtifactPayload",
+    "type": "object"
+  },
+  "content_brief": {
+    "$defs": {
+      "AudienceIntent": {
+        "enum": [
+          "learn",
+          "compare",
+          "buy",
+          "implement",
+          "monitor"
+        ],
+        "title": "AudienceIntent",
+        "type": "string"
+      },
+      "ClaimKind": {
+        "enum": [
+          "fact",
+          "estimate",
+          "interpretation",
+          "opinion",
+          "prediction"
+        ],
+        "title": "ClaimKind",
+        "type": "string"
+      },
+      "CommercialIntent": {
+        "enum": [
+          "none",
+          "affiliate",
+          "sponsorship",
+          "subscription",
+          "lead_generation",
+          "research_license"
+        ],
+        "title": "CommercialIntent",
+        "type": "string"
+      },
+      "EvidenceClaim": {
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "maxLength": 128,
+            "minLength": 3,
+            "title": "Claim Id",
+            "type": "string"
+          },
+          "statement": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Statement",
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/$defs/ClaimKind"
+          },
+          "source_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Ids",
+            "type": "array"
+          },
+          "evidence_tier": {
+            "$ref": "#/$defs/EvidenceTier"
+          },
+          "verification_state": {
+            "$ref": "#/$defs/VerificationState",
+            "default": "unverified"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Confidence"
+          },
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Caveats",
+            "type": "array"
+          },
+          "freshness_check_required": {
+            "default": true,
+            "title": "Freshness Check Required",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "claim_id",
+          "statement",
+          "kind",
+          "evidence_tier"
+        ],
+        "title": "EvidenceClaim",
+        "type": "object"
+      },
+      "EvidenceTier": {
+        "enum": [
+          "primary_manufacturer",
+          "primary_regulatory",
+          "primary_first_party_test",
+          "reputable_independent",
+          "independent_unassessed",
+          "community_report",
+          "anecdotal",
+          "synthetic"
+        ],
+        "title": "EvidenceTier",
+        "type": "string"
+      },
+      "PresentationPlan": {
+        "additionalProperties": false,
+        "properties": {
+          "hook": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Hook",
+            "type": "string"
+          },
+          "viewer_promise": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Viewer Promise",
+            "type": "string"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/$defs/PresentationSection"
+            },
+            "minItems": 1,
+            "title": "Sections",
+            "type": "array"
+          },
+          "call_to_action": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Call To Action",
+            "type": "string"
+          },
+          "do_not_claim": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Do Not Claim",
+            "type": "array"
+          }
+        },
+        "required": [
+          "hook",
+          "viewer_promise",
+          "sections",
+          "call_to_action"
+        ],
+        "title": "PresentationPlan",
+        "type": "object"
+      },
+      "PresentationSection": {
+        "additionalProperties": false,
+        "properties": {
+          "heading": {
+            "maxLength": 240,
+            "minLength": 1,
+            "title": "Heading",
+            "type": "string"
+          },
+          "objective": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Objective",
+            "type": "string"
+          },
+          "claim_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Claim Ids",
+            "type": "array"
+          },
+          "talking_points": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Talking Points",
+            "type": "array"
+          }
+        },
+        "required": [
+          "heading",
+          "objective"
+        ],
+        "title": "PresentationSection",
+        "type": "object"
+      },
+      "VerificationState": {
+        "enum": [
+          "unverified",
+          "corroborated",
+          "verified",
+          "disputed",
+          "superseded"
+        ],
+        "title": "VerificationState",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "properties": {
+      "summary": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "title": "Summary",
+        "type": "string"
+      },
+      "claims": {
+        "items": {
+          "$ref": "#/$defs/EvidenceClaim"
+        },
+        "title": "Claims",
+        "type": "array"
+      },
+      "entities": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Entities",
+        "type": "array"
+      },
+      "topics": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Topics",
+        "type": "array"
+      },
+      "audience_intent": {
+        "$ref": "#/$defs/AudienceIntent",
+        "default": "learn"
+      },
+      "commercial_intent": {
+        "$ref": "#/$defs/CommercialIntent",
+        "default": "none"
+      },
+      "disclosure_required": {
+        "default": false,
+        "title": "Disclosure Required",
+        "type": "boolean"
+      },
+      "recommended_next_action": {
+        "anyOf": [
+          {
+            "maxLength": 1000,
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Recommended Next Action"
+      },
+      "presentation": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/PresentationPlan"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null
+      },
+      "workflow_family": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "default": null,
+        "title": "Workflow Family"
+      },
+      "input_versions": {
+        "additionalProperties": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maxProperties": 4,
+        "title": "Input Versions",
+        "type": "object"
+      },
+      "duration_seconds": {
+        "default": 60,
+        "maximum": 90,
+        "minimum": 30,
+        "title": "Duration Seconds",
+        "type": "integer"
+      },
+      "aspect_ratios": {
+        "items": {
+          "const": "9:16",
+          "enum": [
+            "9:16"
+          ],
+          "type": "string"
+        },
+        "title": "Aspect Ratios",
+        "type": "array"
+      },
+      "production_state": {
+        "default": "draft",
+        "enum": [
+          "draft",
+          "needs_evidence_review"
+        ],
+        "title": "Production State",
+        "type": "string"
+      }
+    },
+    "required": [
+      "summary"
+    ],
+    "title": "ContentBriefPayload",
+    "type": "object"
+  }
+}

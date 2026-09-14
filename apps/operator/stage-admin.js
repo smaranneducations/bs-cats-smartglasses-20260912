@@ -25,9 +25,131 @@ function selectManagedType(type) { const stage = location.hash.slice(1); if (!gr
 function mount() { const stage = location.hash.slice(1); const group = groups[stage]; if (!group) return; if (adminState.view?.stage !== stage) adminState.view = {stage,type:null}; const card = document.querySelector('#stageDetail .stage-card'); if (!card || card.querySelector('.managed-workspace')) return; card.querySelector('#stageDataWorkspace')?.remove(); card.insertAdjacentHTML('beforeend', adminState.view.type ? branch(stage,group,adminState.view.type) : landing(stage,group)); bind(); }
 function filterRecords() { const query = (document.querySelector('#recordSearch')?.value || '').toLowerCase(); const status = document.querySelector('#recordStatus')?.value || 'all'; const rows = document.querySelectorAll('.managed-record'); let visible = 0; rows.forEach(row => { row.hidden = !(row.dataset.search.includes(query) && (status === 'all' || row.dataset.status === status)); if (!row.hidden) visible++; }); const count = document.querySelector('#recordCount'); if (count) count.textContent = `${visible} of ${rows.length} records`; const empty = document.querySelector('#recordNoResults'); if (empty) empty.hidden = visible !== 0; }
 function dialog() { let node = document.querySelector('#recordAdminDialog'); if (!node) { node = document.createElement('dialog'); node.id='recordAdminDialog'; node.className='object-dialog'; node.innerHTML='<button type="button" class="dialog-close">Close</button><div class="record-dialog-body"></div>'; node.querySelector('button').onclick=()=>node.close(); document.body.appendChild(node); } return node; }
-function emptyValue(value) { if (Array.isArray(value)) return []; if (value && typeof value === 'object') return {}; if (typeof value === 'boolean') return false; if (typeof value === 'number') return null; return ''; }
-function control(key,value) { const head=`<span>${html(label(key))}</span><code>${html(key)}</code>`; if(typeof value==='boolean') return `<label class="object-field">${head}<select name="${html(key)}" data-kind="boolean"><option value="true"${value?' selected':''}>True</option><option value="false"${!value?' selected':''}>False</option></select></label>`; if(typeof value==='number') return `<label class="object-field">${head}<input name="${html(key)}" type="number" step="any" value="${html(value)}" data-kind="number"></label>`; if(value && typeof value==='object') return `<label class="object-field object-field--wide">${head}<textarea name="${html(key)}" rows="6" data-kind="json">${html(JSON.stringify(value,null,2))}</textarea></label>`; return `<label class="object-field">${head}<input name="${html(key)}" value="${html(value)}" data-kind="text"></label>`; }
-function recordForm(type,id=null) { const current=id?adminState.objects.find(item=>item.object_id===id):null; const sample=current || recordsFor(type)[0]; const payload=current?{...current.payload}:Object.fromEntries(columns(type).map(key=>[key,emptyValue(sample?.payload?.[key])])); const node=dialog(); node.querySelector('.record-dialog-body').innerHTML=`<p class="kicker">${current?'EDIT VERSIONED RECORD':'CREATE GOVERNED RECORD'}</p><h2>${html(current?.title || label(type))}</h2><form id="recordAdminForm"><div class="object-form-grid"><label class="object-field object-field--wide"><span>Title</span><input name="__title" value="${html(current?.title || '')}" required></label><label class="object-field object-field--wide"><span>Purpose</span><textarea name="__purpose" required>${html(current?.purpose || '')}</textarea></label>${Object.entries(payload).map(([key,value])=>control(key,value)).join('')}</div><label class="object-field object-field--wide"><span>Revision reason</span><textarea name="__reason" required></textarea></label><button type="submit">${current?'Save new version':'Create record'}</button><p class="form-status"></p></form>`; node.querySelector('form').onsubmit=async event=>{event.preventDefault();const form=event.currentTarget,status=form.querySelector('.form-status'),next={};try{form.querySelectorAll('[name]:not([name^="__"])').forEach(input=>{next[input.name]=input.dataset.kind==='json'?JSON.parse(input.value):input.dataset.kind==='boolean'?input.value==='true':input.dataset.kind==='number'?(input.value===''?null:Number(input.value)):input.value;});status.textContent='Saving...';const key='admin-record-'+crypto.randomUUID();if(current)await api('/v1/objects/'+encodeURIComponent(current.object_id)+'/curate',{method:'POST',headers:{'Idempotency-Key':key},body:JSON.stringify({expected_version:current.version,patch:{title:form.elements.__title.value,purpose:form.elements.__purpose.value,payload:next,metadata:{...(current.metadata||{}),last_revision_reason:form.elements.__reason.value},sources:current.sources||[]}})});else await api('/v1/objects',{method:'POST',headers:{'Idempotency-Key':key},body:JSON.stringify({object_type:type,domain:'smart_glasses',title:form.elements.__title.value,purpose:form.elements.__purpose.value,payload:next,metadata:{creation_reason:form.elements.__reason.value},source:[],sources:[]})});location.reload();}catch(error){status.textContent=error.message;}}; node.showModal(); }
+function resolveFieldSchema(property, root) {
+  let result = {...(property || {})};
+  if (result.$ref?.startsWith('#/$defs/')) {
+    const key = result.$ref.slice(8).replaceAll('~1','/').replaceAll('~0','~');
+    result = {...(root.$defs?.[key] || {}), ...result};
+    delete result.$ref;
+  }
+  if (Array.isArray(result.allOf) && result.allOf.length === 1) result = {...resolveFieldSchema(result.allOf[0],root),...result};
+  const choices = result.anyOf || result.oneOf;
+  if (Array.isArray(choices)) {
+    const resolved = choices.map(item => resolveFieldSchema(item,root));
+    const concrete = resolved.filter(item => item.type !== 'null');
+    if (concrete.length === 1) result = {...concrete[0],...result, nullable:resolved.some(item => item.type === 'null')};
+    else result = {...result, type:'json', nullable:resolved.some(item => item.type === 'null')};
+  }
+  if (Array.isArray(result.type)) {
+    const types = result.type.filter(item => item !== 'null');
+    result = {...result, nullable:result.type.includes('null'), type:types.length===1?types[0]:'json'};
+  }
+  return result;
+}
+function payloadSchema(type) { return adminState.schema.object_types?.[type] || {}; }
+function initialPayload(type,current) {
+  const schema = payloadSchema(type);
+  const existing = current?.payload || {};
+  return Object.fromEntries([...new Set([...Object.keys(schema.properties || {}),...Object.keys(existing)])].map(key => {
+    if (Object.hasOwn(existing,key)) return [key,existing[key]];
+    const definition = resolveFieldSchema(schema.properties?.[key],schema);
+    return [key,Object.hasOwn(definition,'default')?structuredClone(definition.default):Object.hasOwn(definition,'const')?definition.const:undefined];
+  }));
+}
+function control(key,value,definition={},required=false) {
+  const title = definition.title || label(key);
+  const hint = definition.description ? `<small>${html(definition.description)}</small>` : '';
+  const head = `<span>${html(title)}</span><code>${html(key)}</code>${hint}`;
+  const nullable = definition.nullable === true || definition.type === 'null';
+  const empty = nullable?'null':required?'error':'omit';
+  const base = `name="${html(key)}" aria-label="${html(title)}" data-empty="${empty}"${required&&!nullable?' required':''}`;
+  if (Object.hasOwn(definition,'const')) {
+    return `<label class="object-field">${head}<input ${base} value="${html(JSON.stringify(definition.const))}" data-kind="json" readonly></label>`;
+  }
+  if (Array.isArray(definition.enum)) {
+    const values = [...definition.enum];
+    if (nullable && !values.includes(null)) values.unshift(null);
+    const selected = JSON.stringify(value);
+    const options = values.map(choice => `<option value="${html(JSON.stringify(choice))}"${JSON.stringify(choice)===selected?' selected':''}>${html(choice===null?'Not available':typeof choice==='string'?label(choice):String(choice))}</option>`).join('');
+    return `<label class="object-field">${head}<select ${base} data-kind="enum"><option value=""${value===undefined?' selected':''}>Choose ${html(title.toLowerCase())}</option>${options}</select></label>`;
+  }
+  const kind = definition.type || (value && typeof value==='object'?'object':typeof value==='boolean'?'boolean':typeof value==='number'?'number':'string');
+  if (kind==='boolean') {
+    return `<label class="object-field">${head}<select ${base} data-kind="boolean"><option value=""${value===undefined?' selected':''}>Choose ${html(title.toLowerCase())}</option>${nullable?`<option value="null"${value===null?' selected':''}>Not available</option>`:''}<option value="true"${value===true?' selected':''}>True</option><option value="false"${value===false?' selected':''}>False</option></select></label>`;
+  }
+  if (kind==='number' || kind==='integer') {
+    const min = definition.minimum === undefined?'':` min="${html(definition.minimum)}"`;
+    const max = definition.maximum === undefined?'':` max="${html(definition.maximum)}"`;
+    return `<label class="object-field">${head}<input ${base} type="number" step="${kind==='integer'?'1':'any'}" value="${html(value)}" data-kind="${kind}"${min}${max}></label>`;
+  }
+  if (kind==='array' || kind==='object' || kind==='json') {
+    return `<label class="object-field object-field--wide">${head}<textarea ${base} rows="6" data-kind="json" placeholder="${kind==='array'?'[]':kind==='object'?'{}':'JSON value'}">${value===undefined?'':html(JSON.stringify(value,null,2))}</textarea></label>`;
+  }
+  const limits = (definition.minLength===undefined?'':` minlength="${html(definition.minLength)}"`)+(definition.maxLength===undefined?'':` maxlength="${html(definition.maxLength)}"`);
+  const format = definition.format==='date-time'?' placeholder="2026-09-14T12:00:00Z"':'';
+  const textEmpty = value===''?'text':empty;
+  return `<label class="object-field">${head}<input name="${html(key)}" aria-label="${html(title)}" value="${html(value)}" data-kind="text" data-empty="${textEmpty}"${required&&!nullable?' required':''}${limits}${format}></label>`;
+}
+function inputValue(input) {
+  if (input.value==='') {
+    if (input.dataset.empty==='null') return null;
+    if (input.dataset.empty==='omit') return undefined;
+    if (input.dataset.empty==='error') throw new Error(label(input.name)+' is required.');
+    return '';
+  }
+  if (input.dataset.kind==='json' || input.dataset.kind==='enum') {
+    try { return JSON.parse(input.value); } catch { throw new Error(label(input.name)+' must contain valid JSON.'); }
+  }
+  if (input.dataset.kind==='boolean') {
+    if (input.value==='null' && input.dataset.empty==='null') return null;
+    if (!['true','false'].includes(input.value)) throw new Error(label(input.name)+' must be true or false.');
+    return input.value==='true';
+  }
+  if (input.dataset.kind==='number' || input.dataset.kind==='integer') {
+    const value=Number(input.value);
+    if (!Number.isFinite(value) || (input.dataset.kind==='integer'&&!Number.isInteger(value))) throw new Error(label(input.name)+' must contain a valid '+input.dataset.kind+'.');
+    return value;
+  }
+  return input.value;
+}
+function collectPayload(form) {
+  const next={};
+  form.querySelectorAll('[name]:not([name^="__"])').forEach(input => {
+    const value=inputValue(input);
+    if (value!==undefined) next[input.name]=value;
+  });
+  return next;
+}
+function stableWriteKey(state,path,body) {
+  const fingerprint=JSON.stringify([path,body]);
+  if (state.fingerprint!==fingerprint) {state.fingerprint=fingerprint;state.key='admin-record-'+crypto.randomUUID();}
+  return state.key;
+}
+function recordForm(type,id=null) {
+  const current=id?adminState.objects.find(item=>item.object_id===id):null;
+  const schema=payloadSchema(type),payload=initialPayload(type,current),node=dialog();
+  if (!schema.properties && !current) {
+    node.querySelector('.record-dialog-body').innerHTML='<h2>Schema unavailable</h2><p>This record cannot be created until its registered schema is available.</p>';
+    node.showModal();return;
+  }
+  node.querySelector('.record-dialog-body').innerHTML=`<p class="kicker">${current?'EDIT VERSIONED RECORD':'CREATE GOVERNED RECORD'}</p><h2>${html(current?.title || label(type))}</h2><form id="recordAdminForm"><div class="object-form-grid"><label class="object-field object-field--wide"><span>Title</span><input name="__title" value="${html(current?.title || '')}" required maxlength="240"></label><label class="object-field object-field--wide"><span>Purpose</span><textarea name="__purpose" required maxlength="1000">${html(current?.purpose || '')}</textarea></label>${Object.entries(payload).map(([key,value])=>control(key,value,resolveFieldSchema(schema.properties?.[key],schema),(schema.required || []).includes(key))).join('')}</div><label class="object-field object-field--wide"><span>Revision reason</span><textarea name="__reason" required></textarea></label><button type="submit">${current?'Save new version':'Create record'}</button><p class="form-status" role="status"></p></form>`;
+  const writeState={inFlight:false,fingerprint:null,key:null};
+  node.querySelector('form').onsubmit=async event=>{
+    event.preventDefault();if(writeState.inFlight)return;
+    const form=event.currentTarget,status=form.querySelector('.form-status'),submit=form.querySelector('[type="submit"]');
+    try {
+      const next=collectPayload(form);
+      const path=current?'/v1/objects/'+encodeURIComponent(current.object_id)+'/curate':'/v1/objects';
+      const body=current?{expected_version:current.version,patch:{title:form.elements.__title.value,purpose:form.elements.__purpose.value,payload:next,metadata:{...(current.metadata||{}),last_revision_reason:form.elements.__reason.value},sources:current.sources||[]}}:{object_type:type,domain:adminState.workflow.domain?.domain || current?.domain || 'smart_glasses',title:form.elements.__title.value,purpose:form.elements.__purpose.value,payload:next,metadata:{creation_reason:form.elements.__reason.value},source:[],sources:[]};
+      const key=stableWriteKey(writeState,path,body);
+      writeState.inFlight=true;submit.disabled=true;status.textContent='Saving...';
+      await api(path,{method:'POST',headers:{'Idempotency-Key':key},body:JSON.stringify(body)});
+      status.textContent='Saved. Reloading the governed record list...';location.reload();
+    } catch(error) {status.textContent=error.message;}
+    finally {writeState.inFlight=false;submit.disabled=false;}
+  };
+  node.showModal();
+}
 async function lifecycle(id,action) { const item=adminState.objects.find(record=>record.object_id===id); if(!item)return; const verb=action==='archive'?'retire':'restore'; const reason=prompt(`Reason to ${verb} ${item.title}:`); if(!reason)return; if(action==='archive'&&!confirm('Retire this record? History is preserved and the record can be restored.'))return; try{await api('/v1/objects/'+encodeURIComponent(id)+'/'+action,{method:'POST',headers:{'Idempotency-Key':'admin-life-'+crypto.randomUUID()},body:JSON.stringify({expected_version:item.version,reason})});location.reload();}catch(error){alert(error.message);}}
 function creativeProposal(target) { const node=dialog(); node.querySelector('.record-dialog-body').innerHTML=`<p class="kicker">CREATIVE SYSTEM CHANGE</p><h2>${html(label(target))}</h2><form id="creativeProposal"><label class="object-field"><span>Requested change</span><textarea name="change" required></textarea></label><label class="object-field"><span>Expected benefit and affected outputs</span><textarea name="impact" required></textarea></label><button>Record governed proposal</button><p class="form-status"></p></form>`; node.querySelector('form').onsubmit=async event=>{event.preventDefault();const form=event.currentTarget,status=form.querySelector('.form-status');try{await api('/v1/objects',{method:'POST',headers:{'Idempotency-Key':'creative-change-'+crypto.randomUUID()},body:JSON.stringify({object_type:'feedback',domain:'smart_glasses',title:'Creative change: '+label(target),purpose:'Capture a governed creative-system change without silently mutating renderer behavior.',tags:['creative_system'],source:[],sources:[],payload:{summary:'Creative system change for '+target,input:form.elements.change.value,classification:'operating_directive',target_ids:[],proposed_improvement:form.elements.impact.value,system_area:'content_editorial',authority:'operating_directive'}})});location.reload();}catch(error){status.textContent=error.message;}};node.showModal();}
 function bind(){document.querySelectorAll('[data-managed-type]').forEach(button=>button.onclick=()=>selectManagedType(button.dataset.managedType));document.querySelector('[data-managed-home]')?.addEventListener('click',()=>{adminState.view.type=null;rerender();});document.querySelector('#recordSearch')?.addEventListener('input',filterRecords);document.querySelector('#recordStatus')?.addEventListener('change',filterRecords);document.querySelectorAll('[data-create-record]').forEach(button=>button.onclick=()=>recordForm(button.dataset.createRecord));document.querySelectorAll('[data-edit-record]').forEach(button=>button.onclick=()=>recordForm(adminState.objects.find(item=>item.object_id===button.dataset.editRecord)?.object_type,button.dataset.editRecord));document.querySelectorAll('[data-retire-record]').forEach(button=>button.onclick=()=>lifecycle(button.dataset.retireRecord,'archive'));document.querySelectorAll('[data-restore-record]').forEach(button=>button.onclick=()=>lifecycle(button.dataset.restoreRecord,'restore'));document.querySelectorAll('[data-creative-proposal]').forEach(button=>button.onclick=()=>creativeProposal(button.dataset.creativeProposal));}
