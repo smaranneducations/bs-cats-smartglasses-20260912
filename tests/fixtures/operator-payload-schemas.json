@@ -361,7 +361,9 @@
         "enum": [
           "concept_illustration",
           "typography",
-          "original_synthesis"
+          "original_synthesis",
+          "product_photography",
+          "editorial_photography"
         ],
         "title": "Representation",
         "type": "string"

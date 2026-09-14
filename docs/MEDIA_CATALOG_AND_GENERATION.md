@@ -8,7 +8,21 @@ The catalog stores SHA-256 byte identity, workspace path, dimensions, provenance
 
 Downloaded Commons images and legacy private-preview images enter this catalog through their existing acquisition or planning path. Generated images are stored under assets/media/generated/<sha256>/ with a metadata sidecar and are also registered as governed media assets.
 
-## Gemini fallback
+## Photograph representation and admission
+
+The governed media contract distinguishes `product_photography` and
+`editorial_photography` from `concept_illustration`. Only image assets may use
+photograph representations; a `generated_recipe` must not claim either. Existing
+illustration, typography and original-synthesis records remain compatible.
+
+Representation is a description, not verification of identity, a license or
+publication approval. The catalog still checks exact product identity and
+depiction limits. Rights remain unassessed unless a separate source/license
+receipt establishes them, and exact-artifact publication review is unchanged.
+Importing a local catalog record into the governed store and making its bytes
+available to the deployed renderer are separate acceptance steps.
+
+## Gemini fallback admission
 
 Generation is allowed only after catalog reuse and lawful acquisition fail. The default stable model is gemini-2.5-flash-image at 1024px. Google's price observed on 2026-09-13 is USD 0.039 per output image, plus a small text-input charge; the project reserves a conservative USD 0.05 estimate and rejects any complete request estimated above USD 0.10.
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "requirements-traceability-1",
-  "reviewed_on": "2026-09-13",
+  "reviewed_on": "2026-09-14",
   "authority_order": [
     "system and workspace safety instructions",
     "AGENTS.md master charter",
@@ -21,7 +21,12 @@
       "requirement": "Operate as a reusable domain intelligence engine, with SmartGlasses as the provisional online-first vertical rather than hard-coded business identity.",
       "source": "owner steer and master charter",
       "status": "implemented",
-      "implementation_evidence": ["packages/domain_engine/profile.py", "config/domains/smart-glasses.json", "config/active-domain.json", "docs/DOMAIN_PORTABILITY.md"],
+      "implementation_evidence": [
+        "packages/domain_engine/profile.py",
+        "config/domains/smart-glasses.json",
+        "config/active-domain.json",
+        "docs/DOMAIN_PORTABILITY.md"
+      ],
       "runtime_evidence": "Domain profile and generic object/runtime packages exist.",
       "remaining_gap": "A second domain has not been exercised through the full workflow.",
       "next_action": "Use a synthetic no-cost domain portability fixture after the first SmartGlasses vertical slice works."
@@ -31,17 +36,26 @@
       "requirement": "Treat every meaningful entity as an inspectable, versioned, attributable object with lineage and review state.",
       "source": "blueprint sections 5 and 31",
       "status": "partial",
-      "implementation_evidence": ["packages/contracts/object.py", "packages/contracts/store.py", "services/api/src/main.py"],
-      "runtime_evidence": "The local store currently contains 76 governed objects across 18 object types.",
-      "remaining_gap": "The authoritative event stream is local and is not yet connected to Firestore and BigQuery production projections.",
-      "next_action": "Connect append-only writes to the existing Firestore journal and warehouse projection with idempotent delivery."
+      "implementation_evidence": [
+        "packages/contracts/object.py",
+        "packages/contracts/store.py",
+        "services/api/src/main.py"
+      ],
+      "runtime_evidence": "On 2026-09-14, hosted administrator feedback creation, versioned editing and persistence after reload were exercised. Existing Firestore history was also observed; this does not establish a complete warehouse projection.",
+      "remaining_gap": "The full append-only delivery path into BigQuery and all object families have not passed end-to-end acceptance.",
+      "next_action": "Exercise idempotent journal-to-warehouse projection and history recovery using a bounded governed fixture."
     },
     {
       "id": "REQ-003",
       "requirement": "Separate domain ontology from technical dataset metadata and expose concepts, definitions, relationships, constraints, synonyms and proposals.",
       "source": "blueprint section 6 and operator feedback",
       "status": "partial",
-      "implementation_evidence": ["packages/knowledge/schema.py", "packages/knowledge/semantic.py", "services/api/src/semantic_routes.py", "apps/operator/operator-v1.js"],
+      "implementation_evidence": [
+        "packages/knowledge/schema.py",
+        "packages/knowledge/semantic.py",
+        "services/api/src/semantic_routes.py",
+        "apps/operator/operator-v1.js"
+      ],
       "runtime_evidence": "Semantic routes and ontology-oriented operator views exist locally.",
       "remaining_gap": "The full concept tree, relationship editing, synonym lifecycle and ontology migration impact queue are not proven end to end.",
       "next_action": "Complete metadata-driven ontology tree CRUD and impact-preview objects before autonomous ontology promotion."
@@ -51,7 +65,11 @@
       "requirement": "Preserve temporal validity, recording time, provenance, confidence reasons and correction impact.",
       "source": "blueprint section 7",
       "status": "partial",
-      "implementation_evidence": ["packages/contracts/object.py", "packages/knowledge/projection.py", "packages/knowledge/semantic.py"],
+      "implementation_evidence": [
+        "packages/contracts/object.py",
+        "packages/knowledge/projection.py",
+        "packages/knowledge/semantic.py"
+      ],
       "runtime_evidence": "Version history and source references exist in local objects.",
       "remaining_gap": "Historical as-of querying and dependent-output invalidation are not proven across cloud projections.",
       "next_action": "Add an as-of semantic query and a revalidation-impact queue backed by versioned change events."
@@ -61,57 +79,96 @@
       "requirement": "Use source-policy and media-rights gates before collection or commercialization, with human tasks only for real uncertainty.",
       "source": "blueprint sections 9 and 23 plus exception-only review steer",
       "status": "blocked",
-      "implementation_evidence": ["packages/contracts/research.py", "packages/media/release_review.py", ".local/governance/DECISION_EXCEPTION_ONLY_HUMAN_REVIEW_2026-09-13.md"],
+      "implementation_evidence": [
+        "packages/contracts/research.py",
+        "packages/media/release_review.py"
+      ],
       "runtime_evidence": "Seven source-policy objects exist; all are still pending.",
       "remaining_gap": "No source is currently approved for automated production ingestion.",
-      "next_action": "Batch the smallest decision-critical source-policy approvals in the operator inbox."
+      "next_action": "Batch the smallest decision-critical source-policy approvals in the operator inbox.",
+      "decision_context": [
+        {
+          "path": ".local/governance/DECISION_EXCEPTION_ONLY_HUMAN_REVIEW_2026-09-13.md",
+          "availability": "private_workspace_only",
+          "purpose": "Historical decision context, not public implementation or current runtime evidence."
+        }
+      ]
     },
     {
       "id": "REQ-006",
       "requirement": "Use exception-only human review while retaining explicit approval for ontology, source policy, destructive actions and exact publication.",
       "source": "owner feedback and master charter",
       "status": "implemented",
-      "implementation_evidence": ["packages/governance/review_routing.py", ".local/governance/DECISION_EXCEPTION_ONLY_HUMAN_REVIEW_2026-09-13.md"],
+      "implementation_evidence": [
+        "packages/governance/review_routing.py"
+      ],
       "runtime_evidence": "Review routing classifies consequential objects while ordinary local work can proceed without approval.",
       "remaining_gap": "Threshold quality requires operational measurement.",
-      "next_action": "Track exception rate and human minutes per accepted output."
+      "next_action": "Track exception rate and human minutes per accepted output.",
+      "decision_context": [
+        {
+          "path": ".local/governance/DECISION_EXCEPTION_ONLY_HUMAN_REVIEW_2026-09-13.md",
+          "availability": "private_workspace_only",
+          "purpose": "Historical decision context, not public implementation or current runtime evidence."
+        }
+      ]
     },
     {
       "id": "REQ-007",
       "requirement": "Provide one guided solo-operator workspace with tree navigation, search, filters and governed CRUD across ontology, datasets, agents, creative outputs, feedback and publishing.",
       "source": "operator UX feedback",
       "status": "partial",
-      "implementation_evidence": ["apps/operator/index.html", "apps/operator/operator-v1.js", "apps/operator/stage-admin.js", "services/api/src/operator_routes.py"],
-      "runtime_evidence": "A consolidated local operator surface exists.",
-      "remaining_gap": "Not every object family has equivalent tree CRUD, inline definitions and impact-aware editing.",
-      "next_action": "Drive navigation and form generation from the object/schema registry instead of section-specific UI code."
+      "implementation_evidence": [
+        "apps/operator/index.html",
+        "apps/operator/operator-v1.js",
+        "apps/operator/stage-admin.js",
+        "services/api/src/operator_routes.py"
+      ],
+      "runtime_evidence": "PR #49 deployed schema-driven operator forms from ef70b13. Chrome exercised canonical enum choices and feedback create/edit/search/reload on 2026-09-14.",
+      "remaining_gap": "Equivalent tree CRUD, definitions, impact-aware editing and mobile behavior across every object family remain unaccepted.",
+      "next_action": "Exercise ontology, dataset, creative, review and learning stages against the same schema-driven form contract."
     },
     {
       "id": "REQ-008",
       "requirement": "Require Firebase Google authentication plus a local admin-email allowlist and preserve actor identity for every admin change.",
       "source": "admin authentication steer",
       "status": "partial",
-      "implementation_evidence": ["apps/operator/admin-auth.js", "services/api/src/main.py", "config/admin-allowlist.example.json"],
-      "runtime_evidence": "Firebase Auth is configured locally and the approved admin email was added to ignored local configuration.",
-      "remaining_gap": "The deployed cloud admin/API boundary has not been exercised because Cloud Run is not deployed.",
-      "next_action": "Deploy the API privately, restrict origins, then exercise Firebase token verification against the deployed service."
+      "implementation_evidence": [
+        "apps/operator/admin-auth.js",
+        "services/api/src/main.py",
+        "config/admin-allowlist.example.json"
+      ],
+      "runtime_evidence": "Google sign-in restored the hosted administrator workspace on 2026-09-14. Anonymous administrator requests were rejected; authorized feedback writes persisted with version history.",
+      "remaining_gap": "Complete multi-administrator authorization and session-lifecycle acceptance are still required; successful sign-in is not whole-app security acceptance.",
+      "next_action": "Exercise permitted and denied administrator identities, sign-out cleanup and session expiry without broadening access."
     },
     {
       "id": "REQ-009",
       "requirement": "Store structured intelligence and analytics in BigQuery, workflow state in Firestore, artifacts in Cloud Storage and compute in scale-to-zero Cloud Run.",
       "source": "blueprint sections 11 and 12",
       "status": "partial",
-      "implementation_evidence": ["packages/knowledge/warehouse_execution.py", "packages/cloud/firestore_journal.py", "services/api/Dockerfile", "services/agent-runtime/Dockerfile", "services/render-worker/Dockerfile"],
-      "runtime_evidence": "The active GCP project has Firestore Native, the Storage bucket and all 14 specified BigQuery tables; Cloud Run has no deployed services and the warehouse has zero project-loaded rows.",
-      "remaining_gap": "Cloud application adapters and deployed workers are not connected.",
-      "next_action": "Deploy one API service and one bounded worker, then project a small approved object set into BigQuery."
+      "implementation_evidence": [
+        "packages/knowledge/warehouse_execution.py",
+        "packages/cloud/firestore_journal.py",
+        "services/api/Dockerfile",
+        "services/agent-runtime/Dockerfile",
+        "services/render-worker/Dockerfile"
+      ],
+      "runtime_evidence": "Firebase Hosting, the Cloud Run API and Firestore-backed administrator writes are deployed and exercised. Earlier warehouse creation is recorded, but populated cloud projection and worker execution are not accepted.",
+      "remaining_gap": "Durable warehouse projection, media delivery and bounded cloud worker execution still lack complete end-to-end evidence.",
+      "next_action": "Complete the existing cloud data/media paths and verify bounded worker receipts; do not create a second stack."
     },
     {
       "id": "REQ-010",
       "requirement": "Give agents semantic/domain tools rather than arbitrary storage access.",
       "source": "blueprint section 13",
       "status": "implemented",
-      "implementation_evidence": ["packages/runtime/tools.py", "packages/knowledge/semantic.py", "services/api/src/semantic_routes.py", "packages/mcp-tools/README.md"],
+      "implementation_evidence": [
+        "packages/runtime/tools.py",
+        "packages/knowledge/semantic.py",
+        "services/api/src/semantic_routes.py",
+        "packages/mcp-tools/README.md"
+      ],
       "runtime_evidence": "Bounded local semantic read/compare interfaces exist.",
       "remaining_gap": "The MCP server packaging and cloud authorization boundary are not deployed.",
       "next_action": "Expose the existing semantic interface through one authenticated MCP server only when the cloud API is stable."
@@ -121,7 +178,13 @@
       "requirement": "Use one generic bounded agent runtime with task-scoped roles, distilled context, budgets, leases, retries and idempotency.",
       "source": "blueprint section 14 and model-selection steers",
       "status": "partial",
-      "implementation_evidence": ["packages/runtime/runner.py", "packages/runtime/contracts.py", "packages/agents/registry.py", "config/agent-roster.json", "services/agent-runtime/main.py"],
+      "implementation_evidence": [
+        "packages/runtime/runner.py",
+        "packages/runtime/contracts.py",
+        "packages/agents/registry.py",
+        "config/agent-roster.json",
+        "services/agent-runtime/main.py"
+      ],
       "runtime_evidence": "Local typed tasks and roster-backed roles exist.",
       "remaining_gap": "The Cloud Run runtime, durable queue, lease recovery and production quota enforcement are not active.",
       "next_action": "Deploy one generic worker against Firestore tasks with a zero-paid-call smoke task."
@@ -131,17 +194,33 @@
       "requirement": "Capture every substantive feedback item as a classified learning artifact without allowing silent policy self-modification.",
       "source": "owner feedback and intelligence evolution protocol",
       "status": "partial",
-      "implementation_evidence": ["packages/intelligence/learning.py", "packages/cloud/admin_feedback.py", "scripts/sync_admin_feedback.py", ".local/governance/INTELLIGENCE_EVOLUTION_PROTOCOL.md"],
-      "runtime_evidence": "Twelve feedback objects and ten decision records exist locally.",
-      "remaining_gap": "Cloud feedback synchronization and automatic regression-case generation are not continuously running.",
-      "next_action": "Connect approved admin feedback to an idempotent scheduled triage task and evaluation-case proposal."
+      "implementation_evidence": [
+        "packages/intelligence/learning.py",
+        "packages/cloud/admin_feedback.py",
+        "scripts/sync_admin_feedback.py"
+      ],
+      "runtime_evidence": "Versioned feedback create/edit and persistence after reload were exercised in the deployed operator on 2026-09-14. That is capture evidence, not proof of automatic learning or policy promotion.",
+      "remaining_gap": "Continuous feedback synchronization, evaluated agent changes and rollback are not yet an accepted production loop.",
+      "next_action": "Run one bounded feedback-to-proposal-to-evaluation cycle and retain versioned receipts before enabling recurring promotion.",
+      "decision_context": [
+        {
+          "path": ".local/governance/INTELLIGENCE_EVOLUTION_PROTOCOL.md",
+          "availability": "private_workspace_only",
+          "purpose": "Historical decision context, not public implementation or current runtime evidence."
+        }
+      ]
     },
     {
       "id": "REQ-013",
       "requirement": "Ingest Gmail Google Alerts through the Gmail API, deduplicate news, retain provenance and create time-based industry intelligence.",
       "source": "Gmail alerts steer",
       "status": "partial",
-      "implementation_evidence": ["packages/intelligence/gmail_alerts.py", "scripts/run_gmail_alert_ingest.py", "config/workflows/gmail-alert-intelligence.json", "docs/GMAIL_ALERT_INTELLIGENCE.md"],
+      "implementation_evidence": [
+        "packages/intelligence/gmail_alerts.py",
+        "scripts/run_gmail_alert_ingest.py",
+        "config/workflows/gmail-alert-intelligence.json",
+        "docs/GMAIL_ALERT_INTELLIGENCE.md"
+      ],
       "runtime_evidence": "Gmail API is enabled and a local OAuth token was created; no ingestion run has been recorded.",
       "remaining_gap": "No deduplicated alert/news objects or monthly rollup exist yet.",
       "next_action": "Run a bounded read-only first ingestion and inspect only exceptions."
@@ -151,7 +230,12 @@
       "requirement": "Learn monthly from leading smart-glasses YouTube channels without duplicate capture or unauthorized transcript reuse.",
       "source": "YouTube market-learning steer",
       "status": "partial",
-      "implementation_evidence": ["packages/intelligence/youtube_market.py", "scripts/run_youtube_market_learning.py", "config/workflows/youtube-market-learning.json", "docs/YOUTUBE_MARKET_LEARNING.md"],
+      "implementation_evidence": [
+        "packages/intelligence/youtube_market.py",
+        "scripts/run_youtube_market_learning.py",
+        "config/workflows/youtube-market-learning.json",
+        "docs/YOUTUBE_MARKET_LEARNING.md"
+      ],
       "runtime_evidence": "A bounded metadata-only API pipeline now exists with 29-day expiry, current-snapshot deduplication, no media or transcript download and metadata-free long-term receipts.",
       "remaining_gap": "The first live run and recurring scheduler receipt are not yet recorded; signals still require independent evidence before governance promotion.",
       "next_action": "Run the bounded API workflow once, then schedule it every four weeks with failure-only notification."
@@ -161,17 +245,31 @@
       "requirement": "Use a reusable rights-aware media catalog first and generate an image only when no suitable legal asset exists, capped at USD 0.10 per image.",
       "source": "media catalog steer",
       "status": "partial",
-      "implementation_evidence": ["packages/media/catalog.py", "packages/media/planning.py", "config/media-generation-policy.json", "docs/MEDIA_CATALOG_AND_GENERATION.md"],
-      "runtime_evidence": "Eight governed media-asset objects and four licensed local category images exist.",
-      "remaining_gap": "Gemini fallback generation and spend admission have not been exercised; product-accurate imagery remains incomplete.",
-      "next_action": "Complete retrieval scoring and a dry-run generation admission record before any paid image call."
+      "implementation_evidence": [
+        "packages/media/catalog.py",
+        "packages/media/planning.py",
+        "config/media-generation-policy.json",
+        "docs/MEDIA_CATALOG_AND_GENERATION.md",
+        "packages/contracts/media.py",
+        "tests/test_media_photography_contract.py",
+        "docs/UAT_MEDIA_READINESS_2026-09-14.md"
+      ],
+      "runtime_evidence": "One attributed real product photograph was admitted to the local catalog; same-byte reuse and wrong-product rejection were exercised. The governed schema previously rejected photography; this patch adds typed photograph support but is not deployed backend evidence.",
+      "remaining_gap": "Local photographs are not yet integrated into governed cloud media delivery and an exact rights-cleared vertical artifact. Paid fallback remains unexercised and cost-gated.",
+      "next_action": "Deploy compatible readers before cloud photograph writes, then connect catalog selection to the governed renderer without relaxing identity, rights or publication gates."
     },
     {
       "id": "REQ-016",
       "requirement": "Generate energetic original-image and background-music kinetic videos using reusable primitives, not mechanical narration or generic templates.",
       "source": "creative feedback and blueprint sections 17 to 19",
       "status": "partial",
-      "implementation_evidence": ["packages/media/renderer.py", "packages/media/planning.py", "scripts/render_governed_video.py", "apps/web/production.js", "config/creative-direction.json"],
+      "implementation_evidence": [
+        "packages/media/renderer.py",
+        "packages/media/planning.py",
+        "scripts/render_governed_video.py",
+        "apps/web/production.js",
+        "config/creative-direction.json"
+      ],
       "runtime_evidence": "Three local render artifacts exist; all remain pending review.",
       "remaining_gap": "Primitive performance attribution, caption QA, visual regression and cloud rendering are incomplete.",
       "next_action": "Promote the liked render through exact review, then bind its primitive usage to the first metric record."
@@ -181,7 +279,14 @@
       "requirement": "Keep each canonical video 9:16 and 30 to 90 seconds, with one primary question or attribute and no more than two products.",
       "source": "canonical-content steer",
       "status": "implemented",
-      "implementation_evidence": ["packages/contracts/content.py", "packages/contracts/production.py", "packages/contracts/media.py", "packages/contracts/distribution.py", "packages/audience/composer.py", "config/workflows/canonical-content-distribution.json"],
+      "implementation_evidence": [
+        "packages/contracts/content.py",
+        "packages/contracts/production.py",
+        "packages/contracts/media.py",
+        "packages/contracts/distribution.py",
+        "packages/audience/composer.py",
+        "config/workflows/canonical-content-distribution.json"
+      ],
       "runtime_evidence": "Contracts enforce the limits; the atomic composer now represents one concept through several scenes of at most 15 seconds.",
       "remaining_gap": "No newly generated atomic plan has yet completed the entire release flow.",
       "next_action": "Generate the revision-2 package from the approved product and render it through the governed pipeline."
@@ -191,7 +296,13 @@
       "requirement": "Retain one canonical video in the owned app, auto-publish approved exact content to YouTube and LinkedIn, and create manual kits for Instagram, TikTok and X.",
       "source": "distribution steer",
       "status": "partial",
-      "implementation_evidence": ["packages/publishing/workflow.py", "scripts/prepare_distribution_package.py", "scripts/publish_approved_package.py", "apps/public/consumer.js", "docs/CANONICAL_PUBLISHING_OPERATIONS.md"],
+      "implementation_evidence": [
+        "packages/publishing/workflow.py",
+        "scripts/prepare_distribution_package.py",
+        "scripts/publish_approved_package.py",
+        "apps/public/consumer.js",
+        "docs/CANONICAL_PUBLISHING_OPERATIONS.md"
+      ],
       "runtime_evidence": "Adapters and exact-hash gates exist; no distribution package, publication request, provider receipt or staged canonical video exists yet.",
       "remaining_gap": "Exact artifact approval, current release gates, OAuth scopes, channel eligibility and a public app URL are unproven.",
       "next_action": "Prepare a package only after the chosen render and its source/media policies are approved."
@@ -201,7 +312,12 @@
       "requirement": "Provide a consumer swipe experience with canonical videos, evidence access, comments, questions, likes and dislikes retained in our system.",
       "source": "consumer workflow steer",
       "status": "partial",
-      "implementation_evidence": ["apps/public/consumer.html", "apps/public/consumer.js", "packages/audience/engagement.py", "services/api/src/audience_routes.py"],
+      "implementation_evidence": [
+        "apps/public/consumer.html",
+        "apps/public/consumer.js",
+        "packages/audience/engagement.py",
+        "services/api/src/audience_routes.py"
+      ],
       "runtime_evidence": "Local swipe cards and canonical-video feed code exist; no approved canonical video has been staged.",
       "remaining_gap": "Cloud persistence, moderation, abuse controls and production identity are incomplete.",
       "next_action": "Persist public events to Firestore after the first approved video, then add moderation queues only for text."
@@ -211,7 +327,11 @@
       "requirement": "Use APIs and CLIs before browser automation; use computer control only for consent or unsupported platform actions.",
       "source": "programmatic-first steer",
       "status": "implemented",
-      "implementation_evidence": ["AGENTS.md", "packages/publishing/workflow.py", "packages/intelligence/gmail_alerts.py"],
+      "implementation_evidence": [
+        "AGENTS.md",
+        "packages/publishing/workflow.py",
+        "packages/intelligence/gmail_alerts.py"
+      ],
       "runtime_evidence": "Gmail, YouTube and LinkedIn paths are API-based; manual kits replace unsupported posting automation.",
       "remaining_gap": "Provider API access must still be validated at execution time.",
       "next_action": "Retain browser use only for account-holder consent and channel setup."
@@ -221,7 +341,11 @@
       "requirement": "Choose the least costly capable model and deterministic code where judgment is unnecessary.",
       "source": "model-adviser steer",
       "status": "partial",
-      "implementation_evidence": ["config/model-routing.json", "scripts/model_advisor.py", "packages/runtime/ledger.py"],
+      "implementation_evidence": [
+        "config/model-routing.json",
+        "scripts/model_advisor.py",
+        "packages/runtime/ledger.py"
+      ],
       "runtime_evidence": "A local adviser and ledger exist.",
       "remaining_gap": "Recommendations do not enforce actual model selection or provider token budgets.",
       "next_action": "Bind task admission to supported runtime model IDs and measured cost per accepted result."
@@ -231,7 +355,11 @@
       "requirement": "Stay within the cumulative USD 500 experiment ceiling, count the owner-reported USD 80 once, and require explicit approval at financial boundaries.",
       "source": "financial-owner steer",
       "status": "partial",
-      "implementation_evidence": ["config/experiment-budget.json", "packages/runtime/ledger.py", "docs/EXPERIMENT_SCORECARD.md"],
+      "implementation_evidence": [
+        "config/experiment-budget.json",
+        "packages/runtime/ledger.py",
+        "docs/EXPERIMENT_SCORECARD.md"
+      ],
       "runtime_evidence": "Budget policy exists and the cloud project has billing enabled; actual provider charges are not reconciled.",
       "remaining_gap": "Provider billing exports and reservations are not connected to one enforced admission ledger.",
       "next_action": "Connect billing export estimates before unattended variable-cost jobs."
@@ -241,7 +369,12 @@
       "requirement": "Maintain security, local-only secrets, least privilege, prompt-injection boundaries, scoped publisher credentials and no secret logging.",
       "source": "technical charter and blueprint section 23",
       "status": "partial",
-      "implementation_evidence": ["scripts/secret_scan.py", "scripts/env_config.py", "services/api/src/body_limit.py", "docs/ENV_SETUP.md"],
+      "implementation_evidence": [
+        "scripts/secret_scan.py",
+        "scripts/env_config.py",
+        "services/api/src/body_limit.py",
+        "docs/ENV_SETUP.md"
+      ],
       "runtime_evidence": "Local credential files and scoped API roles exist; previously disclosed long-lived credentials still require provider rotation.",
       "remaining_gap": "Cloud Secret Manager/workload identity and deployed security tests are incomplete.",
       "next_action": "Rotate disclosed credentials, then deploy with workload identity and provider-specific secret access."
@@ -251,7 +384,12 @@
       "requirement": "Separate factual quality from creative popularity and feed time-series channel metrics back to the exact video and primitive recipe.",
       "source": "blueprint sections 15 and 21",
       "status": "partial",
-      "implementation_evidence": ["packages/analytics/metrics.py", "scripts/collect_owned_metrics.py", "config/workflows/performance-metrics.json", "docs/EXPERIMENT_SCORECARD.md"],
+      "implementation_evidence": [
+        "packages/analytics/metrics.py",
+        "scripts/collect_owned_metrics.py",
+        "config/workflows/performance-metrics.json",
+        "docs/EXPERIMENT_SCORECARD.md"
+      ],
       "runtime_evidence": "The owned-app collector now emits rows matching the two provisioned BigQuery analytics tables and binds engagement to versioned recipe primitives without copying comments or session IDs.",
       "remaining_gap": "No canonical video events exist yet, warehouse writes remain disabled, and authorized YouTube/LinkedIn collectors are not implemented.",
       "next_action": "After the first owned video is staged, collect its internal events, add idempotent BigQuery projection, then add authorized YouTube snapshots."
@@ -261,7 +399,11 @@
       "requirement": "Create sustainable revenue potential through useful intelligence, disclosed commercial relationships, paid reports/tools and measured qualified intent rather than views alone.",
       "source": "business goal and online-business correction",
       "status": "partial",
-      "implementation_evidence": ["packages/intelligence/commerce.py", "services/api/src/commerce_routes.py", "docs/EXPERIMENT_SCORECARD.md"],
+      "implementation_evidence": [
+        "packages/intelligence/commerce.py",
+        "services/api/src/commerce_routes.py",
+        "docs/EXPERIMENT_SCORECARD.md"
+      ],
       "runtime_evidence": "One commerce assessment and two commerce-path objects exist; no active approved offer, conversion or collected revenue is recorded.",
       "remaining_gap": "No validated merchant/affiliate eligibility, offer page, attribution event or revenue receipt exists.",
       "next_action": "Select one remote, reversible commercial offer after the first useful audience artifact and measure outbound intent before integration spend."
@@ -270,18 +412,22 @@
       "id": "REQ-026",
       "requirement": "Deploy a laptop-independent vertical slice from lawful research through semantic comparison, render, exact approval, publication and metric return.",
       "source": "blueprint acceptance criteria",
-      "status": "missing",
-      "implementation_evidence": ["docs/V1_EXECUTION_CHECKPOINT_2026-09-13.md"],
-      "runtime_evidence": "Cloud foundation exists, but Cloud Run has no deployed service, warehouse tables are empty, all renders are pending and no publishing or metric receipt exists.",
-      "remaining_gap": "The blueprint's end-to-end definition of success has not been achieved.",
-      "next_action": "Close the vertical slice in order: policy approval, approved products, atomic render, exact approval, owned-app staging, one API channel, metric snapshot."
+      "status": "partial",
+      "implementation_evidence": [
+        "docs/V1_EXECUTION_CHECKPOINT_2026-09-13.md"
+      ],
+      "runtime_evidence": "Hosting, administrator sign-in and versioned feedback CRUD are exercised. A local licensed-photo catalog exists. Approved owned-site video playback, warehouse execution, publishing and commercial receipts are not yet demonstrated end to end.",
+      "remaining_gap": "The complete research-to-approved-video-to-feedback operating loop has not passed acceptance.",
+      "next_action": "Close media delivery, vertical render, exact approval, owned-channel playback and bounded metric capture before friends-and-family UAT."
     },
     {
       "id": "REQ-027",
       "requirement": "Create and brand a dedicated project YouTube channel using browser consent only when no supported API can perform account-level channel creation.",
       "source": "YouTube channel steer",
       "status": "blocked",
-      "implementation_evidence": ["docs/THIRD_PARTY_INTEGRATIONS.md"],
+      "implementation_evidence": [
+        "docs/THIRD_PARTY_INTEGRATIONS.md"
+      ],
       "runtime_evidence": "YouTube Data API is enabled; no dedicated channel identity or branding receipt is recorded.",
       "remaining_gap": "Channel creation and branding require account-holder browser interaction and final identity choices.",
       "next_action": "Prepare branding assets and perform one bundled account-holder channel setup when the first publishable video is ready."
@@ -290,18 +436,28 @@
       "id": "REQ-028",
       "requirement": "Keep all material feedback and requirements synchronized through a compact traceability authority rather than scattered chat memory.",
       "source": "current traceability audit steer",
-      "status": "implemented",
-      "implementation_evidence": ["config/requirements-traceability.json", "scripts/audit_requirements.py", "docs/REQUIREMENTS_TRACEABILITY_AUDIT_2026-09-13.md", "AGENTS.md"],
-      "runtime_evidence": "This registry records scope, status, evidence, gaps and next actions for 28 major requirements.",
-      "remaining_gap": "Future steers must be maintained at task boundaries and linked to evaluations or decisions where appropriate.",
-      "next_action": "Run the deterministic audit after every milestone and before any completion claim."
+      "status": "partial",
+      "implementation_evidence": [
+        "config/requirements-traceability.json",
+        "scripts/audit_requirements.py",
+        "docs/REQUIREMENTS_TRACEABILITY_AUDIT_2026-09-13.md",
+        "AGENTS.md",
+        "tests/test_requirements_registry.py"
+      ],
+      "runtime_evidence": "The registry contains 35 requirements. The 2026-09-14 reconciliation updates only its declared review scope and separates private decision context from public implementation evidence.",
+      "remaining_gap": "Several entries retain historical observations; complete runtime evidence and synchronization across affected canonical surfaces remain ongoing.",
+      "next_action": "Audit registry structure in CI and reconcile each requirement against commit- and deployment-specific evidence at its acceptance boundary."
     },
     {
       "id": "REQ-029",
       "requirement": "Maintain four explicit personas: platform custodian, delegated operating executive, business administrator, and audience/customer, with separate authority even when one human fills multiple roles.",
       "source": "version 1 persona clarification",
       "status": "implemented",
-      "implementation_evidence": ["governance/personas-and-authority.md", "config/project-architecture.json", "docs/V1_SYSTEM_SPECIFICATION.md"],
+      "implementation_evidence": [
+        "governance/personas-and-authority.md",
+        "config/project-architecture.json",
+        "docs/V1_SYSTEM_SPECIFICATION.md"
+      ],
       "runtime_evidence": "The canonical role and reserved-authority matrix is version controlled and referenced by the master instructions.",
       "remaining_gap": "Production actor claims and role enforcement remain dependent on durable cloud identity and persistence.",
       "next_action": "Bind cloud API actor claims to this role vocabulary during Firestore cutover."
@@ -311,17 +467,26 @@
       "requirement": "Use GitHub issues as the sole authoritative post-version-1 change intake and pull requests as the implementation, review, evidence, and release history.",
       "source": "version 1 GitHub operating directive",
       "status": "partial",
-      "implementation_evidence": ["docs/GITHUB_CHANGE_CONTROL.md", ".github/ISSUE_TEMPLATE/change-request.yml", ".github/pull_request_template.md", ".github/CODEOWNERS"],
-      "runtime_evidence": "Repository process and templates are authored locally.",
-      "remaining_gap": "GitHub CLI authentication is invalid, so the controls are not pushed and default-branch protection is not configured.",
-      "next_action": "Renew GitHub authorization, push the release branch, enable branch protection, merge through a pull request, and create the release tag."
+      "implementation_evidence": [
+        "docs/GITHUB_CHANGE_CONTROL.md",
+        ".github/ISSUE_TEMPLATE/change-request.yml",
+        ".github/pull_request_template.md",
+        ".github/CODEOWNERS"
+      ],
+      "runtime_evidence": "Issue #36 and PR #49 demonstrate authenticated GitHub intake, a bounded branch, successful CI and normal PR merge. Hosting was deployed from the merged commit.",
+      "remaining_gap": "Every applicable change still needs its own linked evidence; complete default-branch protection and environment-promotion settings are not re-certified by this observation.",
+      "next_action": "Continue issue-linked PRs and validate actual repository/environment protection at the release boundary; do not infer controls from documentation alone."
     },
     {
       "id": "REQ-031",
       "requirement": "Evaluate a diversified revenue portfolio including advertising, disclosed affiliate relationships, sponsorship, reports/tools, data/API access, customer-funded video, licensing, education, and potential asset sale.",
       "source": "version 1 business model clarification",
       "status": "partial",
-      "implementation_evidence": ["config/revenue-portfolio.json", "docs/BUSINESS_MODEL_AND_MEASUREMENT.md", "packages/intelligence/commerce.py"],
+      "implementation_evidence": [
+        "config/revenue-portfolio.json",
+        "docs/BUSINESS_MODEL_AND_MEASUREMENT.md",
+        "packages/intelligence/commerce.py"
+      ],
       "runtime_evidence": "Revenue candidates and measurement rules are versioned as hypotheses.",
       "remaining_gap": "No channel has verified collected revenue or validated unit economics.",
       "next_action": "Test one low-cost offer after the first useful approved audience release and record contribution rather than views alone."
@@ -331,7 +496,11 @@
       "requirement": "Retain canonical media in owned storage and treat social platforms as distribution channels so a platform suspension does not erase the core media asset.",
       "source": "version 1 owned-media clarification",
       "status": "partial",
-      "implementation_evidence": ["packages/publishing/workflow.py", "apps/public/consumer.js", "docs/V1_SYSTEM_SPECIFICATION.md"],
+      "implementation_evidence": [
+        "packages/publishing/workflow.py",
+        "apps/public/consumer.js",
+        "docs/V1_SYSTEM_SPECIFICATION.md"
+      ],
       "runtime_evidence": "Owned staging is part of the canonical distribution contract.",
       "remaining_gap": "No approved canonical video is stored in production Cloud Storage or served from Firebase Hosting.",
       "next_action": "Stage the first rights-cleared approved video in owned storage before platform publication."
@@ -341,7 +510,12 @@
       "requirement": "Continuously improve the ontology through stable concepts, deterministic shapes, provenance, dataset versioning, rights policies, impact analysis, and evaluated migrations without requiring a graph database in version 1.",
       "source": "version 1 ontology research directive",
       "status": "partial",
-      "implementation_evidence": ["docs/ONTOLOGY_ARCHITECTURE.md", "config/ontology-standards-profile.json", "packages/contracts", "packages/knowledge/semantic.py"],
+      "implementation_evidence": [
+        "docs/ONTOLOGY_ARCHITECTURE.md",
+        "config/ontology-standards-profile.json",
+        "packages/contracts",
+        "packages/knowledge/semantic.py"
+      ],
       "runtime_evidence": "SKOS, SHACL, PROV-O, DCAT, ODRL and JSON-LD alignment is specified against W3C primary sources; existing version and lineage primitives implement part of the profile.",
       "remaining_gap": "Mappings, shape reports, rights-policy serialization and JSON-LD/DCAT exports are not runtime-complete.",
       "next_action": "Implement stable concept mappings and immutable shape-validation reports before a second live domain."
@@ -351,7 +525,10 @@
       "requirement": "Offer customer-funded 30 to 90 second generation only after measuring all direct costs, rights, abuse, quality, payment, refund, and support risks, with a provisional 30 percent gross-margin target.",
       "source": "version 1 customer-generation clarification",
       "status": "missing",
-      "implementation_evidence": ["config/revenue-portfolio.json", "docs/BUSINESS_MODEL_AND_MEASUREMENT.md"],
+      "implementation_evidence": [
+        "config/revenue-portfolio.json",
+        "docs/BUSINESS_MODEL_AND_MEASUREMENT.md"
+      ],
       "runtime_evidence": "The opportunity and gates are documented; no customer, billing, tenancy, abuse, or job-cost system exists.",
       "remaining_gap": "This is deliberately outside the first single-domain production slice.",
       "next_action": "Validate demand with a manually priced paid pilot only after the owned release workflow and actual unit cost are proven."
@@ -361,10 +538,36 @@
       "requirement": "Freeze version 1 as a reproducible, truthfully labeled release candidate with complete structure, documentation, security policy, machine-readable architecture, and automated readiness evidence.",
       "source": "current version 1 freeze request",
       "status": "partial",
-      "implementation_evidence": ["README.md", "docs/V1_RELEASE_READINESS.md", "docs/V1_RELEASE_NOTES.md", "docs/PROJECT_STRUCTURE.md", "scripts/release_readiness.py", "config/release-policy.json"],
-      "runtime_evidence": "Release-candidate assets are authored locally and await the requested verification pass.",
-      "remaining_gap": "GitHub authentication, CI, pull request, tag and production cloud gates are not complete.",
-      "next_action": "Run release validation, renew GitHub authorization, publish the release candidate through a pull request, and keep production blockers explicit."
+      "implementation_evidence": [
+        "README.md",
+        "docs/V1_RELEASE_READINESS.md",
+        "docs/V1_RELEASE_NOTES.md",
+        "docs/PROJECT_STRUCTURE.md",
+        "scripts/release_readiness.py",
+        "config/release-policy.json"
+      ],
+      "runtime_evidence": "PR #49 CI passed, its merged ef70b13 Hosting release was deployed, and 242 Python tests, 66 JavaScript tests and 23 hosted checks passed for that release. Chrome exercised sign-in and feedback CRUD.",
+      "remaining_gap": "These are scoped release checks, not complete production acceptance. Media, audience workflow, warehouse execution, recovery and reconciled cost admission remain open.",
+      "next_action": "Retain exact-artifact evidence for each remaining gate and declare friends-and-family readiness only after the complete workflow passes."
     }
-  ]
+  ],
+  "review_scope": {
+    "requirement_ids": [
+      "REQ-002",
+      "REQ-005",
+      "REQ-006",
+      "REQ-007",
+      "REQ-008",
+      "REQ-009",
+      "REQ-012",
+      "REQ-015",
+      "REQ-026",
+      "REQ-028",
+      "REQ-030",
+      "REQ-035"
+    ],
+    "issue": "https://github.com/smaranneducations/bs-cats-smartglasses-20260912/issues/36",
+    "evidence_record": "docs/UAT_MEDIA_READINESS_2026-09-14.md",
+    "limitation": "Targeted reconciliation only. Other entries retain their earlier observation baseline; this date does not certify every integration or friends-and-family readiness."
+  }
 }
