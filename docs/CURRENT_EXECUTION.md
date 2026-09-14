@@ -84,3 +84,7 @@ The account holder requested repair of hosted Google login and reconciliation of
 ## 2026-09-14: hosted login and persistence repair
 
 Production now serves the corrected API revision `bs-cats-api-check-60b0e90`. Fresh Google sign-in and authenticated feedback creation/versioned editing survive full reload. Operator filtering, ontology/agent inspection and creative primitives were exercised in Chrome. Read `docs/acceptance/2026-09-14-production-maintenance.md` for exact evidence, rollback and limitations. Keep overall issue #36 open: public publishing and the ordinary-visitor comparison workflow are not accepted yet. Do not publish unapproved content or mistake these repairs for full business readiness.
+
+## Hosted validation checkpoint, 2026-09-14
+
+Read [the hosted workflow acceptance record](acceptance/2026-09-14-hosted-workflows.md) before continuing. PRs 45 and 46 are merged; the real comparison failure was resolved by deploying its missing Firestore history index. Fresh Google sign-in, product evidence and comparison passed in Chrome. Private media access requires explicit permission; do not bypass that boundary or claim full production acceptance from the passing unit suite.
