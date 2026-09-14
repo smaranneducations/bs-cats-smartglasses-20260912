@@ -10,6 +10,7 @@ import math
 import os
 from pathlib import Path
 import subprocess
+import shutil
 from typing import Any, Callable
 from urllib.parse import urlsplit, urlunsplit
 
@@ -38,6 +39,9 @@ def observe_render_file(root: Path, uri: str, suffix: str, maximum_bytes: int, *
         path = (root / uri).resolve()
         if not path.is_relative_to(allowed) or path.suffix.lower() != suffix:
             return FileObservation(None, None, None, "File is outside the allowed render output scope.")
+        if not path.is_file() and os.getenv("PRIVATE_MEDIA_BUCKET"):
+            from packages.media.storage import materialize_render
+            path = materialize_render(root, uri, maximum_bytes=maximum_bytes)
         hasher = hashlib.sha256()
         chunks = []
         length = 0
@@ -62,8 +66,11 @@ def observe_render_file(root: Path, uri: str, suffix: str, maximum_bytes: int, *
 
 
 def probe_video(path: Path) -> dict[str, Any]:
+    executable = shutil.which("ffprobe", path="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin")
+    if not executable:
+        raise ValueError("A supported ffprobe installation is required for fresh media QA.")
     result = subprocess.run(
-        ["/opt/homebrew/bin/ffprobe", "-v", "error", "-protocol_whitelist", "file,pipe", "-show_entries", "stream=codec_name,codec_type,width,height:format=duration", "-of", "json", str(path)],
+        [executable, "-v", "error", "-protocol_whitelist", "file,pipe", "-show_entries", "stream=codec_name,codec_type,width,height:format=duration", "-of", "json", str(path)],
         stdin=subprocess.DEVNULL, capture_output=True, timeout=15, check=False,
         env={"PATH": "/opt/homebrew/bin:/usr/bin:/bin", "LANG": "C"},
     )

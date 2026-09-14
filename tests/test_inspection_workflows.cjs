@@ -1,0 +1,11 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const {assertionText,selectedConcepts}=require('../apps/operator/inspection.js');
+const {groupCards,comparisonRows}=require('../apps/public/compare.js');
+test('inspection preserves known zero and false',()=>{assert.equal(assertionText({value_number:0,unit:'g'}),'0 g');assert.equal(assertionText({value_boolean:false}),'false');});
+test('unknown assertions are not fabricated',()=>{assert.equal(assertionText(null),'Not available');assert.equal(assertionText({value_state:'unknown',value_number:7}),'Not available');});
+test('all ontology definitions can be selected, not a hardcoded feature subset',()=>{assert.deepEqual(selectedConcepts([{key:'monthly_subscription'},{key:'app_ecosystem'}],['monthly_subscription','app_ecosystem']),['monthly_subscription','app_ecosystem']);});
+test('ontology comparison rejects duplicates, unknown keys and over-budget requests',()=>{assert.throws(()=>selectedConcepts([{key:'a'}],['a','a']));assert.throws(()=>selectedConcepts([{key:'a'}],['b']));assert.throws(()=>selectedConcepts([],Array.from({length:26},(_,i)=>''+i)));});
+test('public comparison requires product identity and typed cards',()=>{assert.throws(()=>groupCards(null));assert.deepEqual(groupCards([{title:'private-shaped input'}]),[]);});
+test('public product versions are kept separate',()=>{const base={product_id:'product_a',product_title:'A',field_keys:['weight'],claims:[{statement:'Weight statement'}]};const groups=groupCards([{...base,product_version:1},{...base,product_version:2}]);assert.equal(groups.length,2);});
+test('published comparison preserves conflicting statements and missing values',()=>{const groups=groupCards([{product_id:'a',product_version:1,field_keys:['weight'],claims:[{statement:'First statement'}]},{product_id:'a',product_version:1,field_keys:['weight'],claims:[{statement:'Another statement'}]},{product_id:'b',product_version:1,field_keys:['battery'],claims:[{statement:'Battery statement'}]}]);const rows=comparisonRows(...groups);assert.equal(rows.find(row=>row.field==='weight').cells[0].length,2);assert.deepEqual(rows.find(row=>row.field==='weight').cells[1],[]);});
+test('same-product public comparison is rejected',()=>{assert.throws(()=>comparisonRows({key:'same'},{key:'same'}));});

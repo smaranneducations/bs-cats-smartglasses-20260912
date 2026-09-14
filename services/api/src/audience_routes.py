@@ -94,9 +94,8 @@ def audience_router(get_store, require_access, can_edit, root):
 
     @router.get("/v1/public/feed")
     def public_feed():
-        cards = [item for item in get_store().list_objects() if item.object_type == "content_card"
-                 and item.status.value == "published"]
-        return {"mode": "public", "cards": [card_view(card) for card in cards]}
+        from packages.audience.public_evidence import published_cards
+        return {"mode": "public", "cards": published_cards(get_store(), card_view)}
 
     @router.get("/v1/public/videos")
     def public_videos():
